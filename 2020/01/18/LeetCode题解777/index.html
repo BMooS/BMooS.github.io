@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="python,c语言," />
 
 
 
@@ -83,16 +83,22 @@
 
 
 
-<meta name="description" content="BMooS的个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="BMooS">
-<meta property="og:url" content="https://bmoos.github.io/index.html">
+<meta name="description" content="LeetCode题解第777题，在LR字符串中交换相邻字符 在一个由 ‘L’ , ‘R’ 和 ‘X’ 三个字符组成的字符串（例如”RXXLRXRXL”）中进行移动操作。一次移动操作指用一个”LX”替换一个”XL”，或者用一个”XR”替换一个”RX”。现给定起始字符串start和结束字符串end，请编写代码，当且仅当存在一系列移动操作使得start可以转换成end时， 返回True。 示例 1234">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode题解777">
+<meta property="og:url" content="https://bmoos.github.io/2020/01/18/LeetCode%E9%A2%98%E8%A7%A3777/index.html">
 <meta property="og:site_name" content="BMooS">
-<meta property="og:description" content="BMooS的个人博客">
+<meta property="og:description" content="LeetCode题解第777题，在LR字符串中交换相邻字符 在一个由 ‘L’ , ‘R’ 和 ‘X’ 三个字符组成的字符串（例如”RXXLRXRXL”）中进行移动操作。一次移动操作指用一个”LX”替换一个”XL”，或者用一个”XR”替换一个”RX”。现给定起始字符串start和结束字符串end，请编写代码，当且仅当存在一系列移动操作使得start可以转换成end时， 返回True。 示例 1234">
+<meta property="og:image" content="https://img03.sogoucdn.com/app/a/100520146/b84bd4c4d8e4fea642ed73c24871bb83">
+<meta property="og:image" content="https://img04.sogoucdn.com/app/a/100520146/26bb0d7e56b3175c49ed4a4413c8411b">
+<meta property="og:image" content="https://img02.sogoucdn.com/app/a/100520146/4ce88c7ae8d81c00de2363cc4c9daf20">
+<meta property="article:published_time" content="2020-01-18T14:45:20.000Z">
+<meta property="article:modified_time" content="2020-01-18T14:49:01.693Z">
 <meta property="article:author" content="BMooS">
-<meta property="article:tag" content="BMooS">
-<meta property="article:tag" content="个人博客">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="c语言">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img03.sogoucdn.com/app/a/100520146/b84bd4c4d8e4fea642ed73c24871bb83">
 
 
 
@@ -122,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="https://bmoos.github.io/"/>
+  <link rel="canonical" href="https://bmoos.github.io/2020/01/18/LeetCode题解777/"/>
 
 
 
 
 
-  <title>BMooS</title>
+  <title>LeetCode题解777 | BMooS</title>
   
 
 
@@ -147,8 +153,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -241,9 +246,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -273,9 +278,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/18/LeetCode%E9%A2%98%E8%A7%A3777/" itemprop="url">LeetCode题解777</a></h1>
+          <h1 class="post-title" itemprop="name headline">LeetCode题解777</h1>
         
 
         <div class="post-meta">
@@ -347,9 +350,7 @@
       
 
       
-        
-          
-            <h1 id="LeetCode题解"><a href="#LeetCode题解" class="headerlink" title="LeetCode题解"></a>LeetCode题解</h1><p><strong>第777题，在LR字符串中交换相邻字符</strong></p>
+        <h1 id="LeetCode题解"><a href="#LeetCode题解" class="headerlink" title="LeetCode题解"></a>LeetCode题解</h1><p><strong>第777题，在LR字符串中交换相邻字符</strong></p>
 <p>在一个由 ‘L’ , ‘R’ 和 ‘X’ 三个字符组成的字符串（例如”RXXLRXRXL”）中进行移动操作。一次移动操作指用一个”LX”替换一个”XL”，或者用一个”XR”替换一个”RX”。现给定起始字符串start和结束字符串end，请编写代码，当且仅当存在一系列移动操作使得start可以转换成end时， 返回True。</p>
 <p><strong>示例</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">输入: start = <span class="string">"RXXLRXRXL"</span>, end = <span class="string">"XRLXXRRLX"</span></span><br><span class="line">输出: <span class="literal">True</span></span><br><span class="line">解释:</span><br><span class="line">我们可以通过以下几步将start转换成end:</span><br><span class="line">RXXLRXRXL -&gt;</span><br><span class="line">XRXLRXRXL -&gt;</span><br><span class="line">XRLXRXRXL -&gt;</span><br><span class="line">XRLXXRRXL -&gt;</span><br><span class="line">XRLXXRRLX</span><br></pre></td></tr></table></figure>
@@ -393,8 +394,6 @@
 </li>
 </ol>
 
-          
-        
       
     </div>
     
@@ -409,330 +408,38 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/01/15/fork/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="BMooS">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="BMooS">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/15/fork/" itemprop="url">fork</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-15T22:52:30+08:00">
-                2020-01-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
-                    <span itemprop="name">操作系统</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/python/" rel="tag"># python</a>
           
-
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/" rel="tag"># c语言</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="fork"><a href="#fork" class="headerlink" title="fork"></a>fork</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        一个进程，包括代码、数据和分配给进程的资源。</p>
-<p>​        fork（）函数通过系统调用创建一个与原来进程几乎完全相同的进程，也就是两个进程可以做完全相同的事，但如果初始参数或者传入的变量不同，两个进程也可以做不同的事。<br>​        一个进程调用fork（）函数后，系统先给新的进程分配资源，例如存储数据和代码的空间。然后把原来的进程的所有值都复制到新的新进程中，只有少数值与原来的进程的值不同。相当于克隆了一个自己。</p>
-<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;	</span><br><span class="line">	<span class="keyword">pid_t</span> child_pid;</span><br><span class="line">	<span class="comment">/*fork函数</span></span><br><span class="line"><span class="comment">	*作用：系统调用，产生一个子进程,调用一次返回两次</span></span><br><span class="line"><span class="comment">	*返回值：pid_t类型，在头文件中定义，通常为整形</span></span><br><span class="line"><span class="comment">	*	0	子进程返回</span></span><br><span class="line"><span class="comment">	*	ID	父进程返回的子进程ID</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	child_pid=fork();</span><br><span class="line">       </span><br><span class="line">       <span class="keyword">if</span>(child_pid &lt; <span class="number">0</span>)&#123;</span><br><span class="line">           <span class="built_in">printf</span>(<span class="string">"the failure\n"</span>);</span><br><span class="line">           <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       </span><br><span class="line">	<span class="keyword">if</span>(child_pid==<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(;i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"the child\n"</span>);</span><br><span class="line">			sleep(<span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"child's pid is %d"</span>,child_pid);</span><br><span class="line">            <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line"> 			<span class="keyword">for</span>(;i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">               <span class="built_in">printf</span>(<span class="string">"the father\n"</span>);</span><br><span class="line">               sleep(<span class="number">1</span>);</span><br><span class="line">           &#125;</span><br><span class="line">	&#125;</span><br><span class="line">       <span class="built_in">printf</span>(<span class="string">"I'm over\n"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​            <strong>那么调用这个fork函数时发生了什么呢？</strong></p>
-<p>​            fork函数启动一个新的进程，前面我们说过，这个进程几乎是当前进程的一个拷贝：子进程和父进程使用相同的代码段；子进程复制父进程的堆栈段和数据段。</p>
-<p>​            这样，父进程的所有数据都可以留给子进程，但是，子进程一旦开始运行，虽然它继承了父进程的一切数据，但实际上数据却已经分开，相互之间不再有影响了，也就是说，它们之间不再共享任何数据了。它们再要交互信息时，只有通过进程间通信来实现。</p>
-<p>​            <strong>既然它们如此相象，系统如何来区分它们呢？</strong></p>
-<p>​            这是由函数的返回值来决定的。对于父进程，fork函数返回了子程序的进程号，而对于子程序，fork函数则返回零。在操作系统中，我们用ps就可以看到不同的进程号，对父进程而言，它的进程号是由比它更低层的系统调用赋予的，而对于子进程而言，它的进程号即是fork函数对父进程的返回值。在程序设计中，父进程和子进程都要调用函数fork（）下面的代码，而我们就是利用fork（）函数对父子进程的不同返回值用if…else…语句来实现让父子进程完成不同的功能。</p>
-<p>​         <strong><em>正如我们上面举的例子一样。我们看到，上面例子执行时两条信息是交互无规则的打印出来的，这是父子进程独立执行的结果，虽然我们的代码似乎和串行的代码没有什么区别。</em></strong></p>
-<h2 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h2><p>　　 如果一个大程序在运行中，它的数据段和堆栈都很大，一次fork就要复制一次，那么fork的系统开销不是很大吗？其实UNIX自有其解决的办法，大家知道，一般CPU都是以”页”为单位来分配内存空间的，每一个页都是实际物理内存的一个映像，象INTEL的CPU，其一页在通常情况下是4086字节大小，而无论是数据段还是堆栈段都是由许多”页”构成的，fork函数复制这两个段，只是”逻辑”上的，并非”物理”上的，也就是说，实际执行fork时，物理空间上两个进程的数据段和堆栈段都还是共享着的，当有一个进程写了某个数据时，这时两个进程之间的数据才有了区别，系统就将有区别的”页”从物理上也分开。系统在空间上的开销就可以达到最小。</p>
-<h1 id="wait-and-exit"><a href="#wait-and-exit" class="headerlink" title="wait and exit"></a>wait and exit</h1><h2 id="定义函数wait"><a href="#定义函数wait" class="headerlink" title="定义函数wait()"></a>定义函数wait()</h2><p>​        <code>pid_t wait (int * status);</code></p>
-<ul>
-<li>wait()会暂时停止目前进程的执行,直到有信号来到或子进程结束。</li>
-<li>如果在调用 wait()时子进程已经结束,则 wait()会立即返回子进程结束状态值</li>
-<li>子进程的结束状态值会由参数 status 返回,而子进程的进程识别码也会一起返回。</li>
-<li>如果不在意结束状态值,则参数<code>status</code> 可以设成 <code>NULL</code>。</li>
-</ul>
-<p><img src="https://i.loli.net/2019/12/19/K2htdg6MQ4bLN1P.png" alt="UTOOLS1576735868543.png"></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pid_t</span> pid_1;</span><br><span class="line"><span class="keyword">int</span> status=<span class="number">0</span>;</span><br><span class="line">pid_1=wait(&amp;status);</span><br></pre></td></tr></table></figure>
-
-<p><strong><code>status</code>的使用</strong></p>
-<h2 id="定义函数exit"><a href="#定义函数exit" class="headerlink" title="定义函数exit()"></a>定义函数exit()</h2><p>exit() 结束当前进程/程序，在整个进程/程序中，只要调用 exit ，就结束。</p>
-<p><code>void exit(int status)</code></p>
-<p>传入的参数是程序退出时的状态码，0表示正常退出，其他表示非正常退出，一般都用-1或者1，标准C里有EXIT_SUCCESS和EXIT_FAILURE两个宏，用exit(EXIT_SUCCESS)可读性比较好一点。</p>
-<h2 id="举例-1"><a href="#举例-1" class="headerlink" title="举例"></a>举例</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid_1,pid_2;</span><br><span class="line">        </span><br><span class="line">    pid_1 = fork();</span><br><span class="line">    <span class="keyword">if</span> (pid_1 &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"the failure\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (pid_1 == <span class="number">0</span>)&#123;</span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">"I am a child process i am going to sleep\n"</span>);</span><br><span class="line">        sleep(<span class="number">5</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"I am a child process and I exit normally\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">int</span> status;</span><br><span class="line">        pid_2 = wait(&amp;status);</span><br><span class="line">        <span class="keyword">if</span> (pid_2 &lt; <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"Something went wrong\n"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (status = <span class="number">0</span>)&#123;</span><br><span class="line">        	<span class="built_in">printf</span>(<span class="string">"I'm the father process and I know my child process %d exits\n"</span>,pid_2);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"I'm the father process and I know my child process %d exited abnormally\n"</span>,pid_2);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
       
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/01/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2-%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="BMooS">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="BMooS">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2-%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" itemprop="url">我的第一篇博客-自我介绍</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-15T17:27:32+08:00">
-                2020-01-15
-              </time>
+              <a href="/2020/01/15/fork/" rel="next" title="fork">
+                <i class="fa fa-chevron-left"></i> fork
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%B8%AA%E4%BA%BA%E4%BB%8B%E7%BB%8D/" itemprop="url" rel="index">
-                    <span itemprop="name">个人介绍</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <h1 id="个人介绍—BMooS"><a href="#个人介绍—BMooS" class="headerlink" title="个人介绍—BMooS"></a>个人介绍—BMooS</h1><h2 id="我是谁"><a href="#我是谁" class="headerlink" title="我是谁"></a>我是谁</h2><p>​            </p>
-<p>​        我是一名学生，男，今年大三，信息安全本科在读。</p>
-<p><img src="https://s2.ax1x.com/2020/01/15/lXFN1f.jpg" alt="lXFN1f.jpg"></p>
-<h2 id="我要干什么"><a href="#我要干什么" class="headerlink" title="我要干什么"></a>我要干什么</h2><p>​        这是我的博客地址，我会在这里不断记录我的学习内容。</p>
-<p><img src="https://s2.ax1x.com/2020/01/15/lXFEkR.png" alt="lXFEkR.png"></p>
-<h2 id="未完待续。。。"><a href="#未完待续。。。" class="headerlink" title="未完待续。。。"></a>未完待续。。。</h2>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -742,10 +449,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -753,6 +461,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -773,8 +485,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -875,6 +596,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode题解"><span class="nav-number">1.</span> <span class="nav-text">LeetCode题解</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1015,6 +752,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
