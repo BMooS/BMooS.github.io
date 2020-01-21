@@ -256,6 +256,204 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/01/21/LeetCode%E9%A2%98%E8%A7%A3146/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="BMooS">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BMooS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/21/LeetCode%E9%A2%98%E8%A7%A3146/" itemprop="url">LeetCode题解146</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-21T19:50:58+08:00">
+                2020-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LeetCode%E9%A2%98%E8%A7%A3/" itemprop="url" rel="index">
+                    <span itemprop="name">LeetCode题解</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="LeetCode题解"><a href="#LeetCode题解" class="headerlink" title="LeetCode题解"></a>LeetCode题解</h1><p><strong>第146题 LRU缓存机制</strong></p>
+<p>运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。</p>
+<p>获取数据 get(key) - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1。<br>写入数据 put(key, value) - 如果密钥不存在，则写入其数据值。当缓存容量达到上限时，它应该在写入新数据之前删除最近最少使用的数据值，从而为新的数据值留出空间。</p>
+<p>进阶:</p>
+<p>你是否可以在 O(1) 时间复杂度内完成这两种操作？</p>
+<p>示例:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">LRUCache cache = <span class="keyword">new</span> LRUCache( <span class="number">2</span> <span class="comment">/* 缓存容量 */</span> );</span><br><span class="line"></span><br><span class="line">cache.<span class="built_in">put</span>(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">cache.<span class="built_in">put</span>(<span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line">cache.<span class="built_in">get</span>(<span class="number">1</span>);       <span class="comment">// 返回  1</span></span><br><span class="line">cache.<span class="built_in">put</span>(<span class="number">3</span>, <span class="number">3</span>);    <span class="comment">// 该操作会使得密钥 2 作废</span></span><br><span class="line">cache.<span class="built_in">get</span>(<span class="number">2</span>);       <span class="comment">// 返回 -1 (未找到)</span></span><br><span class="line">cache.<span class="built_in">put</span>(<span class="number">4</span>, <span class="number">4</span>);    <span class="comment">// 该操作会使得密钥 1 作废</span></span><br><span class="line">cache.<span class="built_in">get</span>(<span class="number">1</span>);       <span class="comment">// 返回 -1 (未找到)</span></span><br><span class="line">cache.<span class="built_in">get</span>(<span class="number">3</span>);       <span class="comment">// 返回  3</span></span><br><span class="line">cache.<span class="built_in">get</span>(<span class="number">4</span>);       <span class="comment">// 返回  4</span></span><br></pre></td></tr></table></figure>
+
+<p>原题如上，代码如下：</p>
+<p><strong>python版本</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">new_node</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,key=<span class="number">0</span>,value=<span class="number">0</span>)</span>:</span></span><br><span class="line">        self.key = key</span><br><span class="line">        self.value = value</span><br><span class="line">        self.prev = <span class="literal">None</span></span><br><span class="line">        self.next = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_none</span><span class="params">(self,node)</span>:</span></span><br><span class="line">        node.prev = self.head</span><br><span class="line">        node.next = self.head.next</span><br><span class="line">        self.head.next.prev = node</span><br><span class="line">        self.head.next = node</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">remove_node</span><span class="params">(self,node)</span>:</span></span><br><span class="line">        prev = node.prev</span><br><span class="line">        new = node.next</span><br><span class="line">        prev.next = new</span><br><span class="line">        new.prev = prev</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">move_to_head</span><span class="params">(self,node)</span>:</span></span><br><span class="line">        self.remove_node(node)</span><br><span class="line">        self.add_none(node) </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">remove_last_node</span><span class="params">(self)</span>:</span></span><br><span class="line">        last = self.tail.prev</span><br><span class="line">        self.remove_node(last)</span><br><span class="line">        <span class="keyword">return</span> last</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, capacity)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type capacity: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.cache = &#123;&#125;</span><br><span class="line">        self.size = <span class="number">0</span></span><br><span class="line">        self.capacity = capacity</span><br><span class="line">        self.head = new_node()</span><br><span class="line">        self.tail = new_node()</span><br><span class="line">        self.head.next = self.tail</span><br><span class="line">        self.tail.prev = self.head</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, key)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type key: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        node = self.cache.get(key)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> node:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line"></span><br><span class="line">        self.move_to_head(node)</span><br><span class="line">        <span class="keyword">return</span> node.value</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span><span class="params">(self, key, value)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type key: int</span></span><br><span class="line"><span class="string">        :type value: int</span></span><br><span class="line"><span class="string">        :rtype: None</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        node = self.cache.get(key)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> node:</span><br><span class="line">            newnode = new_node(key,value)</span><br><span class="line">            self.cache[key] = newnode</span><br><span class="line">            self.add_none(newnode)</span><br><span class="line">            self.size += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> self.size &gt; self.capacity:</span><br><span class="line">                tail = self.remove_last_node()</span><br><span class="line">                <span class="keyword">del</span> self.cache[tail.key]</span><br><span class="line">                self.size -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            node.value = value</span><br><span class="line">            self.move_to_head(node)</span><br><span class="line"><span class="comment"># Your LRUCache object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"># obj = LRUCache(capacity)</span></span><br><span class="line"><span class="comment"># param_1 = obj.get(key)</span></span><br><span class="line"><span class="comment"># obj.put(key,value)</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.ax1x.com/2020/01/21/1k30Mj.png" alt="1k30Mj.png"></p>
+<p><strong>解析：</strong></p>
+<p>首先，我们看到这个题所要构建的数据结构要求要在常数时间内完成get和put操作，那么可以用到哈希表，也就是python中的字典结构，辅助双向链表记录key-value信息，对于双向链表加入head和tail两个哨兵方便使用。</p>
+<p>整体结构为：</p>
+<p><img src="https://s2.ax1x.com/2020/01/21/1kc46s.png" alt="1kc46s.png"></p>
+<p>我们先构造链表结构：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">new_node</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,key=<span class="number">0</span>,value=<span class="number">0</span>)</span>:</span></span><br><span class="line">        self.key = key</span><br><span class="line">        self.value = value</span><br><span class="line">        self.prev = <span class="literal">None</span></span><br><span class="line">        self.next = <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+
+<p>对于字典结构key值是数据结构中的key，而字典中的value是链表中的结构体Node。</p>
+<p>在我们构造LRUcache之前，我们先得构造几种方法，并结合要求使用。</p>
+<p>首先，LRU是最近最久未使用，我们可以用双向链表进行对使用时间进行有序排序，即最近到最久的顺序。链表中最后一个，也就是最久没有使用的那一个。</p>
+<p>对双向链表进行维护时，会有多种情况：</p>
+<ol>
+<li><p><strong>put</strong>一个key相同的key-value，我们不用管它们的value是否相同，对我们而言是要原来的key-value进行更新，我们要将原来的key-value<strong>更新后将其位置移动到第一个</strong>。这时候无论cache是否满的，都不会溢出，因为只是更新处理而已。</p>
+</li>
+<li><p><strong>put</strong>一个新的key-value，我们会构建一个新的key-value结构体，并<strong>加入到链表中放到第一个位置</strong>，在字典中也加入新的key-value，然后判断是否溢出缓存，若溢出，那么将最久未使用也就是链表中<strong>最后一个元素删除</strong>，同时删除字典中该元素的key-value。</p>
+<p>上述中我们发现我们还需要：</p>
+<ol>
+<li><p>在链表中新加Node并放置在第一个位置：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_none</span><span class="params">(self,node)</span>:</span></span><br><span class="line">	node.prev = self.head</span><br><span class="line">   node.next = self.head.next</span><br><span class="line">   self.head.next.prev = node</span><br><span class="line">   self.head.next = node</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移除old_Node：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">remove_node</span><span class="params">(self,node)</span>:</span></span><br><span class="line">    prev = node.prev</span><br><span class="line">    new = node.next</span><br><span class="line">    prev.next = new</span><br><span class="line">    new.prev = prev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将old_Node移动到第一个位置：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">move_to_head</span><span class="params">(self,node)</span>:</span></span><br><span class="line">    self.remove_node(node)</span><br><span class="line">    self.add_none(node)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将最后一个Node删除：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">remove_last_node</span><span class="params">(self)</span>:</span></span><br><span class="line">    last = self.tail.prev</span><br><span class="line">    self.remove_node(last)</span><br><span class="line">    <span class="keyword">return</span> last</span><br></pre></td></tr></table></figure>
+
+<p>返回Node是为了使用它在字典中将它删除。</p>
+</li>
+</ol>
+</li>
+<li><p><strong>get</strong>一个key，查询其value，若没有，返回-1，若有，返回其value，并刷新使用时间，也就是将其key-value移动到链表第一个位置。</p>
+</li>
+</ol>
+<p>由上述就可以构造put和get方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">put</span><span class="params">(self, key, value)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :type key: int</span></span><br><span class="line"><span class="string">    :type value: int</span></span><br><span class="line"><span class="string">    :rtype: None</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    node = self.cache.get(key)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> node:</span><br><span class="line">        newnode = new_node(key,value)</span><br><span class="line">        self.cache[key] = newnode</span><br><span class="line">        self.add_none(newnode)</span><br><span class="line">        self.size += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> self.size &gt; self.capacity:</span><br><span class="line">            tail = self.remove_last_node()</span><br><span class="line">            <span class="keyword">del</span> self.cache[tail.key]</span><br><span class="line">            self.size -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        node.value = value</span><br><span class="line">        self.move_to_head(node)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, key)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :type key: int</span></span><br><span class="line"><span class="string">    :rtype: int</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    node = self.cache.get(key)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> node:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line"></span><br><span class="line">    self.move_to_head(node)</span><br><span class="line">    <span class="keyword">return</span> node.value</span><br></pre></td></tr></table></figure>
+
+<p>同时对LRUcache的基本属性为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, capacity)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :type capacity: int</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    self.cache = &#123;&#125;</span><br><span class="line">    self.size = <span class="number">0</span></span><br><span class="line">    self.capacity = capacity</span><br><span class="line">    self.head = new_node()</span><br><span class="line">    self.tail = new_node()</span><br><span class="line">    self.head.next = self.tail</span><br><span class="line">    self.tail.prev = self.head</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/01/18/LeetCode%E9%A2%98%E8%A7%A3777/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -793,7 +991,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
