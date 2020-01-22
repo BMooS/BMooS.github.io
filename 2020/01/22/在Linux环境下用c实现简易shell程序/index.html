@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="c语言,linux," />
 
 
 
@@ -83,16 +83,24 @@
 
 
 
-<meta name="description" content="BMooS的个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="BMooS">
-<meta property="og:url" content="https://bmoos.github.io/index.html">
+<meta name="description" content="前言​        这学期学校开设了操作系统的课程，但是内容比较浅显基础，我认为操作系统作为程序员的基本功之一，比较重要，也就想自己多学点，就想用c语言写一个在linux操作系统上的shell，顺便复习一下大一学的c语言，也在用《c和指针》去复习，不得不说，这本书确实写的不错，当然，对初学者不是那么友好，有一定基础的人可以去看，很不错。 最后，这篇文章里的代码可以在这里 (gitee)或者这里">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Linux环境下用c实现简易shell程序">
+<meta property="og:url" content="https://bmoos.github.io/2020/01/22/%E5%9C%A8Linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%94%A8c%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93shell%E7%A8%8B%E5%BA%8F/index.html">
 <meta property="og:site_name" content="BMooS">
-<meta property="og:description" content="BMooS的个人博客">
+<meta property="og:description" content="前言​        这学期学校开设了操作系统的课程，但是内容比较浅显基础，我认为操作系统作为程序员的基本功之一，比较重要，也就想自己多学点，就想用c语言写一个在linux操作系统上的shell，顺便复习一下大一学的c语言，也在用《c和指针》去复习，不得不说，这本书确实写的不错，当然，对初学者不是那么友好，有一定基础的人可以去看，很不错。 最后，这篇文章里的代码可以在这里 (gitee)或者这里">
+<meta property="og:image" content="https://i.loli.net/2019/12/15/78nbjUHFfsIBSQZ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2020/01/19/1Cjs5d.png">
+<meta property="og:image" content="https://s2.ax1x.com/2020/01/20/1iUa0s.png">
+<meta property="og:image" content="https://s2.ax1x.com/2020/01/22/1EEFbD.png">
+<meta property="og:image" content="https://s2.ax1x.com/2020/01/22/1EE3Vg.png">
+<meta property="article:published_time" content="2020-01-22T15:27:12.000Z">
+<meta property="article:modified_time" content="2020-01-22T15:33:54.611Z">
 <meta property="article:author" content="BMooS">
-<meta property="article:tag" content="BMooS">
-<meta property="article:tag" content="个人博客">
+<meta property="article:tag" content="c语言">
+<meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/12/15/78nbjUHFfsIBSQZ.png">
 
 
 
@@ -122,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="https://bmoos.github.io/"/>
+  <link rel="canonical" href="https://bmoos.github.io/2020/01/22/在Linux环境下用c实现简易shell程序/"/>
 
 
 
 
 
-  <title>BMooS</title>
+  <title>在Linux环境下用c实现简易shell程序 | BMooS</title>
   
 
 
@@ -147,8 +155,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -241,9 +248,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -273,9 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/22/%E5%9C%A8Linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%94%A8c%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93shell%E7%A8%8B%E5%BA%8F/" itemprop="url">在Linux环境下用c实现简易shell程序</a></h1>
+          <h1 class="post-title" itemprop="name headline">在Linux环境下用c实现简易shell程序</h1>
         
 
         <div class="post-meta">
@@ -347,9 +352,7 @@
       
 
       
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>​        这学期学校开设了操作系统的课程，但是内容比较浅显基础，我认为操作系统作为程序员的基本功之一，比较重要，也就想自己多学点，就想用<strong>c语言</strong>写一个在<strong>linux操作系统</strong>上的<strong>shell</strong>，顺便复习一下大一学的c语言，也在用<strong>《c和指针》</strong>去复习，不得不说，这本书确实写的不错，当然，对初学者不是那么友好，有一定基础的人可以去看，很不错。</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>​        这学期学校开设了操作系统的课程，但是内容比较浅显基础，我认为操作系统作为程序员的基本功之一，比较重要，也就想自己多学点，就想用<strong>c语言</strong>写一个在<strong>linux操作系统</strong>上的<strong>shell</strong>，顺便复习一下大一学的c语言，也在用<strong>《c和指针》</strong>去复习，不得不说，这本书确实写的不错，当然，对初学者不是那么友好，有一定基础的人可以去看，很不错。</p>
 <p>最后，这篇文章里的代码可以在<a href="https://gitee.com/BMooS/myshell" target="_blank" rel="noopener">这里</a> (gitee)或者<a href="https://github.com/BMooS/master" target="_blank" rel="noopener">这里</a> (github)看到。</p>
 <p>顺便说一下，作者再写这个程序时候只是一个在读学生，有些错误和粗浅之处，欢迎大家指正，谢谢大家。</p>
 <h1 id="如何实现shell-以及整体框架"><a href="#如何实现shell-以及整体框架" class="headerlink" title="如何实现shell 以及整体框架"></a>如何实现shell 以及整体框架</h1><p>​        首先让我们明白一个shell的<strong>生命周期</strong>，任何事物都有自己的生命周期，shell自然也不例外。</p>
@@ -619,8 +622,6 @@
 <p><img src="https://s2.ax1x.com/2020/01/22/1EE3Vg.png" alt="1EE3Vg.png"></p>
 <p>则上述就简单实现了输出重定向功能。</p>
 
-          
-        
       
     </div>
     
@@ -635,396 +636,38 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/01/21/LeetCode%E9%A2%98%E8%A7%A3146/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="BMooS">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="BMooS">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/21/LeetCode%E9%A2%98%E8%A7%A3146/" itemprop="url">LeetCode题解146</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-21T19:50:58+08:00">
-                2020-01-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/LeetCode%E9%A2%98%E8%A7%A3/" itemprop="url" rel="index">
-                    <span itemprop="name">LeetCode题解</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/" rel="tag"># c语言</a>
           
-
+            <a href="/tags/linux/" rel="tag"># linux</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="LeetCode题解"><a href="#LeetCode题解" class="headerlink" title="LeetCode题解"></a>LeetCode题解</h1><p><strong>第146题 LRU缓存机制</strong></p>
-<p>运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。</p>
-<p>获取数据 get(key) - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1。<br>写入数据 put(key, value) - 如果密钥不存在，则写入其数据值。当缓存容量达到上限时，它应该在写入新数据之前删除最近最少使用的数据值，从而为新的数据值留出空间。</p>
-<p>进阶:</p>
-<p>你是否可以在 O(1) 时间复杂度内完成这两种操作？</p>
-<p>示例:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">LRUCache cache = <span class="keyword">new</span> LRUCache( <span class="number">2</span> <span class="comment">/* 缓存容量 */</span> );</span><br><span class="line"></span><br><span class="line">cache.<span class="built_in">put</span>(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">cache.<span class="built_in">put</span>(<span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line">cache.<span class="built_in">get</span>(<span class="number">1</span>);       <span class="comment">// 返回  1</span></span><br><span class="line">cache.<span class="built_in">put</span>(<span class="number">3</span>, <span class="number">3</span>);    <span class="comment">// 该操作会使得密钥 2 作废</span></span><br><span class="line">cache.<span class="built_in">get</span>(<span class="number">2</span>);       <span class="comment">// 返回 -1 (未找到)</span></span><br><span class="line">cache.<span class="built_in">put</span>(<span class="number">4</span>, <span class="number">4</span>);    <span class="comment">// 该操作会使得密钥 1 作废</span></span><br><span class="line">cache.<span class="built_in">get</span>(<span class="number">1</span>);       <span class="comment">// 返回 -1 (未找到)</span></span><br><span class="line">cache.<span class="built_in">get</span>(<span class="number">3</span>);       <span class="comment">// 返回  3</span></span><br><span class="line">cache.<span class="built_in">get</span>(<span class="number">4</span>);       <span class="comment">// 返回  4</span></span><br></pre></td></tr></table></figure>
-
-<p>原题如上，代码如下：</p>
-<p><strong>python版本</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">new_node</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,key=<span class="number">0</span>,value=<span class="number">0</span>)</span>:</span></span><br><span class="line">        self.key = key</span><br><span class="line">        self.value = value</span><br><span class="line">        self.prev = <span class="literal">None</span></span><br><span class="line">        self.next = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_none</span><span class="params">(self,node)</span>:</span></span><br><span class="line">        node.prev = self.head</span><br><span class="line">        node.next = self.head.next</span><br><span class="line">        self.head.next.prev = node</span><br><span class="line">        self.head.next = node</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">remove_node</span><span class="params">(self,node)</span>:</span></span><br><span class="line">        prev = node.prev</span><br><span class="line">        new = node.next</span><br><span class="line">        prev.next = new</span><br><span class="line">        new.prev = prev</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">move_to_head</span><span class="params">(self,node)</span>:</span></span><br><span class="line">        self.remove_node(node)</span><br><span class="line">        self.add_none(node) </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">remove_last_node</span><span class="params">(self)</span>:</span></span><br><span class="line">        last = self.tail.prev</span><br><span class="line">        self.remove_node(last)</span><br><span class="line">        <span class="keyword">return</span> last</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, capacity)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type capacity: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.cache = &#123;&#125;</span><br><span class="line">        self.size = <span class="number">0</span></span><br><span class="line">        self.capacity = capacity</span><br><span class="line">        self.head = new_node()</span><br><span class="line">        self.tail = new_node()</span><br><span class="line">        self.head.next = self.tail</span><br><span class="line">        self.tail.prev = self.head</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, key)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type key: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        node = self.cache.get(key)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> node:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line"></span><br><span class="line">        self.move_to_head(node)</span><br><span class="line">        <span class="keyword">return</span> node.value</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span><span class="params">(self, key, value)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type key: int</span></span><br><span class="line"><span class="string">        :type value: int</span></span><br><span class="line"><span class="string">        :rtype: None</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        node = self.cache.get(key)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> node:</span><br><span class="line">            newnode = new_node(key,value)</span><br><span class="line">            self.cache[key] = newnode</span><br><span class="line">            self.add_none(newnode)</span><br><span class="line">            self.size += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> self.size &gt; self.capacity:</span><br><span class="line">                tail = self.remove_last_node()</span><br><span class="line">                <span class="keyword">del</span> self.cache[tail.key]</span><br><span class="line">                self.size -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            node.value = value</span><br><span class="line">            self.move_to_head(node)</span><br><span class="line"><span class="comment"># Your LRUCache object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"># obj = LRUCache(capacity)</span></span><br><span class="line"><span class="comment"># param_1 = obj.get(key)</span></span><br><span class="line"><span class="comment"># obj.put(key,value)</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.ax1x.com/2020/01/21/1k30Mj.png" alt="1k30Mj.png"></p>
-<p><strong>解析：</strong></p>
-<p>首先，我们看到这个题所要构建的数据结构要求要在常数时间内完成get和put操作，那么可以用到哈希表，也就是python中的字典结构，辅助双向链表记录key-value信息，对于双向链表加入head和tail两个哨兵方便使用。</p>
-<p>整体结构为：</p>
-<p><img src="https://s2.ax1x.com/2020/01/21/1kc46s.png" alt="1kc46s.png"></p>
-<p>我们先构造链表结构：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">new_node</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,key=<span class="number">0</span>,value=<span class="number">0</span>)</span>:</span></span><br><span class="line">        self.key = key</span><br><span class="line">        self.value = value</span><br><span class="line">        self.prev = <span class="literal">None</span></span><br><span class="line">        self.next = <span class="literal">None</span></span><br></pre></td></tr></table></figure>
-
-<p>对于字典结构key值是数据结构中的key，而字典中的value是链表中的结构体Node。</p>
-<p>在我们构造LRUcache之前，我们先得构造几种方法，并结合要求使用。</p>
-<p>首先，LRU是最近最久未使用，我们可以用双向链表进行对使用时间进行有序排序，即最近到最久的顺序。链表中最后一个，也就是最久没有使用的那一个。</p>
-<p>对双向链表进行维护时，会有多种情况：</p>
-<ol>
-<li><p><strong>put</strong>一个key相同的key-value，我们不用管它们的value是否相同，对我们而言是要原来的key-value进行更新，我们要将原来的key-value<strong>更新后将其位置移动到第一个</strong>。这时候无论cache是否满的，都不会溢出，因为只是更新处理而已。</p>
-</li>
-<li><p><strong>put</strong>一个新的key-value，我们会构建一个新的key-value结构体，并<strong>加入到链表中放到第一个位置</strong>，在字典中也加入新的key-value，然后判断是否溢出缓存，若溢出，那么将最久未使用也就是链表中<strong>最后一个元素删除</strong>，同时删除字典中该元素的key-value。</p>
-<p>上述中我们发现我们还需要：</p>
-<ol>
-<li><p>在链表中新加Node并放置在第一个位置：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_none</span><span class="params">(self,node)</span>:</span></span><br><span class="line">	node.prev = self.head</span><br><span class="line">   node.next = self.head.next</span><br><span class="line">   self.head.next.prev = node</span><br><span class="line">   self.head.next = node</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>移除old_Node：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">remove_node</span><span class="params">(self,node)</span>:</span></span><br><span class="line">    prev = node.prev</span><br><span class="line">    new = node.next</span><br><span class="line">    prev.next = new</span><br><span class="line">    new.prev = prev</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>将old_Node移动到第一个位置：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">move_to_head</span><span class="params">(self,node)</span>:</span></span><br><span class="line">    self.remove_node(node)</span><br><span class="line">    self.add_none(node)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>将最后一个Node删除：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">remove_last_node</span><span class="params">(self)</span>:</span></span><br><span class="line">    last = self.tail.prev</span><br><span class="line">    self.remove_node(last)</span><br><span class="line">    <span class="keyword">return</span> last</span><br></pre></td></tr></table></figure>
-
-<p>返回Node是为了使用它在字典中将它删除。</p>
-</li>
-</ol>
-</li>
-<li><p><strong>get</strong>一个key，查询其value，若没有，返回-1，若有，返回其value，并刷新使用时间，也就是将其key-value移动到链表第一个位置。</p>
-</li>
-</ol>
-<p>由上述就可以构造put和get方法：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">put</span><span class="params">(self, key, value)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :type key: int</span></span><br><span class="line"><span class="string">    :type value: int</span></span><br><span class="line"><span class="string">    :rtype: None</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    node = self.cache.get(key)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> node:</span><br><span class="line">        newnode = new_node(key,value)</span><br><span class="line">        self.cache[key] = newnode</span><br><span class="line">        self.add_none(newnode)</span><br><span class="line">        self.size += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> self.size &gt; self.capacity:</span><br><span class="line">            tail = self.remove_last_node()</span><br><span class="line">            <span class="keyword">del</span> self.cache[tail.key]</span><br><span class="line">            self.size -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        node.value = value</span><br><span class="line">        self.move_to_head(node)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, key)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :type key: int</span></span><br><span class="line"><span class="string">    :rtype: int</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    node = self.cache.get(key)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> node:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line"></span><br><span class="line">    self.move_to_head(node)</span><br><span class="line">    <span class="keyword">return</span> node.value</span><br></pre></td></tr></table></figure>
-
-<p>同时对LRUcache的基本属性为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, capacity)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :type capacity: int</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    self.cache = &#123;&#125;</span><br><span class="line">    self.size = <span class="number">0</span></span><br><span class="line">    self.capacity = capacity</span><br><span class="line">    self.head = new_node()</span><br><span class="line">    self.tail = new_node()</span><br><span class="line">    self.head.next = self.tail</span><br><span class="line">    self.tail.prev = self.head</span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
       
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/01/18/LeetCode%E9%A2%98%E8%A7%A3777/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="BMooS">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="BMooS">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/18/LeetCode%E9%A2%98%E8%A7%A3777/" itemprop="url">LeetCode题解777</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-18T22:45:20+08:00">
-                2020-01-18
-              </time>
+              <a href="/2020/01/21/LeetCode%E9%A2%98%E8%A7%A3146/" rel="next" title="LeetCode题解146">
+                <i class="fa fa-chevron-left"></i> LeetCode题解146
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/LeetCode%E9%A2%98%E8%A7%A3/" itemprop="url" rel="index">
-                    <span itemprop="name">LeetCode题解</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <h1 id="LeetCode题解"><a href="#LeetCode题解" class="headerlink" title="LeetCode题解"></a>LeetCode题解</h1><p><strong>第777题，在LR字符串中交换相邻字符</strong></p>
-<p>在一个由 ‘L’ , ‘R’ 和 ‘X’ 三个字符组成的字符串（例如”RXXLRXRXL”）中进行移动操作。一次移动操作指用一个”LX”替换一个”XL”，或者用一个”XR”替换一个”RX”。现给定起始字符串start和结束字符串end，请编写代码，当且仅当存在一系列移动操作使得start可以转换成end时， 返回True。</p>
-<p><strong>示例</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">输入: start = <span class="string">"RXXLRXRXL"</span>, end = <span class="string">"XRLXXRRLX"</span></span><br><span class="line">输出: <span class="literal">True</span></span><br><span class="line">解释:</span><br><span class="line">我们可以通过以下几步将start转换成end:</span><br><span class="line">RXXLRXRXL -&gt;</span><br><span class="line">XRXLRXRXL -&gt;</span><br><span class="line">XRLXRXRXL -&gt;</span><br><span class="line">XRLXXRRXL -&gt;</span><br><span class="line">XRLXXRRLX</span><br></pre></td></tr></table></figure>
-
-<p><strong>注意:</strong></p>
-<ol>
-<li><code>1 &lt;= len(start) = len(end) &lt;= 10000</code>。</li>
-<li><code>start</code>和<code>end</code>中的字符串仅限于<code>&#39;L&#39;</code>, <code>&#39;R&#39;</code>和<code>&#39;X&#39;</code>。</li>
-</ol>
-<p>原题如上，代码如下：</p>
-<p><strong>python版本</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">canTransform</span><span class="params">(self, start, end)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type start: str</span></span><br><span class="line"><span class="string">        :type end: str</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> (len(start) != len(end)):</span><br><span class="line">            <span class="keyword">return</span> bool(<span class="number">0</span>)</span><br><span class="line">        n = len(start)</span><br><span class="line">        sl = <span class="number">0</span></span><br><span class="line">        sr = <span class="number">0</span></span><br><span class="line">        el = <span class="number">0</span></span><br><span class="line">        er = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">            <span class="keyword">if</span> start[i] == <span class="string">'L'</span>:</span><br><span class="line">                sl += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> start[i] == <span class="string">'R'</span>:</span><br><span class="line">                sr += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> end[i] == <span class="string">'L'</span>:</span><br><span class="line">                el += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> end[i] == <span class="string">'R'</span>:</span><br><span class="line">                er += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> (sl &gt; el) | (sr &lt; er):</span><br><span class="line">                <span class="keyword">return</span> bool(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> bool((sl == el) &amp; (sr == er) &amp; (sl + sr &lt; n))</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.ax1x.com/2020/01/18/19nlMF.png" alt="19nlMF.png"></p>
-<p><strong>c语言版本</strong></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">canTransform</span><span class="params">(<span class="keyword">char</span> * start, <span class="keyword">char</span> * <span class="built_in">end</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">strlen</span>(start) != <span class="built_in">strlen</span>(<span class="built_in">end</span>))</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span> , n = <span class="built_in">strlen</span>(start);</span><br><span class="line">    <span class="keyword">int</span> sl = <span class="number">0</span>,sr = <span class="number">0</span>,el = <span class="number">0</span>,er = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(start[i]==<span class="string">'L'</span>)</span><br><span class="line">            sl++;</span><br><span class="line">        <span class="keyword">if</span>(start[i]==<span class="string">'R'</span>)</span><br><span class="line">            sr++;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">end</span>[i]==<span class="string">'L'</span>)</span><br><span class="line">            el++;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">end</span>[i]==<span class="string">'R'</span>)</span><br><span class="line">            er++;</span><br><span class="line">        <span class="keyword">if</span>((sl &gt; el) || (sr &lt; er))</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (sl == el) &amp;&amp; (sr == er) &amp;&amp; (sl + sr &lt; n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.ax1x.com/2020/01/18/19nYI1.png" alt="19nYI1.png"></p>
-<p><strong>做题原理：</strong></p>
-<p>注意：注意L只会向左移R只会向右移</p>
-<ol>
-<li><p>先判等start和end的长度（肯定是相等的）。</p>
-</li>
-<li><p>记录下start和end中’L’和’R’的个数</p>
-</li>
-<li><p>同时遍历start和end</p>
-<p>​            <img src="https://s2.ax1x.com/2020/01/18/19nZan.png" alt="19nZan.png"></p>
-</li>
-</ol>
-<p>发现对’L’来说对于<strong>true</strong>的start到end：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sl &lt;= el</span><br><span class="line">sr &gt;= er</span><br></pre></td></tr></table></figure>
-
-<p>因为’L’在变化的时候只会和它的左边对换位置，即对于start来说有可能会使 <strong>i 线</strong>右边的’L’对换到 <strong>i 线</strong>的左边，导致:</p>
-<p>​          <strong>sl &lt;= el</strong></p>
-<p>同理，因为’R’在变化的时候只会和它右边对换位置，即对于start来说有可能会使 <strong>i 线</strong>左边的’R’对换到 <strong>i 线</strong>的右边，导致:</p>
-<p>​          <strong>sr &gt;= er</strong></p>
-<p>则可以用(sl &gt; el) || (sr &lt; er)来判断false。</p>
-<ol start="4">
-<li><p>最后如若上述条件都满足，还要保证end是由start变化而来，即要满足(sl == el) &amp;&amp; (sr == er) &amp;&amp; (sl + sr &lt; n)，则为true。(注意：sl+sr&lt;n是因为还有’X’的存在)</p>
-<p>​    </p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -1034,326 +677,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/01/15/fork/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="BMooS">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="BMooS">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/15/fork/" itemprop="url">fork</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-15T22:52:30+08:00">
-                2020-01-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
-                    <span itemprop="name">操作系统</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="fork"><a href="#fork" class="headerlink" title="fork"></a>fork</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        一个进程，包括代码、数据和分配给进程的资源。</p>
-<p>​        fork（）函数通过系统调用创建一个与原来进程几乎完全相同的进程，也就是两个进程可以做完全相同的事，但如果初始参数或者传入的变量不同，两个进程也可以做不同的事。<br>​        一个进程调用fork（）函数后，系统先给新的进程分配资源，例如存储数据和代码的空间。然后把原来的进程的所有值都复制到新的新进程中，只有少数值与原来的进程的值不同。相当于克隆了一个自己。</p>
-<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;	</span><br><span class="line">	<span class="keyword">pid_t</span> child_pid;</span><br><span class="line">	<span class="comment">/*fork函数</span></span><br><span class="line"><span class="comment">	*作用：系统调用，产生一个子进程,调用一次返回两次</span></span><br><span class="line"><span class="comment">	*返回值：pid_t类型，在头文件中定义，通常为整形</span></span><br><span class="line"><span class="comment">	*	0	子进程返回</span></span><br><span class="line"><span class="comment">	*	ID	父进程返回的子进程ID</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	child_pid=fork();</span><br><span class="line">       </span><br><span class="line">       <span class="keyword">if</span>(child_pid &lt; <span class="number">0</span>)&#123;</span><br><span class="line">           <span class="built_in">printf</span>(<span class="string">"the failure\n"</span>);</span><br><span class="line">           <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       </span><br><span class="line">	<span class="keyword">if</span>(child_pid==<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(;i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"the child\n"</span>);</span><br><span class="line">			sleep(<span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"child's pid is %d"</span>,child_pid);</span><br><span class="line">            <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line"> 			<span class="keyword">for</span>(;i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">               <span class="built_in">printf</span>(<span class="string">"the father\n"</span>);</span><br><span class="line">               sleep(<span class="number">1</span>);</span><br><span class="line">           &#125;</span><br><span class="line">	&#125;</span><br><span class="line">       <span class="built_in">printf</span>(<span class="string">"I'm over\n"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​            <strong>那么调用这个fork函数时发生了什么呢？</strong></p>
-<p>​            fork函数启动一个新的进程，前面我们说过，这个进程几乎是当前进程的一个拷贝：子进程和父进程使用相同的代码段；子进程复制父进程的堆栈段和数据段。</p>
-<p>​            这样，父进程的所有数据都可以留给子进程，但是，子进程一旦开始运行，虽然它继承了父进程的一切数据，但实际上数据却已经分开，相互之间不再有影响了，也就是说，它们之间不再共享任何数据了。它们再要交互信息时，只有通过进程间通信来实现。</p>
-<p>​            <strong>既然它们如此相象，系统如何来区分它们呢？</strong></p>
-<p>​            这是由函数的返回值来决定的。对于父进程，fork函数返回了子程序的进程号，而对于子程序，fork函数则返回零。在操作系统中，我们用ps就可以看到不同的进程号，对父进程而言，它的进程号是由比它更低层的系统调用赋予的，而对于子进程而言，它的进程号即是fork函数对父进程的返回值。在程序设计中，父进程和子进程都要调用函数fork（）下面的代码，而我们就是利用fork（）函数对父子进程的不同返回值用if…else…语句来实现让父子进程完成不同的功能。</p>
-<p>​         <strong><em>正如我们上面举的例子一样。我们看到，上面例子执行时两条信息是交互无规则的打印出来的，这是父子进程独立执行的结果，虽然我们的代码似乎和串行的代码没有什么区别。</em></strong></p>
-<h2 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h2><p>　　 如果一个大程序在运行中，它的数据段和堆栈都很大，一次fork就要复制一次，那么fork的系统开销不是很大吗？其实UNIX自有其解决的办法，大家知道，一般CPU都是以”页”为单位来分配内存空间的，每一个页都是实际物理内存的一个映像，象INTEL的CPU，其一页在通常情况下是4086字节大小，而无论是数据段还是堆栈段都是由许多”页”构成的，fork函数复制这两个段，只是”逻辑”上的，并非”物理”上的，也就是说，实际执行fork时，物理空间上两个进程的数据段和堆栈段都还是共享着的，当有一个进程写了某个数据时，这时两个进程之间的数据才有了区别，系统就将有区别的”页”从物理上也分开。系统在空间上的开销就可以达到最小。</p>
-<h1 id="wait-and-exit"><a href="#wait-and-exit" class="headerlink" title="wait and exit"></a>wait and exit</h1><h2 id="定义函数wait"><a href="#定义函数wait" class="headerlink" title="定义函数wait()"></a>定义函数wait()</h2><p>​        <code>pid_t wait (int * status);</code></p>
-<ul>
-<li>wait()会暂时停止目前进程的执行,直到有信号来到或子进程结束。</li>
-<li>如果在调用 wait()时子进程已经结束,则 wait()会立即返回子进程结束状态值</li>
-<li>子进程的结束状态值会由参数 status 返回,而子进程的进程识别码也会一起返回。</li>
-<li>如果不在意结束状态值,则参数<code>status</code> 可以设成 <code>NULL</code>。</li>
-</ul>
-<p><img src="https://i.loli.net/2019/12/19/K2htdg6MQ4bLN1P.png" alt="UTOOLS1576735868543.png"></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pid_t</span> pid_1;</span><br><span class="line"><span class="keyword">int</span> status=<span class="number">0</span>;</span><br><span class="line">pid_1=wait(&amp;status);</span><br></pre></td></tr></table></figure>
-
-<p><strong><code>status</code>的使用</strong></p>
-<h2 id="定义函数exit"><a href="#定义函数exit" class="headerlink" title="定义函数exit()"></a>定义函数exit()</h2><p>exit() 结束当前进程/程序，在整个进程/程序中，只要调用 exit ，就结束。</p>
-<p><code>void exit(int status)</code></p>
-<p>传入的参数是程序退出时的状态码，0表示正常退出，其他表示非正常退出，一般都用-1或者1，标准C里有EXIT_SUCCESS和EXIT_FAILURE两个宏，用exit(EXIT_SUCCESS)可读性比较好一点。</p>
-<h2 id="举例-1"><a href="#举例-1" class="headerlink" title="举例"></a>举例</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid_1,pid_2;</span><br><span class="line">        </span><br><span class="line">    pid_1 = fork();</span><br><span class="line">    <span class="keyword">if</span> (pid_1 &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"the failure\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (pid_1 == <span class="number">0</span>)&#123;</span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">"I am a child process i am going to sleep\n"</span>);</span><br><span class="line">        sleep(<span class="number">5</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"I am a child process and I exit normally\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">int</span> status;</span><br><span class="line">        pid_2 = wait(&amp;status);</span><br><span class="line">        <span class="keyword">if</span> (pid_2 &lt; <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"Something went wrong\n"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (status = <span class="number">0</span>)&#123;</span><br><span class="line">        	<span class="built_in">printf</span>(<span class="string">"I'm the father process and I know my child process %d exits\n"</span>,pid_2);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"I'm the father process and I know my child process %d exited abnormally\n"</span>,pid_2);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-          
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/01/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2-%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="BMooS">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="BMooS">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2-%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" itemprop="url">我的第一篇博客-自我介绍</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-15T17:27:32+08:00">
-                2020-01-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%B8%AA%E4%BA%BA%E4%BB%8B%E7%BB%8D/" itemprop="url" rel="index">
-                    <span itemprop="name">个人介绍</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="个人介绍—BMooS"><a href="#个人介绍—BMooS" class="headerlink" title="个人介绍—BMooS"></a>个人介绍—BMooS</h1><h2 id="我是谁"><a href="#我是谁" class="headerlink" title="我是谁"></a>我是谁</h2><p>​            </p>
-<p>​        我是一名学生，男，今年大三，信息安全本科在读。</p>
-<p><img src="https://s2.ax1x.com/2020/01/15/lXFN1f.jpg" alt="lXFN1f.jpg"></p>
-<h2 id="我要干什么"><a href="#我要干什么" class="headerlink" title="我要干什么"></a>我要干什么</h2><p>​        这是我的博客地址，我会在这里不断记录我的学习内容。</p>
-<p><img src="https://s2.ax1x.com/2020/01/15/lXFEkR.png" alt="lXFEkR.png"></p>
-<h2 id="未完待续。。。"><a href="#未完待续。。。" class="headerlink" title="未完待续。。。"></a>未完待续。。。</h2>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -1361,6 +689,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -1381,8 +713,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -1483,6 +824,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何实现shell-以及整体框架"><span class="nav-number">2.</span> <span class="nav-text">如何实现shell 以及整体框架</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#具体细节"><span class="nav-number">3.</span> <span class="nav-text">具体细节</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#loop循环梗概"><span class="nav-number">3.1.</span> <span class="nav-text">loop循环梗概</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令读入"><span class="nav-number">3.2.</span> <span class="nav-text">命令读入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令解析"><span class="nav-number">3.3.</span> <span class="nav-text">命令解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cut-line"><span class="nav-number">3.3.1.</span> <span class="nav-text">cut_line()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#execute"><span class="nav-number">3.3.2.</span> <span class="nav-text">execute()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管道-匿名管道"><span class="nav-number">3.4.</span> <span class="nav-text">管道(匿名管道)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出重定向"><span class="nav-number">3.5.</span> <span class="nav-text">输出重定向</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1623,6 +980,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

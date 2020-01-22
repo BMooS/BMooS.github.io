@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-01-21T15:46:43.024Z</updated>
+  <updated>2020-01-22T15:33:54.611Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在Linux环境下用c实现简易shell程序</title>
+    <link href="https://bmoos.github.io/2020/01/22/%E5%9C%A8Linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%94%A8c%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93shell%E7%A8%8B%E5%BA%8F/"/>
+    <id>https://bmoos.github.io/2020/01/22/%E5%9C%A8Linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%94%A8c%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93shell%E7%A8%8B%E5%BA%8F/</id>
+    <published>2020-01-22T15:27:12.000Z</published>
+    <updated>2020-01-22T15:33:54.611Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;​       
+        
+      
+    
+    </summary>
+    
+    
+      <category term="操作系统" scheme="https://bmoos.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+      <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
+    
+      <category term="linux" scheme="https://bmoos.github.io/tags/linux/"/>
+    
+  </entry>
   
   <entry>
     <title>LeetCode题解146</title>
@@ -66,9 +95,9 @@
       <category term="LeetCode题解" scheme="https://bmoos.github.io/categories/LeetCode%E9%A2%98%E8%A7%A3/"/>
     
     
-      <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
-    
       <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
+    
+      <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
     
   </entry>
   
@@ -95,9 +124,9 @@
       <category term="操作系统" scheme="https://bmoos.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
     
-      <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
-    
       <category term="linux进程" scheme="https://bmoos.github.io/tags/linux%E8%BF%9B%E7%A8%8B/"/>
+    
+      <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
     
   </entry>
   
