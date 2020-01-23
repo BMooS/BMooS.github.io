@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-01-22T15:33:54.611Z</updated>
+  <updated>2020-01-23T13:10:27.604Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LeetCode题解35</title>
+    <link href="https://bmoos.github.io/2020/01/23/LeetCode%E9%A2%98%E8%A7%A335/"/>
+    <id>https://bmoos.github.io/2020/01/23/LeetCode%E9%A2%98%E8%A7%A335/</id>
+    <published>2020-01-23T12:05:05.000Z</published>
+    <updated>2020-01-23T13:10:27.604Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;LeetCode题解&quot;&gt;&lt;a href=&quot;#LeetCode题解&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="LeetCode题解" scheme="https://bmoos.github.io/categories/LeetCode%E9%A2%98%E8%A7%A3/"/>
+    
+    
+      <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
+    
+      <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
+    
+  </entry>
   
   <entry>
     <title>在Linux环境下用c实现简易shell程序</title>
@@ -95,9 +124,9 @@
       <category term="LeetCode题解" scheme="https://bmoos.github.io/categories/LeetCode%E9%A2%98%E8%A7%A3/"/>
     
     
-      <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
-    
       <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
+    
+      <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
     
   </entry>
   
@@ -124,9 +153,9 @@
       <category term="操作系统" scheme="https://bmoos.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
     
-      <category term="linux进程" scheme="https://bmoos.github.io/tags/linux%E8%BF%9B%E7%A8%8B/"/>
-    
       <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
+    
+      <category term="linux进程" scheme="https://bmoos.github.io/tags/linux%E8%BF%9B%E7%A8%8B/"/>
     
   </entry>
   
