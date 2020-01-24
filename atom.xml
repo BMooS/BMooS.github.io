@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-01-23T13:10:27.604Z</updated>
+  <updated>2020-01-24T12:47:57.545Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>古典密码</title>
+    <link href="https://bmoos.github.io/2020/01/24/%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81/"/>
+    <id>https://bmoos.github.io/2020/01/24/%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81/</id>
+    <published>2020-01-24T12:33:36.000Z</published>
+    <updated>2020-01-24T12:47:57.545Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;古典密码&quot;&gt;&lt;a href=&quot;#古典密码&quot; class=&quot;headerlink&quot; title=&quot;古典密码&quot;&gt;&lt;/a&gt;古典密码&lt;/h1&gt;&lt;p&gt;(1) 仿射密码  &lt;/p&gt;
+&lt;p&gt;参数选取：模数n=26+10=36 (26个字母+10个数字)，k2 = 学号后3位
+        
+      
+    
+    </summary>
+    
+    
+      <category term="密码学" scheme="https://bmoos.github.io/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/"/>
+    
+    
+      <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
+    
+      <category term="古典密码" scheme="https://bmoos.github.io/tags/%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81/"/>
+    
+  </entry>
   
   <entry>
     <title>LeetCode题解35</title>
