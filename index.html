@@ -256,6 +256,195 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/01/31/LeetCode%E9%A2%98%E8%A7%A35/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="BMooS">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BMooS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/31/LeetCode%E9%A2%98%E8%A7%A35/" itemprop="url">LeetCode题解5</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-31T14:25:00+08:00">
+                2020-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LeetCode%E9%A2%98%E8%A7%A3/" itemprop="url" rel="index">
+                    <span itemprop="name">LeetCode题解</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="LeetCode题解"><a href="#LeetCode题解" class="headerlink" title="LeetCode题解"></a>LeetCode题解</h1><p><strong>第5题，最长回文子串</strong></p>
+<p>给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。</p>
+<blockquote>
+<p>示例 1：</p>
+<p>输入: “babad”<br>输出: “bab”<br>注意: “aba” 也是一个有效答案。</p>
+<p>示例 2：</p>
+<p>输入: “cbbd”<br>输出: “bb”</p>
+</blockquote>
+<p>原题如上，代码如下：</p>
+<h3 id="动态规划法："><a href="#动态规划法：" class="headerlink" title="动态规划法："></a>动态规划法：</h3><p><strong>python版本</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">longestPalindrome</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: str</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        n = len(s)</span><br><span class="line">        bl = [[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(n)]<span class="keyword">for</span> i <span class="keyword">in</span> range(n)]</span><br><span class="line">        start = <span class="number">0</span></span><br><span class="line">        end = n</span><br><span class="line">        <span class="keyword">for</span> leng <span class="keyword">in</span> range(<span class="number">1</span>,n+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(n-leng+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> leng == <span class="number">1</span>:</span><br><span class="line">                    bl[i][i] = <span class="number">1</span></span><br><span class="line">                    start = i</span><br><span class="line">                    end = i + leng</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                <span class="keyword">if</span> (leng == <span class="number">2</span>) &amp; (s[i] == s[i + <span class="number">1</span>]):</span><br><span class="line">                    bl[i][i + <span class="number">1</span>] = <span class="number">1</span></span><br><span class="line">                    start = i</span><br><span class="line">                    end = i + leng</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                <span class="keyword">if</span> (bl[i+<span class="number">1</span>][i+leng<span class="number">-2</span>] == <span class="number">1</span>) &amp; (s[i] == s[i+leng<span class="number">-1</span>]):</span><br><span class="line">                    bl[i][i+leng<span class="number">-1</span>] = <span class="number">1</span> </span><br><span class="line">                    start = i</span><br><span class="line">                    end = i + leng</span><br><span class="line">        <span class="keyword">return</span> s[start:end]</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.ax1x.com/2020/02/01/18NKRP.png" alt="18NKRP.png"></p>
+<p><strong>c语言版本</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">longestPalindrome</span><span class="params">(<span class="keyword">char</span> * s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = <span class="built_in">strlen</span>(s);</span><br><span class="line">    <span class="keyword">bool</span> token[<span class="number">1000</span>][<span class="number">1000</span>] = &#123;<span class="number">0</span>&#125;; <span class="comment">//题目说明最大长度为1000</span></span><br><span class="line">    <span class="keyword">int</span> start = <span class="number">0</span>, <span class="built_in">end</span> = n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> len = <span class="number">1</span> ; len &lt;= n ; len++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt;= n -len ; i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(len == <span class="number">1</span>)&#123;</span><br><span class="line">                token[i][i] = <span class="number">1</span>;</span><br><span class="line">                start = i;</span><br><span class="line">                <span class="built_in">end</span> = i + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>((len == <span class="number">2</span>) &amp;&amp; (s[i] == s[i + <span class="number">1</span>]))&#123;</span><br><span class="line">                token[i][i+<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">                start = i;</span><br><span class="line">                <span class="built_in">end</span> = i + <span class="number">2</span>;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>((token[i+<span class="number">1</span>][i+len<span class="number">-2</span>] == <span class="number">1</span>) &amp;&amp; (s[i] == s[i+len<span class="number">-1</span>]))&#123;</span><br><span class="line">                token[i][i+len<span class="number">-1</span>] = <span class="number">1</span>;</span><br><span class="line">                start = i;</span><br><span class="line">                <span class="built_in">end</span> = i + len;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    s[<span class="built_in">end</span>] = <span class="string">'\0'</span>;</span><br><span class="line">    <span class="keyword">return</span> &amp;s[start];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.ax1x.com/2020/02/01/18tvVJ.png" alt="18tvVJ.png"></p>
+<h3 id="中心扩散法："><a href="#中心扩散法：" class="headerlink" title="中心扩散法："></a>中心扩散法：</h3><p><strong>python版本</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getstr</span><span class="params">(self,s,left,right)</span>:</span></span><br><span class="line">        <span class="keyword">while</span> left - <span class="number">1</span> &gt;= <span class="number">0</span> <span class="keyword">and</span> right &lt; len(s):</span><br><span class="line">            <span class="keyword">if</span> s[left - <span class="number">1</span>] != s[right]:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            left -= <span class="number">1</span></span><br><span class="line">            right += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> s[left:right] </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">longestPalindrome</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: str</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        result = <span class="string">''</span></span><br><span class="line">        n = len(s)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">            l = self.getstr(s,i,i+<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">if</span> len(l) &gt;= len(result):</span><br><span class="line">                result = l</span><br><span class="line">            <span class="keyword">if</span> i != n<span class="number">-1</span> <span class="keyword">and</span> s[i] == s[i+<span class="number">1</span>] :</span><br><span class="line">                l = self.getstr(s,i,i+<span class="number">2</span>)</span><br><span class="line">                <span class="keyword">if</span> len(l) &gt;= len(result):</span><br><span class="line">                    result = l          </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+
+<p><img src="C:%5CUsers%5Clenovo111%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200202161119064.png" alt="image-20200202161119064"></p>
+<p><strong>c语言版本</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">longestPalindrome</span><span class="params">(<span class="keyword">char</span> * s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = <span class="built_in">strlen</span>(s), start = <span class="number">0</span>, <span class="built_in">end</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)&#123; <span class="comment">//奇数</span></span><br><span class="line">        <span class="keyword">int</span> left = i - <span class="number">1</span>, right = i + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(left &gt;= <span class="number">0</span> &amp;&amp; right &lt; n &amp;&amp; s[left] == s[right])&#123;</span><br><span class="line">            left--;</span><br><span class="line">            right++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(right - left - <span class="number">1</span> &gt; <span class="built_in">end</span> - start)&#123;</span><br><span class="line">            start = left + <span class="number">1</span>;</span><br><span class="line">            <span class="built_in">end</span> = right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n - <span class="number">1</span>; i++)&#123; <span class="comment">//偶数</span></span><br><span class="line">        <span class="keyword">if</span>(s[i] == s[i + <span class="number">1</span>])&#123;</span><br><span class="line">            <span class="keyword">int</span> left = i - <span class="number">1</span>, right = i + <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">while</span>(left &gt;= <span class="number">0</span> &amp;&amp; right &lt; n &amp;&amp; s[left] == s[right])&#123;</span><br><span class="line">                left--;</span><br><span class="line">                right++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(right - left - <span class="number">1</span> &gt; <span class="built_in">end</span> - start)&#123;</span><br><span class="line">                start = left + <span class="number">1</span>;</span><br><span class="line">                <span class="built_in">end</span> = right;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">    s[<span class="built_in">end</span>] = <span class="string">'\0'</span>;</span><br><span class="line">    <span class="keyword">return</span> &amp;s[start];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.ax1x.com/2020/02/03/1NYoZT.png" alt="1NYoZT.png"></p>
+<h3 id="解析："><a href="#解析：" class="headerlink" title="解析："></a>解析：</h3><p>​    <strong>无论是动态规划法还是中心扩散法，理论上他们的时间复杂度都应该是$O(n^2)$。</strong></p>
+<h4 id="关于动态规划："><a href="#关于动态规划：" class="headerlink" title="关于动态规划："></a>关于动态规划：</h4><p>是有一个二维布尔数组<code>bool_list[i][j]</code>，若值为1，则表示字符串中 i 位到 j 位构成回文子串。</p>
+<p>动态规划中首先遍历长度leng，每次再遍历字符串，观察是否具有长度为leng的回文子串。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> len = <span class="number">1</span> ; len &lt;= n ; len++) <span class="comment">//leng从1开始</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt;= n -len ; i++) <span class="comment">//每次遍历到字符串的n-leng位</span></span><br></pre></td></tr></table></figure>
+
+<p>其中<code>boollist[i][j]</code>,若<code>i = j</code>，则恒为1，因为字符串始终具有长度为1的回文子串。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(len == <span class="number">1</span>)&#123;</span><br><span class="line">    token[i][i] = <span class="number">1</span>;</span><br><span class="line">    start = i;</span><br><span class="line">    <span class="built_in">end</span> = i + <span class="number">1</span>;</span><br><span class="line">   	<span class="keyword">continue</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同时回文子串也有奇数和偶数之分，奇数的回文字串中心为一个字符，而偶数的回文子串中心是两个相同的字符。所以当leng为2时要考虑偶数回文子串：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>((len == <span class="number">2</span>) &amp;&amp; (s[i] == s[i + <span class="number">1</span>]))&#123;</span><br><span class="line">    token[i][i+<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">	start = i;</span><br><span class="line"> 	<span class="built_in">end</span> = i + <span class="number">2</span>;</span><br><span class="line">	<span class="keyword">continue</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>剩下就可以通解了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>((token[i+<span class="number">1</span>][i+len<span class="number">-2</span>] == <span class="number">1</span>) &amp;&amp; (s[i] == s[i+len<span class="number">-1</span>]))&#123;</span><br><span class="line">    token[i][i+len<span class="number">-1</span>] = <span class="number">1</span>;</span><br><span class="line">    start = i;</span><br><span class="line">    <span class="built_in">end</span> = i + len;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为一个回文子串所具有的性质就是，每个元素和它的对称位置元素相同，且它俩中间包裹的子串也肯定时回文子串。</p>
+<h4 id="关于中心扩散："><a href="#关于中心扩散：" class="headerlink" title="关于中心扩散："></a>关于中心扩散：</h4><p>其实，我们也可以这样找回文：</p>
+<p>​    遍历字符串每个元素，从每个元素出发，查看它两边的元素是否相等，相等则查看更外层两边元素是否相等，如此重复，直到不相等，则返回找到的奇数回文子串：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)&#123; <span class="comment">//奇数</span></span><br><span class="line">    <span class="keyword">int</span> left = i - <span class="number">1</span>, right = i + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(left &gt;= <span class="number">0</span> &amp;&amp; right &lt; n &amp;&amp; s[left] == s[right])&#123;</span><br><span class="line">        left--;</span><br><span class="line">        right++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(right - left - <span class="number">1</span> &gt; <span class="built_in">end</span> - start)&#123;</span><br><span class="line">        start = left + <span class="number">1</span>;</span><br><span class="line">        <span class="built_in">end</span> = right;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    而偶数回文子串的寻找，和上述相似，只不过在最开始的中心元素是两个相等的元素，或者说是一条线为中心开始，向两边扩散：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n - <span class="number">1</span>; i++)&#123; <span class="comment">//偶数</span></span><br><span class="line">    <span class="keyword">if</span>(s[i] == s[i + <span class="number">1</span>])&#123;</span><br><span class="line">        <span class="keyword">int</span> left = i - <span class="number">1</span>, right = i + <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">while</span>(left &gt;= <span class="number">0</span> &amp;&amp; right &lt; n &amp;&amp; s[left] == s[right])&#123;</span><br><span class="line">            left--;</span><br><span class="line">            right++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(right - left - <span class="number">1</span> &gt; <span class="built_in">end</span> - start)&#123;</span><br><span class="line">            start = left + <span class="number">1</span>;</span><br><span class="line">            <span class="built_in">end</span> = right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：要找到最大回文子串的话，可以在找到回文子串时和之前找到的最大回文子串长度比较，若大于则更新，若小于则不变。</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/01/30/LeetCode%E9%A2%98%E8%A7%A34/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2139,155 +2328,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/01/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2-%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="BMooS">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="BMooS">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2-%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" itemprop="url">我的第一篇博客-自我介绍</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-15T17:27:32+08:00">
-                2020-01-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%B8%AA%E4%BA%BA%E4%BB%8B%E7%BB%8D/" itemprop="url" rel="index">
-                    <span itemprop="name">个人介绍</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="个人介绍—BMooS"><a href="#个人介绍—BMooS" class="headerlink" title="个人介绍—BMooS"></a>个人介绍—BMooS</h1><h2 id="我是谁"><a href="#我是谁" class="headerlink" title="我是谁"></a>我是谁</h2><p>​            </p>
-<p>​        我是一名学生，男，今年大三，信息安全本科在读。</p>
-<p><img src="https://s2.ax1x.com/2020/01/15/lXFN1f.jpg" alt="lXFN1f.jpg"></p>
-<h2 id="我要干什么"><a href="#我要干什么" class="headerlink" title="我要干什么"></a>我要干什么</h2><p>​        这是我的博客地址，我会在这里不断记录我的学习内容。</p>
-<p><img src="https://s2.ax1x.com/2020/01/15/lXFEkR.png" alt="lXFEkR.png"></p>
-<h2 id="未完待续。。。"><a href="#未完待续。。。" class="headerlink" title="未完待续。。。"></a>未完待续。。。</h2>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-right&quot;&gt;&lt;&#x2F;i&gt;</a>
+  </nav>
+
 
 
           </div>
@@ -2335,7 +2382,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
