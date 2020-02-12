@@ -256,6 +256,226 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/02/06/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="BMooS">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BMooS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/02/06/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" itemprop="url">二叉搜索树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-06T00:16:34+08:00">
+                2020-02-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h1><blockquote>
+<p><strong>树的递归定义：</strong></p>
+<p>树是一种数据结构，它要么为空，要么具有一个值并具有零个或多个<strong>孩子</strong>，每个孩子本身也是一个树。</p>
+</blockquote>
+<p>二叉树是树的特殊形式，它的每个节点至多有两个孩子，分别称作<strong>左孩子</strong>和<strong>右孩子</strong>。</p>
+<p>二叉搜索树还具有一个额外的性质：每个节点的值比它的左子树的所有节点的值都要大，但比它的右子树的所有节点的值都要小。</p>
+<p>注意：这个定义排除了树中存在值相同的节点可能</p>
+<p>这使得二叉搜索树成为一种用关键值快速查找的工具，它的查找时间复杂度可为<strong>O(log n)</strong>，因为它是用到二分法快速锁定关键值。</p>
+<p><img src="https://s2.ax1x.com/2020/02/12/17Ilct.png" alt="17Ilct.png"></p>
+<p>​                                                                                （二叉搜索树）</p>
+<h2 id="在二叉搜索树的插入"><a href="#在二叉搜索树的插入" class="headerlink" title="在二叉搜索树的插入"></a>在二叉搜索树的插入</h2><p>​    当一个新值添加到一颗二叉搜索树时，它必须被放在合适的位置，继续保持二叉搜索树的属性。</p>
+<p>插入的基本算法：</p>
+<blockquote>
+<p>​    <em>如果树为空：</em></p>
+<p>​            <em>把新值作为根节点插入</em></p>
+<p>​    <em>否则：</em></p>
+<p>​            <em>如果新值小于当前节点的值：</em></p>
+<p>​                    <em>把新值插入到当前节点的左子树中</em></p>
+<p>​            <em>否则：</em></p>
+<p>​                    <em>把新值插入到当前节点的右子树中</em></p>
+</blockquote>
+<p>上述算法的<strong>递归表达</strong>正是对树的<strong>递归定义</strong>的直接结果。</p>
+<p>( 注意：由于上述递归在算法的尾部出现&lt;尾部递归&gt;，所以我们可以用到迭代跟有效的实现这个算法 )</p>
+<h2 id="从二叉搜索树删除节点"><a href="#从二叉搜索树删除节点" class="headerlink" title="从二叉搜索树删除节点"></a>从二叉搜索树删除节点</h2><p>​        从树的中部删除一个节点将会导致节点的子树和树的其余部分分离，我们必须重新连接它们。</p>
+<p>所以从二叉搜索树删除节点分三种情况：</p>
+<ol>
+<li>删除节点为叶节点，则直接删除叶节点不会导致任何子树断开，所以不存在重新连接问题。</li>
+<li>删除节点只有一个孩子，则删除节点只需要将删除节点的父节点和它的孩子节点连接起来即可。</li>
+<li>删除节点具有两个孩子，则其中一种策略是找到该节点左子树的最大值，并将最大值节点删除，同时用这个最大值代替原先要删除那个节点的值。</li>
+</ol>
+<h2 id="在二叉搜索树中查找"><a href="#在二叉搜索树中查找" class="headerlink" title="在二叉搜索树中查找"></a>在二叉搜索树中查找</h2><p>​        根据二叉搜索树本身特性，则在树中查找值并不困难：</p>
+<blockquote>
+<p><em>如果树为空：</em></p>
+<p>​        <em>这个值不在树中</em></p>
+<p><em>否则：</em></p>
+<p>​        <em>如果这个值和根节点的值相同:</em></p>
+<p>​                <em>成功找到这个值</em></p>
+<p>​        <em>否则：</em></p>
+<p>​                <em>如果这个值小于根节点的值:</em></p>
+<p>​                        <em>查找左子树</em></p>
+<p>​                <em>否则：</em></p>
+<p>​                        <em>查找右子树</em></p>
+</blockquote>
+<p>这个递归算法也属于<strong>尾部递归</strong>，所以采用迭代的方案更具效率。</p>
+<h2 id="在二叉搜索树中遍历"><a href="#在二叉搜索树中遍历" class="headerlink" title="在二叉搜索树中遍历"></a>在二叉搜索树中遍历</h2><p>​        当你在检查这棵树的所有节点时，就是在遍历这棵树。</p>
+<p>​        遍历树的节点有几种不同的遍历方式：前序，中序，后序，以及层次遍历。</p>
+<p><img src="https://s2.ax1x.com/2020/02/12/1HU0Wd.png" alt="1HU0Wd.png"></p>
+<p>上图所描述的树的前序遍历为：20，12，5，16，25，28 （中-&gt;左-&gt;右）</p>
+<p>中序遍历为：5，12，16，20，25，28（左-&gt;中-&gt;右）</p>
+<p>后序遍历为：5，16，12，28，25，10（左-&gt;右-&gt;中）</p>
+<p>层次遍历为：20，12，25，5，16，28</p>
+<h2 id="二叉搜索树的接口文件"><a href="#二叉搜索树的接口文件" class="headerlink" title="二叉搜索树的接口文件"></a>二叉搜索树的接口文件</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**二叉搜索树的接口</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TREE_TYPE int</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* TreeNode 结构包含了值和两个指向某个树节点的指针</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">TREE_NODE</span> &#123;</span></span><br><span class="line">    TREE_TYPE value;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TREE_NODE</span> *<span class="title">left</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TREE_NODE</span> *<span class="title">right</span>;</span></span><br><span class="line">&#125; TreeNode;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*insert 向树种插入一个新值，参数是需要被添加的值，它必须是树中没有的值</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(TREE_TYPE value)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*find 查找一个值，这个值作为参数传递给函数，返回这个值的地址，若无，则返回NULL</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">TREE_TYPE *<span class="title">find</span><span class="params">(TREE_TYPE value)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*max 查找树中最大值，也就是树的最有叶节点的值</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">TREE_TYPE <span class="title">max_tree</span><span class="params">(TreeNode *link)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*remove 删除一个值，这个值作为参数传递给函数，它必须是树中具有的值</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">remove_value</span><span class="params">(TREE_TYPE value)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*pre_order_traverse</span></span><br><span class="line"><span class="comment">*执行树的前序遍历，参数是一个回调函数指针，它所指向的函数将在树中处理每个节点被调用</span></span><br><span class="line"><span class="comment">*节点的值作为被调函数的参数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pre_order_traverse</span><span class="params">(<span class="keyword">void</span> (*callback)(TREE_TYPE value))</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>tree.h文件</p>
+<h2 id="二叉搜索树的线性结构"><a href="#二叉搜索树的线性结构" class="headerlink" title="二叉搜索树的线性结构"></a>二叉搜索树的线性结构</h2><p><strong>数组形式的二叉搜索树</strong></p>
+<p>用数组形式去实现二叉搜索树的关键是使用下标寻找节点的父节点和孩子节点。</p>
+<p>下面有两套映射规则：</p>
+<blockquote>
+<p><em>基于根节点为节点1，且数组从1开始的映射规则</em></p>
+<p>​        节点N的父节点为节点N/2</p>
+<p>​        节点N的左孩子节点为节点2N</p>
+<p>​        节点N的右孩子节点为节点2N+1</p>
+</blockquote>
+<blockquote>
+<p><em>基于根节点为节点0，且数组从0开始的映射规则</em></p>
+<p>​        节点N的父节点为节点(N+1)/2 - 1</p>
+<p>​        节点N的左孩子节点为节点2N+1</p>
+<p>​        节点N的右孩子节点为节点2N+2</p>
+</blockquote>
+<p>上述两套规则都可以实现用数组来表示二叉搜索树</p>
+<p>​        第一套可读性高，且符合现实习惯，但数组下标从1开始忽略了数组第一个元素的空间，在面对树中储存元素较大时浪费了空间。</p>
+<p>​        在用数组实现二叉搜索树时，如何对未使用的数组元素初始化来表示该节点未使用也未赋值，用0表示也是一种方式，但0也是一个合法的数据值，这个时候就可以使用一个比较数组，它的元素是布尔类型，用于提示哪个节点被使用。</p>
+<p>​        <strong>缺陷：无论是静态数组，还是动态数组来实现二叉搜索树，都会存在一个问题，那就是面对不是那么平衡树来说，往往会浪费很大的空间，而且每次的新插入会使数组大小扩大一倍，这样使可用空间迅速耗尽。</strong></p>
+<h2 id="二叉搜索树的链式结构"><a href="#二叉搜索树的链式结构" class="headerlink" title="二叉搜索树的链式结构"></a>二叉搜索树的链式结构</h2><p>最为常见的二叉搜索树实现方式，代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*使用动态分配的链式结构实现二叉搜索树</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"tree.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*指向树根节点的指针</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">static</span> TreeNode *tree;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* insert</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(TREE_TYPE value)</span></span>&#123;</span><br><span class="line">    TreeNode *current;</span><br><span class="line">    TreeNode **link = &amp;tree;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> ((current = *link) != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(value &lt; current-&gt;value)</span><br><span class="line">            link = &amp;current-&gt;left;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            assert(value != current-&gt;value);</span><br><span class="line">            link = &amp;current-&gt;right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    *分配一个新的节点</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    current = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(TreeNode));</span><br><span class="line">    assert(current != <span class="literal">NULL</span>);</span><br><span class="line">    current-&gt;value = value;</span><br><span class="line">    current-&gt;left = <span class="literal">NULL</span>;</span><br><span class="line">    current-&gt;right = <span class="literal">NULL</span>;</span><br><span class="line">    *link = current;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* find</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">TREE_TYPE *<span class="title">find</span><span class="params">(TREE_TYPE value)</span></span>&#123;</span><br><span class="line">    TreeNode *current = tree;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (current != <span class="literal">NULL</span> &amp;&amp; current-&gt;value != value)&#123;</span><br><span class="line">        <span class="keyword">if</span>(value &lt; current-&gt;value)</span><br><span class="line">            current = current-&gt;left;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            current = current-&gt;right;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(current != <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> &amp;current-&gt;value;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* max_tree</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">TREE_TYPE <span class="title">max_tree</span><span class="params">(TreeNode *link)</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (link-&gt;right != <span class="literal">NULL</span>)</span><br><span class="line">        link = link-&gt;right;</span><br><span class="line">    <span class="keyword">return</span> link-&gt;value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* remove</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">remove_value</span><span class="params">(TREE_TYPE value)</span></span>&#123;</span><br><span class="line">    TreeNode *current;</span><br><span class="line">    TreeNode **link = &amp;tree;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    *寻找节点</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">while</span> ((current = *link)-&gt;value != value) &#123;</span><br><span class="line">        <span class="keyword">if</span> (value &lt; current-&gt;value)</span><br><span class="line">            link = &amp;current-&gt;left;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            assert(value != current-&gt;value);</span><br><span class="line">            link = &amp;current-&gt;right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    *删除节点，分三种情况</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">if</span> (current-&gt;left == <span class="literal">NULL</span> &amp;&amp; current-&gt;right == <span class="literal">NULL</span>)</span><br><span class="line">       *link = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (current-&gt;left == <span class="literal">NULL</span> || current-&gt;right == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (current-&gt;left == <span class="literal">NULL</span>)</span><br><span class="line">            *link = current-&gt;right;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            *link = current-&gt;left;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        TREE_TYPE <span class="built_in">max</span> = max_tree(current-&gt;left);</span><br><span class="line">        remove_value(<span class="built_in">max</span>);<span class="comment">/*max必为叶节点*/</span></span><br><span class="line">        current-&gt;value = <span class="built_in">max</span>;</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* do_pre_order_traverse</span></span><br><span class="line"><span class="comment">* 执行一层前遍历序。这是一个辅助函数。</span></span><br><span class="line"><span class="comment">* 并不是用户接口</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">do_pre_order_traverse</span><span class="params">(TreeNode *current, <span class="keyword">void</span> (*callback)(TREE_TYPE value))</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (current != <span class="literal">NULL</span>)&#123;</span><br><span class="line">        callback(current-&gt;value);</span><br><span class="line">        do_pre_order_traverse(current-&gt;left, callback);</span><br><span class="line">        do_pre_order_traverse(current-&gt;right, callback);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* pro_order_traverse</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pro_order_traverse</span><span class="params">(<span class="keyword">void</span> (*callback)(TREE_TYPE value))</span></span>&#123;</span><br><span class="line">    do_pre_order_traverse(tree, callback);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 测试使用pro_order_traverse(test_printf)，用于前序遍历输出树的值</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_printf</span><span class="params">(TREE_TYPE value)</span></span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>,value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    insert(<span class="number">2</span>);</span><br><span class="line">    insert(<span class="number">1</span>);</span><br><span class="line">    insert(<span class="number">3</span>);</span><br><span class="line">    remove_value(<span class="number">3</span>);</span><br><span class="line">    TREE_TYPE *k = <span class="built_in">find</span>(<span class="number">3</span>);</span><br><span class="line">    <span class="keyword">if</span>(k == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"not find\n"</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"find %d\n"</span>, *k);</span><br><span class="line">    pro_order_traverse(test_printf);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    insert(<span class="number">4</span>);</span><br><span class="line">    insert(<span class="number">0</span>);</span><br><span class="line">    insert(<span class="number">9</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"tree maximum %d\n"</span>,max_tree(tree));</span><br><span class="line">    pro_order_traverse(test_printf);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>link_tree.c文件</p>
+<p>测试输出：</p>
+<p><img src="https://s2.ax1x.com/2020/02/12/1HWDpt.png" alt="1HWDpt.png"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/01/31/LeetCode%E9%A2%98%E8%A7%A35/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2158,176 +2378,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/01/15/fork/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="BMooS">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="BMooS">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/15/fork/" itemprop="url">fork</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-15T22:52:30+08:00">
-                2020-01-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
-                    <span itemprop="name">操作系统</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="fork"><a href="#fork" class="headerlink" title="fork"></a>fork</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        一个进程，包括代码、数据和分配给进程的资源。</p>
-<p>​        fork（）函数通过系统调用创建一个与原来进程几乎完全相同的进程，也就是两个进程可以做完全相同的事，但如果初始参数或者传入的变量不同，两个进程也可以做不同的事。<br>​        一个进程调用fork（）函数后，系统先给新的进程分配资源，例如存储数据和代码的空间。然后把原来的进程的所有值都复制到新的新进程中，只有少数值与原来的进程的值不同。相当于克隆了一个自己。</p>
-<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;	</span><br><span class="line">	<span class="keyword">pid_t</span> child_pid;</span><br><span class="line">	<span class="comment">/*fork函数</span></span><br><span class="line"><span class="comment">	*作用：系统调用，产生一个子进程,调用一次返回两次</span></span><br><span class="line"><span class="comment">	*返回值：pid_t类型，在头文件中定义，通常为整形</span></span><br><span class="line"><span class="comment">	*	0	子进程返回</span></span><br><span class="line"><span class="comment">	*	ID	父进程返回的子进程ID</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	child_pid=fork();</span><br><span class="line">       </span><br><span class="line">       <span class="keyword">if</span>(child_pid &lt; <span class="number">0</span>)&#123;</span><br><span class="line">           <span class="built_in">printf</span>(<span class="string">"the failure\n"</span>);</span><br><span class="line">           <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       </span><br><span class="line">	<span class="keyword">if</span>(child_pid==<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(;i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"the child\n"</span>);</span><br><span class="line">			sleep(<span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"child's pid is %d"</span>,child_pid);</span><br><span class="line">            <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line"> 			<span class="keyword">for</span>(;i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">               <span class="built_in">printf</span>(<span class="string">"the father\n"</span>);</span><br><span class="line">               sleep(<span class="number">1</span>);</span><br><span class="line">           &#125;</span><br><span class="line">	&#125;</span><br><span class="line">       <span class="built_in">printf</span>(<span class="string">"I'm over\n"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​            <strong>那么调用这个fork函数时发生了什么呢？</strong></p>
-<p>​            fork函数启动一个新的进程，前面我们说过，这个进程几乎是当前进程的一个拷贝：子进程和父进程使用相同的代码段；子进程复制父进程的堆栈段和数据段。</p>
-<p>​            这样，父进程的所有数据都可以留给子进程，但是，子进程一旦开始运行，虽然它继承了父进程的一切数据，但实际上数据却已经分开，相互之间不再有影响了，也就是说，它们之间不再共享任何数据了。它们再要交互信息时，只有通过进程间通信来实现。</p>
-<p>​            <strong>既然它们如此相象，系统如何来区分它们呢？</strong></p>
-<p>​            这是由函数的返回值来决定的。对于父进程，fork函数返回了子程序的进程号，而对于子程序，fork函数则返回零。在操作系统中，我们用ps就可以看到不同的进程号，对父进程而言，它的进程号是由比它更低层的系统调用赋予的，而对于子进程而言，它的进程号即是fork函数对父进程的返回值。在程序设计中，父进程和子进程都要调用函数fork（）下面的代码，而我们就是利用fork（）函数对父子进程的不同返回值用if…else…语句来实现让父子进程完成不同的功能。</p>
-<p>​         <strong><em>正如我们上面举的例子一样。我们看到，上面例子执行时两条信息是交互无规则的打印出来的，这是父子进程独立执行的结果，虽然我们的代码似乎和串行的代码没有什么区别。</em></strong></p>
-<h2 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h2><p>　　 如果一个大程序在运行中，它的数据段和堆栈都很大，一次fork就要复制一次，那么fork的系统开销不是很大吗？其实UNIX自有其解决的办法，大家知道，一般CPU都是以”页”为单位来分配内存空间的，每一个页都是实际物理内存的一个映像，象INTEL的CPU，其一页在通常情况下是4086字节大小，而无论是数据段还是堆栈段都是由许多”页”构成的，fork函数复制这两个段，只是”逻辑”上的，并非”物理”上的，也就是说，实际执行fork时，物理空间上两个进程的数据段和堆栈段都还是共享着的，当有一个进程写了某个数据时，这时两个进程之间的数据才有了区别，系统就将有区别的”页”从物理上也分开。系统在空间上的开销就可以达到最小。</p>
-<h1 id="wait-and-exit"><a href="#wait-and-exit" class="headerlink" title="wait and exit"></a>wait and exit</h1><h2 id="定义函数wait"><a href="#定义函数wait" class="headerlink" title="定义函数wait()"></a>定义函数wait()</h2><p>​        <code>pid_t wait (int * status);</code></p>
-<ul>
-<li>wait()会暂时停止目前进程的执行,直到有信号来到或子进程结束。</li>
-<li>如果在调用 wait()时子进程已经结束,则 wait()会立即返回子进程结束状态值</li>
-<li>子进程的结束状态值会由参数 status 返回,而子进程的进程识别码也会一起返回。</li>
-<li>如果不在意结束状态值,则参数<code>status</code> 可以设成 <code>NULL</code>。</li>
-</ul>
-<p><img src="https://i.loli.net/2019/12/19/K2htdg6MQ4bLN1P.png" alt="UTOOLS1576735868543.png"></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pid_t</span> pid_1;</span><br><span class="line"><span class="keyword">int</span> status=<span class="number">0</span>;</span><br><span class="line">pid_1=wait(&amp;status);</span><br></pre></td></tr></table></figure>
-
-<p><strong><code>status</code>的使用</strong></p>
-<h2 id="定义函数exit"><a href="#定义函数exit" class="headerlink" title="定义函数exit()"></a>定义函数exit()</h2><p>exit() 结束当前进程/程序，在整个进程/程序中，只要调用 exit ，就结束。</p>
-<p><code>void exit(int status)</code></p>
-<p>传入的参数是程序退出时的状态码，0表示正常退出，其他表示非正常退出，一般都用-1或者1，标准C里有EXIT_SUCCESS和EXIT_FAILURE两个宏，用exit(EXIT_SUCCESS)可读性比较好一点。</p>
-<h2 id="举例-1"><a href="#举例-1" class="headerlink" title="举例"></a>举例</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid_1,pid_2;</span><br><span class="line">        </span><br><span class="line">    pid_1 = fork();</span><br><span class="line">    <span class="keyword">if</span> (pid_1 &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"the failure\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (pid_1 == <span class="number">0</span>)&#123;</span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">"I am a child process i am going to sleep\n"</span>);</span><br><span class="line">        sleep(<span class="number">5</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"I am a child process and I exit normally\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">int</span> status;</span><br><span class="line">        pid_2 = wait(&amp;status);</span><br><span class="line">        <span class="keyword">if</span> (pid_2 &lt; <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"Something went wrong\n"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (status = <span class="number">0</span>)&#123;</span><br><span class="line">        	<span class="built_in">printf</span>(<span class="string">"I'm the father process and I know my child process %d exits\n"</span>,pid_2);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"I'm the father process and I know my child process %d exited abnormally\n"</span>,pid_2);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2382,7 +2432,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2393,7 +2443,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2404,7 +2454,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
