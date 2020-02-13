@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-02-12T09:44:11.802Z</updated>
+  <updated>2020-02-13T08:21:12.972Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,66 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo相关问题</title>
+    <link href="https://bmoos.github.io/2020/02/13/hexo%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/"/>
+    <id>https://bmoos.github.io/2020/02/13/hexo%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/</id>
+    <published>2020-02-13T06:03:02.000Z</published>
+    <updated>2020-02-13T08:21:12.972Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;hexo&quot;&gt;&lt;a href=&quot;#hexo&quot; class=&quot;headerlink&quot; title=&quot;hexo&quot;&gt;&lt;/a&gt;hexo&lt;/h1&gt;&lt;p&gt;hexo中文文档链接：&lt;a href=&quot;https://hexo.io/zh-cn/docs/&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="相关配置" scheme="https://bmoos.github.io/categories/%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/"/>
+    
+    
+      <category term="hexo" scheme="https://bmoos.github.io/tags/hexo/"/>
+    
+      <category term="next主题" scheme="https://bmoos.github.io/tags/next%E4%B8%BB%E9%A2%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>堆栈和队列</title>
+    <link href="https://bmoos.github.io/2020/02/12/%E5%A0%86%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/"/>
+    <id>https://bmoos.github.io/2020/02/12/%E5%A0%86%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/</id>
+    <published>2020-02-12T11:16:09.000Z</published>
+    <updated>2020-02-13T05:57:59.463Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;堆栈&quot;&gt;&lt;a href=&quot;#堆栈&quot; class=&quot;headerlink&quot; title=&quot;堆栈&quot;&gt;&lt;/a&gt;堆栈&lt;/h1&gt;&lt;p&gt;​        堆栈是比较基本的ADT(抽象数据类型)，这种结构最鲜明的特点就是List-In
+        
+      
+    
+    </summary>
+    
+    
+      <category term="数据结构" scheme="https://bmoos.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    
+      <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
+    
+      <category term="堆栈" scheme="https://bmoos.github.io/tags/%E5%A0%86%E6%A0%88/"/>
+    
+      <category term="队列" scheme="https://bmoos.github.io/tags/%E9%98%9F%E5%88%97/"/>
+    
+  </entry>
   
   <entry>
     <title>二叉搜索树</title>
