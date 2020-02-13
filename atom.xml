@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-02-13T08:21:12.972Z</updated>
+  <updated>2020-02-13T13:19:31.948Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -17,11 +17,40 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>hexo next主题更新</title>
+    <link href="https://bmoos.github.io/2020/02/13/hexo-next%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%96%B0/"/>
+    <id>https://bmoos.github.io/2020/02/13/hexo-next%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%96%B0/</id>
+    <published>2020-02-13T13:16:01.000Z</published>
+    <updated>2020-02-13T13:19:31.948Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;hexo-next主题更新&quot;&gt;&lt;a href=&quot;#hexo-next主题更新&quot; class=&quot;headerlink&quot; title=&quot;hexo next主题更新&quot;&gt;&lt;/a&gt;hexo next主题更新&lt;/h1&gt;&lt;p&gt;next主题设置文档链接：&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="相关配置" scheme="https://bmoos.github.io/categories/%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/"/>
+    
+    
+      <category term="hexo" scheme="https://bmoos.github.io/tags/hexo/"/>
+    
+      <category term="next主题" scheme="https://bmoos.github.io/tags/next%E4%B8%BB%E9%A2%98/"/>
+    
+  </entry>
+  
+  <entry>
     <title>hexo相关问题</title>
     <link href="https://bmoos.github.io/2020/02/13/hexo%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/"/>
     <id>https://bmoos.github.io/2020/02/13/hexo%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/</id>
     <published>2020-02-13T06:03:02.000Z</published>
-    <updated>2020-02-13T08:21:12.972Z</updated>
+    <updated>2020-02-13T13:17:00.158Z</updated>
     
     <summary type="html">
     
@@ -40,8 +69,6 @@
     
     
       <category term="hexo" scheme="https://bmoos.github.io/tags/hexo/"/>
-    
-      <category term="next主题" scheme="https://bmoos.github.io/tags/next%E4%B8%BB%E9%A2%98/"/>
     
   </entry>
   
