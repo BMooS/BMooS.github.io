@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>VPN相关设置-shadowsocksR</title>
+    <url>/2020/02/14/VPN%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE-shadowsocksR/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>​        之前一直用的my2one的服务器代理，pc和移动端也用的ShadowsocksR，也就是SSR，一些设置之前也是用的my2one给的教程，一直没手动设置过，现在想用用TOR游览器，不过开始之前先把VPN设置好，别暴露了自己的IP和位置。</p>
+<a id="more"></a>
+
+<h2 id="VPN三种系统代理模式"><a href="#VPN三种系统代理模式" class="headerlink" title="VPN三种系统代理模式"></a>VPN三种系统代理模式</h2><p>​        vpn的系统代理有三种模式，分别是直连模式，全局模式和PAC模式。</p>
+<p>​        直连模式，顾名思义就是主机在数据交互时候不使用vpn代理，和没开vpn是一样的，在不使用vpn的场合可以用到直连模式。</p>
+<p>​        全局模式，就是将主机所有的数据交互都要经过vpn服务器的代理，也就是主机在通信的时候经过了第三方代理，此时可以隐藏主机的IP地址，当然，也可以绕过GFW。</p>
+<p>​        PAC模式，就是主机在连接网站的时候读取PAC文件里面的规则，查看网站是否被墙，如果符合，那就开启VPN服务进行代理，而PAC列表一般从GFWList进行更新。</p>
+<h2 id="用SSR-Proxy-SwitchyOmega进行网站代理"><a href="#用SSR-Proxy-SwitchyOmega进行网站代理" class="headerlink" title="用SSR+Proxy SwitchyOmega进行网站代理"></a>用SSR+Proxy SwitchyOmega进行网站代理</h2><p>​        SSR这边我订阅了my2one的服务器，这边代理规则我设置为绕过局域网和大陆，不过我在SSR这边选项设置了端口6666为代理端口，把系统代理设置为直连，这样只会将主机走6666端口的数据进行代理。</p>
+<p>​        Proxy SwitchyOmega这边先设置了一个proxy的情景模式，让本地6666端口做代理。</p>
+<p>​        然后再设置一个 auto switch 的自动切换模式，导入AutoProxy的格式的规则列表，网址为<a href="https://github.com/gfwlist/gfwlist/raw/master/gfwlist.txt。" target="_blank" rel="noopener">https://github.com/gfwlist/gfwlist/raw/master/gfwlist.txt。</a></p>
+<p>​        按照规则列表匹配请求，让它们过proxy情景模式，剩下的都直接连接。</p>
+]]></content>
+      <categories>
+        <category>相关配置</category>
+      </categories>
+      <tags>
+        <tag>VPN</tag>
+        <tag>ShadowsocksR</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo next主题更新</title>
     <url>/2020/02/13/hexo-next%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%96%B0/</url>
     <content><![CDATA[<h1 id="hexo-next主题更新"><a href="#hexo-next主题更新" class="headerlink" title="hexo next主题更新"></a>hexo next主题更新</h1><p>next主题设置文档链接：<a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">http://theme-next.iissnan.com/</a></p>
