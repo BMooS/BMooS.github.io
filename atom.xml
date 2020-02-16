@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-02-14T10:10:48.336Z</updated>
+  <updated>2020-02-16T10:39:41.846Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -21,11 +21,12 @@
     <link href="https://bmoos.github.io/2020/02/14/VPN%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE-shadowsocksR/"/>
     <id>https://bmoos.github.io/2020/02/14/VPN%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE-shadowsocksR/</id>
     <published>2020-02-14T04:53:16.000Z</published>
-    <updated>2020-02-14T10:10:48.336Z</updated>
+    <updated>2020-02-16T10:39:41.846Z</updated>
     
     <summary type="html">
     
       &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;​        之前一直用的my2one的服务器代理，pc和移动端也用的ShadowsocksR，也就是SSR，一些设置之前也是用的my2one给的教程，一直没手动设置过，现在想用用TOR游览器，不过开始之前先把VPN设置好，别暴露了自己的IP和位置。&lt;/p&gt;
+&lt;p&gt;（更新：使用tor游览器访问暗网）&lt;/p&gt;
     
     </summary>
     

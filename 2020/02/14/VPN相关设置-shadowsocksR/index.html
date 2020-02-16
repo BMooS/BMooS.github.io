@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"bmoos.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="前言​        之前一直用的my2one的服务器代理，pc和移动端也用的ShadowsocksR，也就是SSR，一些设置之前也是用的my2one给的教程，一直没手动设置过，现在想用用TOR游览器，不过开始之前先把VPN设置好，别暴露了自己的IP和位置。">
+  <meta name="description" content="前言​        之前一直用的my2one的服务器代理，pc和移动端也用的ShadowsocksR，也就是SSR，一些设置之前也是用的my2one给的教程，一直没手动设置过，现在想用用TOR游览器，不过开始之前先把VPN设置好，别暴露了自己的IP和位置。 （更新：使用tor游览器访问暗网）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VPN相关设置-shadowsocksR">
 <meta property="og:url" content="https://bmoos.github.io/2020/02/14/VPN%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE-shadowsocksR/index.html">
 <meta property="og:site_name" content="BMooS">
-<meta property="og:description" content="前言​        之前一直用的my2one的服务器代理，pc和移动端也用的ShadowsocksR，也就是SSR，一些设置之前也是用的my2one给的教程，一直没手动设置过，现在想用用TOR游览器，不过开始之前先把VPN设置好，别暴露了自己的IP和位置。">
+<meta property="og:description" content="前言​        之前一直用的my2one的服务器代理，pc和移动端也用的ShadowsocksR，也就是SSR，一些设置之前也是用的my2one给的教程，一直没手动设置过，现在想用用TOR游览器，不过开始之前先把VPN设置好，别暴露了自己的IP和位置。 （更新：使用tor游览器访问暗网）">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-02-14T04:53:16.000Z">
-<meta property="article:modified_time" content="2020-02-14T10:10:48.336Z">
+<meta property="article:modified_time" content="2020-02-16T10:39:41.846Z">
 <meta property="article:author" content="BMooS">
 <meta property="article:tag" content="VPN">
 <meta property="article:tag" content="ShadowsocksR">
@@ -218,10 +218,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-02-14 12:53:16 / 修改时间：18:10:48" itemprop="dateCreated datePublished" datetime="2020-02-14T12:53:16+08:00">2020-02-14</time>
+              <time title="创建时间：2020-02-14 12:53:16" itemprop="dateCreated datePublished" datetime="2020-02-14T12:53:16+08:00">2020-02-14</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-16 18:39:41" itemprop="dateModified" datetime="2020-02-16T18:39:41+08:00">2020-02-16</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -247,7 +253,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>704</span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -267,6 +273,7 @@
 
       
         <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>​        之前一直用的my2one的服务器代理，pc和移动端也用的ShadowsocksR，也就是SSR，一些设置之前也是用的my2one给的教程，一直没手动设置过，现在想用用TOR游览器，不过开始之前先把VPN设置好，别暴露了自己的IP和位置。</p>
+<p>（更新：使用tor游览器访问暗网）</p>
 <a id="more"></a>
 
 <h2 id="VPN三种系统代理模式"><a href="#VPN三种系统代理模式" class="headerlink" title="VPN三种系统代理模式"></a>VPN三种系统代理模式</h2><p>​        vpn的系统代理有三种模式，分别是直连模式，全局模式和PAC模式。</p>
@@ -275,8 +282,23 @@
 <p>​        PAC模式，就是主机在连接网站的时候读取PAC文件里面的规则，查看网站是否被墙，如果符合，那就开启VPN服务进行代理，而PAC列表一般从GFWList进行更新。</p>
 <h2 id="用SSR-Proxy-SwitchyOmega进行网站代理"><a href="#用SSR-Proxy-SwitchyOmega进行网站代理" class="headerlink" title="用SSR+Proxy SwitchyOmega进行网站代理"></a>用SSR+Proxy SwitchyOmega进行网站代理</h2><p>​        SSR这边我订阅了my2one的服务器，这边代理规则我设置为绕过局域网和大陆，不过我在SSR这边选项设置了端口6666为代理端口，把系统代理设置为直连，这样只会将主机走6666端口的数据进行代理。</p>
 <p>​        Proxy SwitchyOmega这边先设置了一个proxy的情景模式，让本地6666端口做代理。</p>
-<p>​        然后再设置一个 auto switch 的自动切换模式，导入AutoProxy的格式的规则列表，网址为<a href="https://github.com/gfwlist/gfwlist/raw/master/gfwlist.txt。" target="_blank" rel="noopener">https://github.com/gfwlist/gfwlist/raw/master/gfwlist.txt。</a></p>
+<p>​        然后再设置一个 auto switch 的自动切换模式，导入AutoProxy的格式的规则列表，网址为<a href="https://github.com/gfwlist/gfwlist/raw/master/gfwlist.txt" target="_blank" rel="noopener">https://github.com/gfwlist/gfwlist/raw/master/gfwlist.txt</a></p>
 <p>​        按照规则列表匹配请求，让它们过proxy情景模式，剩下的都直接连接。</p>
+<h2 id="番外：如何访问暗网"><a href="#番外：如何访问暗网" class="headerlink" title="番外：如何访问暗网"></a>番外：如何访问暗网</h2><p>​         <strong>警告：</strong> 在继续之前，重要的是要了解Dark Web上的许多内容都是非法的。 无论你采取什么预防措施，都不可能保持匿名。 自担风险！</p>
+<h3 id="Tor工作原理"><a href="#Tor工作原理" class="headerlink" title="Tor工作原理"></a>Tor工作原理</h3><p>​        Tor由已经安装了Tor软件的电脑连接网络而成。它之所以被称为onion，是因为它的结构就跟洋葱相同，你只能看出它的外表，而想要看到核心，就必须把它层层的剥开。即每个路由器间的传输都经过点对点密钥来加密，形成有层次的结构。它中间所经过的各节点，都好像洋葱的一层皮，把客户端包在里面，算是保护信息来源的一种方式。</p>
+<p>​        用 Tor 创建一条私有网络路径时，用户的软件或客户端通过网络上的中继递增地建立一条由若干加密连接组成的环路。环路一次扩展一跳，环路上的中继仅仅知道它从哪一个中继接收数据以及向哪一个中继发送数据。没有一台单独的中继会知道数据包的完整路径。客户端与环路上的每一跳都协商一组独立的密钥，这样可以保证数据通过任何一跳时都无法跟踪。</p>
+<ol>
+<li><p>下载 tor游览器（如果是在国内，你需要一个梯子），下载地址 <a href="https://www.torproject.org/zh-CN/download/" target="_blank" rel="noopener">https://www.torproject.org/zh-CN/download/</a></p>
+</li>
+<li><p>安装并配置tor，tor安装有中文，所以很好安装，此处不再赘述。</p>
+<p>配置的时候我们知道国内是无法直连的，所以我们要选择configure来配置代理，然后在你的网络提供商是否对Tor网络进行了封锁或审查这里选yes。</p>
+<p>然后选择在中国可连的网桥meek-azure。</p>
+<p>在高级配置中使用代理访问网络，上面我用到SSR中对本机6666端口进行了代理，所以这里填写了socks 5，地址127.0.0.1和端口6666</p>
+</li>
+</ol>
+<ol start="3">
+<li>登陆DuckDuckGo，也就是暗网的Google，查看是否能登陆。（注意，暗网的访问速度一般都很慢。）地址为<a href="https://3g2upl4pq6kufc4m.onion/" target="_blank" rel="noopener">https://3g2upl4pq6kufc4m.onion/</a></li>
+</ol>
 
     </div>
 
@@ -359,7 +381,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#VPN三种系统代理模式"><span class="nav-number">1.1.</span> <span class="nav-text">VPN三种系统代理模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用SSR-Proxy-SwitchyOmega进行网站代理"><span class="nav-number">1.2.</span> <span class="nav-text">用SSR+Proxy SwitchyOmega进行网站代理</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#VPN三种系统代理模式"><span class="nav-number">1.1.</span> <span class="nav-text">VPN三种系统代理模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用SSR-Proxy-SwitchyOmega进行网站代理"><span class="nav-number">1.2.</span> <span class="nav-text">用SSR+Proxy SwitchyOmega进行网站代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#番外：如何访问暗网"><span class="nav-number">1.3.</span> <span class="nav-text">番外：如何访问暗网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tor工作原理"><span class="nav-number">1.3.1.</span> <span class="nav-text">Tor工作原理</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -448,7 +470,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">44 分钟</span>
+    <span title="站点阅读时长">45 分钟</span>
 </div>
 
         
