@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-02-16T10:39:41.846Z</updated>
+  <updated>2020-02-18T11:29:00.064Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>浏览器安全</title>
+    <link href="https://bmoos.github.io/2020/02/18/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%89%E5%85%A8/"/>
+    <id>https://bmoos.github.io/2020/02/18/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%89%E5%85%A8/</id>
+    <published>2020-02-18T04:00:07.000Z</published>
+    <updated>2020-02-18T11:29:00.064Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;浏览器安全&quot;&gt;&lt;a href=&quot;#浏览器安全&quot; class=&quot;headerlink&quot; title=&quot;浏览器安全&quot;&gt;&lt;/a&gt;浏览器安全&lt;/h1&gt;&lt;p&gt;​        浏览器的安全策略有很多，比如同源策略，csp，cookie设置，以及浏览器沙箱等，都是游览器安全策略的内容。本文用于记录和理解这些设施，随时扩充，不断学习。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="渗透测试" scheme="https://bmoos.github.io/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="同源策略" scheme="https://bmoos.github.io/tags/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5/"/>
+    
+      <category term="内容安全策略" scheme="https://bmoos.github.io/tags/%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5/"/>
+    
+  </entry>
   
   <entry>
     <title>VPN相关设置-shadowsocksR</title>
