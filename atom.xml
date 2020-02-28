@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-02-23T14:28:33.969Z</updated>
+  <updated>2020-02-28T13:56:52.429Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>kali-19.4汉化以及伪装win10界面</title>
+    <link href="https://bmoos.github.io/2020/02/28/kali-19-4%E6%B1%89%E5%8C%96%E4%BB%A5%E5%8F%8A%E4%BC%AA%E8%A3%85win10%E7%95%8C%E9%9D%A2/"/>
+    <id>https://bmoos.github.io/2020/02/28/kali-19-4%E6%B1%89%E5%8C%96%E4%BB%A5%E5%8F%8A%E4%BC%AA%E8%A3%85win10%E7%95%8C%E9%9D%A2/</id>
+    <published>2020-02-28T13:36:55.000Z</published>
+    <updated>2020-02-28T13:56:52.429Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;​        之前用虚拟机做实验的时候汉化过一次，后来文件被删了，现在又要因为实验要求重新下载一次，但是忘记kali的汉化过程，这次特意记录一下。我用的是kali-2019.4版本，这个版本新上线了一个可以伪装成Windows10的功能，也挺有意思的。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="操作系统" scheme="https://bmoos.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+      <category term="kali" scheme="https://bmoos.github.io/tags/kali/"/>
+    
+  </entry>
   
   <entry>
     <title>渗透测试实战--家用电脑</title>
