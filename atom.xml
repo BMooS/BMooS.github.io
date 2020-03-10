@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-03-05T16:29:46.623Z</updated>
+  <updated>2020-03-10T12:54:25.675Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>git使用</title>
+    <link href="https://bmoos.github.io/2020/03/10/git%E4%BD%BF%E7%94%A8/"/>
+    <id>https://bmoos.github.io/2020/03/10/git%E4%BD%BF%E7%94%A8/</id>
+    <published>2020-03-09T16:35:22.000Z</published>
+    <updated>2020-03-10T12:54:25.675Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Git&quot;&gt;&lt;a href=&quot;#Git&quot; class=&quot;headerlink&quot; title=&quot;Git&quot;&gt;&lt;/a&gt;Git&lt;/h1&gt;&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;​        git是一个开源的分布式版本控制系统，它能帮助你管理不同的版本，并且随时退回到任意时刻，而且也可以协同开发。之前也学过一点git，不过那阵用不到git，而且学的也比较琐碎难以理解，现在在我有一定基础的情况下，重新学习git，写下这份博客用以记录学习内容。Git指令繁多，但是常用的就十几条，下述介绍的指令掌握了足以应对常规使用，新的指令也会慢慢学习记录。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="工具使用" scheme="https://bmoos.github.io/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/"/>
+    
+    
+      <category term="git" scheme="https://bmoos.github.io/tags/git/"/>
+    
+  </entry>
   
   <entry>
     <title>XSS跨站脚本漏洞</title>
@@ -518,30 +539,6 @@
       <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
     
       <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>fork</title>
-    <link href="https://bmoos.github.io/2020/01/15/fork/"/>
-    <id>https://bmoos.github.io/2020/01/15/fork/</id>
-    <published>2020-01-15T14:52:30.000Z</published>
-    <updated>2020-02-13T16:46:08.936Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;fork&quot;&gt;&lt;a href=&quot;#fork&quot; class=&quot;headerlink&quot; title=&quot;fork&quot;&gt;&lt;/a&gt;fork&lt;/h1&gt;&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;​        一个进程，包括代码、数据和分配给进程的资源。&lt;/p&gt;
-&lt;p&gt;​        fork（）函数通过系统调用创建一个与原来进程几乎完全相同的进程，也就是两个进程可以做完全相同的事，但如果初始参数或者传入的变量不同，两个进程也可以做不同的事。&lt;br&gt;​        一个进程调用fork（）函数后，系统先给新的进程分配资源，例如存储数据和代码的空间。然后把原来的进程的所有值都复制到新的新进程中，只有少数值与原来的进程的值不同。相当于克隆了一个自己。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="操作系统" scheme="https://bmoos.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    
-    
-      <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
-    
-      <category term="linux进程" scheme="https://bmoos.github.io/tags/linux%E8%BF%9B%E7%A8%8B/"/>
     
   </entry>
   
