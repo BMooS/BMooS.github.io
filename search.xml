@@ -104,6 +104,15 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure>
 
 <p>注意：如果你在<code>git push</code>时发现远程仓库是最新版，即别人<code>git push</code>了，而你的更改是对上一版的更改，此时就会产生冲突，你可以<code>git pull</code>将最新版下载下来，手动在本地解决冲突，然后再<code>git push</code></p>
+<h2 id="变基"><a href="#变基" class="headerlink" title="变基"></a>变基</h2><p>实际应用中，或许存在这种情况，当你使用的分支源于某个模板分支，你已经在自己分支上进行过commit了，发现模板分支有被commit更新过，这个时候你想要将自己分支源于旧模板分支的base更新为新base，并且你提交在自己分支的commit要在新base之后，此时，你就可以用到</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git rebase &lt;BaseBranchName&gt;</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<p><img src="https://s2.ax1x.com/2020/03/11/8kLsdx.png" alt="8kLsdx.png"></p>
+<p>若此时在bc分支进行<code>git rebase master</code>会出现冲突，此时解决冲突后，<code>git add .</code>将变更存入暂存区，使用</p>
+<p><code>git rebase --continue</code>继续下一个节点的rebase，以上操作直到变基完成，</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.bilibili.com/video/av94549514" target="_blank" rel="noopener">https://www.bilibili.com/video/av94549514</a></p>
+<p><a href="https://www.liaoxuefeng.com/wiki/896043488029600" target="_blank" rel="noopener">https://www.liaoxuefeng.com/wiki/896043488029600</a></p>
 ]]></content>
       <categories>
         <category>工具使用</category>
