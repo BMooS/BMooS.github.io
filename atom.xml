@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-03-11T06:24:23.867Z</updated>
+  <updated>2020-03-17T17:25:26.229Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>正则表达式</title>
+    <link href="https://bmoos.github.io/2020/03/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
+    <id>https://bmoos.github.io/2020/03/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</id>
+    <published>2020-03-17T11:00:20.000Z</published>
+    <updated>2020-03-17T17:25:26.229Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;正则表达式&quot;&gt;&lt;a href=&quot;#正则表达式&quot; class=&quot;headerlink&quot; title=&quot;正则表达式&quot;&gt;&lt;/a&gt;正则表达式&lt;/h1&gt;&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;​        正则表达式(Regular Expression)是一种&lt;strong&gt;文本模式&lt;/strong&gt;，包括普通字符（例如，a 到 z 之间的字母）和特殊字符（称为”元字符”）。&lt;/p&gt;
+&lt;p&gt;​        正则表达式使用单个字符串来描述、匹配一系列匹配某个&lt;strong&gt;句法规则&lt;/strong&gt;的字符串。&lt;/p&gt;
+&lt;p&gt;​        学习正则可以提高效率，而且现在大多语言都支持正则，之前因为觉得正则太复杂而放弃，现在有了大把时间可以重新学习一下。。。&lt;/p&gt;
+&lt;p&gt;​        注意：本文只是对正则入门级操作，复杂多样的正则不涉及(PS：太难了QAQ)。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="工具使用" scheme="https://bmoos.github.io/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/"/>
+    
+    
+      <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
+    
+      <category term="正则表达式" scheme="https://bmoos.github.io/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>git使用</title>
@@ -507,38 +533,6 @@
     
     
       <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>LeetCode题解777</title>
-    <link href="https://bmoos.github.io/2020/01/18/LeetCode%E9%A2%98%E8%A7%A3777/"/>
-    <id>https://bmoos.github.io/2020/01/18/LeetCode%E9%A2%98%E8%A7%A3777/</id>
-    <published>2020-01-18T14:45:20.000Z</published>
-    <updated>2020-02-13T16:47:22.889Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;LeetCode题解&quot;&gt;&lt;a href=&quot;#LeetCode题解&quot; class=&quot;headerlink&quot; title=&quot;LeetCode题解&quot;&gt;&lt;/a&gt;LeetCode题解&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;第777题，在LR字符串中交换相邻字符&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;在一个由 ‘L’ , ‘R’ 和 ‘X’ 三个字符组成的字符串（例如”RXXLRXRXL”）中进行移动操作。一次移动操作指用一个”LX”替换一个”XL”，或者用一个”XR”替换一个”RX”。现给定起始字符串start和结束字符串end，请编写代码，当且仅当存在一系列移动操作使得start可以转换成end时， 返回True。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;示例&lt;/strong&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;输入: start = &lt;span class=&quot;string&quot;&gt;&quot;RXXLRXRXL&quot;&lt;/span&gt;, end = &lt;span class=&quot;string&quot;&gt;&quot;XRLXXRRLX&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;输出: &lt;span class=&quot;literal&quot;&gt;True&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;解释:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;我们可以通过以下几步将start转换成end:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;RXXLRXRXL -&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;XRXLRXRXL -&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;XRLXRXRXL -&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;XRLXXRRXL -&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;XRLXXRRLX&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-
-&lt;p&gt;&lt;strong&gt;注意:&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;code&gt;1 &amp;lt;= len(start) = len(end) &amp;lt;= 10000&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;start&lt;/code&gt;和&lt;code&gt;end&lt;/code&gt;中的字符串仅限于&lt;code&gt;&amp;#39;L&amp;#39;&lt;/code&gt;, &lt;code&gt;&amp;#39;R&amp;#39;&lt;/code&gt;和&lt;code&gt;&amp;#39;X&amp;#39;&lt;/code&gt;。&lt;/li&gt;
-&lt;/ol&gt;
-    
-    </summary>
-    
-    
-      <category term="LeetCode题解" scheme="https://bmoos.github.io/categories/LeetCode%E9%A2%98%E8%A7%A3/"/>
-    
-    
-      <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
-    
-      <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
     
   </entry>
   

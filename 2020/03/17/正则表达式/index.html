@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bmoos.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="正则表达式前言​        正则表达式(Regular Expression)是一种文本模式，包括普通字符（例如，a 到 z 之间的字母）和特殊字符（称为”元字符”）。 ​        正则表达式使用单个字符串来描述、匹配一系列匹配某个句法规则的字符串。 ​        学习正则可以提高效率，而且现在大多语言都支持正则，之前因为觉得正则太复杂而放弃，现在有了大把时间可以重新学习一下。。。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正则表达式">
+<meta property="og:url" content="https://bmoos.github.io/2020/03/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/index.html">
+<meta property="og:site_name" content="BMooS">
+<meta property="og:description" content="正则表达式前言​        正则表达式(Regular Expression)是一种文本模式，包括普通字符（例如，a 到 z 之间的字母）和特殊字符（称为”元字符”）。 ​        正则表达式使用单个字符串来描述、匹配一系列匹配某个句法规则的字符串。 ​        学习正则可以提高效率，而且现在大多语言都支持正则，之前因为觉得正则太复杂而放弃，现在有了大把时间可以重新学习一下。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/17/8aChuj.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/17/8aETa9.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/17/8aDFfA.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/17/8ac1sI.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/18/8dtpse.png">
+<meta property="article:published_time" content="2020-03-17T11:00:20.000Z">
+<meta property="article:modified_time" content="2020-03-17T17:25:26.229Z">
+<meta property="article:author" content="BMooS">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="正则表达式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/03/17/8aChuj.png">
+
+<link rel="canonical" href="https://bmoos.github.io/2020/03/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>正则表达式 | BMooS</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5a6862eba0dd0e57faf5fff97dbcb849";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="BMooS" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">BMooS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/03/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
+      <meta itemprop="name" content="BMooS">
+      <meta itemprop="description" content="BMooS的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BMooS">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          正则表达式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-17 19:00:20" itemprop="dateCreated datePublished" datetime="2020-03-17T19:00:20+08:00">2020-03-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-18 01:25:26" itemprop="dateModified" datetime="2020-03-18T01:25:26+08:00">2020-03-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">工具使用</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        正则表达式(Regular Expression)是一种<strong>文本模式</strong>，包括普通字符（例如，a 到 z 之间的字母）和特殊字符（称为”元字符”）。</p>
+<p>​        正则表达式使用单个字符串来描述、匹配一系列匹配某个<strong>句法规则</strong>的字符串。</p>
+<p>​        学习正则可以提高效率，而且现在大多语言都支持正则，之前因为觉得正则太复杂而放弃，现在有了大把时间可以重新学习一下。。。</p>
+<p>​        注意：本文只是对正则入门级操作，复杂多样的正则不涉及(PS：太难了QAQ)。</p>
+<a id="more"></a>
+
+<h2 id="正则的普通用法"><a href="#正则的普通用法" class="headerlink" title="正则的普通用法"></a>正则的普通用法</h2><p>​        正则表达式描述了一种字符串匹配的模式（pattern），可以用来检查一个串是否含有某种子串、将匹配的子串替换或者从某个串中取出符合某个条件的子串等。</p>
+<p>​        构造正则表达式的方法和创建数学表达式的方法一样。也就是用多种元字符与运算符可以将小的表达式结合在一起来创建更大的表达式。正则表达式的组件可以是单个的字符、字符集合、字符范围、字符间的选择或者所有这些组件的任意组合。</p>
+<p>​        正则表达式是由普通字符（例如字符 a 到 z）以及特殊字符（称为”元字符”）组成的文字模式。模式描述在搜索文本时要匹配的一个或多个字符串。正则表达式作为一个模板，将某个字符模式与所搜索的字符串进行匹配。</p>
+<p>（以上引用<a href="https://www.runoob.com/regexp/regexp-tutorial.html" target="_blank" rel="noopener">菜鸟教程正则表达式</a>）</p>
+<p>​        简单来说正则表达式就是就一个用一些既定的规则表示要查找的子串格式，逻辑上说和正常生活中查找字符串逻辑差不多（用一些字符串的特征去查找），这是我的理解，对我来说正则表达式复杂多样，我只要会使用简单的正则，会读懂复杂正则表达式就足够了。</p>
+<p>​        正则表达式是由普通字符（例如字符 a 到 z）以及特殊字符（称为”元字符”）组成的文字模式。模式描述在搜索文本时要匹配的一个或多个字符串。正则表达式作为一个模板，将某个字符模式与所搜索的字符串进行匹配。</p>
+<p><img src="https://s1.ax1x.com/2020/03/17/8aChuj.png" alt="8aChuj.png"></p>
+<p>​        (注意：遇到特殊字符，比如：<code>( ) / . * + { } ? $ ^</code>等可以用’ \ ‘进行转义)        </p>
+<p>​        根据上图其实已经掌握了基本的正则表达式，现在举个例子</p>
+<blockquote>
+<p>This is somthing<br>is about<br>a blah<br>words<br>sequence of words<br>Hello and<br>GoodBye and<br>Go gogo!</p>
+</blockquote>
+<p>​        在其中找到长度为5的单词  <code>/\b\w{5}\b/g</code></p>
+<p><img src="https://s1.ax1x.com/2020/03/17/8aETa9.png" alt="8aETa9.png"></p>
+<p>注意：<code>*</code> <code>+</code>限定符都是贪婪的，因为它们会尽可能多的匹配文字，只有在它们的后面加上一个<code>?</code>就可以实现非贪婪或最小匹配。</p>
+<blockquote>
+<p>例如：<code>&lt;html&gt;javascript&gt;</code></p>
+<p>正则表达式 <code>/&lt;.*&gt;/</code>和<code>/&lt;.+&gt;/</code>会匹配到<code>&lt;html&gt;javascript&gt;</code></p>
+<p>而如果想要匹配<code>&lt;html&gt;</code>，可以用到<code>/&lt;.*？&gt;/</code>或<code>/&lt;.+？&gt;/</code></p>
+</blockquote>
+<h2 id="正则分类符"><a href="#正则分类符" class="headerlink" title="正则分类符"></a>正则分类符</h2><p>之前所说的是普通字符，现在来考虑分类符</p>
+<p>eg：要查找电话号码，已知有如下三种格式的电话号码</p>
+<blockquote>
+<p>134-3737-4399</p>
+<p>134.3737.4399</p>
+<p>(029)8288-4399</p>
+</blockquote>
+<p>当然我们可以分别用<code>/\d{3}-\d{4}-\d{4}/</code> <code>/\d{3}.\d{4}.\d{4}/``/\(\d{3}\)\d{4}-\d{4}/</code>三个正则表达式来查找</p>
+<p>但是有没有通用的正则表达式呢</p>
+<p>当然，可以使用<code>[]</code>分类符</p>
+<blockquote>
+<p>bmoos bmoo$ bmoo3</p>
+<p>可以用<code>/bmoo[s$3]/</code>来查找</p>
+</blockquote>
+<p>那么<code>[]</code>的意思就是在该位置上的字符是<code>[]</code>里的任意一个字符，可以理解为”或”</p>
+<p>那上述电话号码可以用到通用的正则表达式<code>/\(?\d{3}[-.)]\d{4}[-.]\d{4}/</code></p>
+<p><img src="https://s1.ax1x.com/2020/03/17/8aDFfA.png" alt="8aDFfA.png"></p>
+<p>刚才介绍了最简单和基本的功能，但是有些特殊的地方需要注意</p>
+<ol>
+<li>-连接符是第一个字符时</li>
+</ol>
+<p>比如<code>[-.]</code>的含义是连字符<code>-</code>或者点符<code>.</code>。 但是，如果当连字符不是第一个字符时，比如<code>[a-z]</code>，这就表示是从字母a到字符z。</p>
+<ol>
+<li><code>[]</code>中的<code>^</code></li>
+</ol>
+<p><code>^</code>在之前介绍中，是表示一行开头，但是在<code>[]</code>中，有着不同的含义。 <code>[ab]</code> 表示a或者b ，<code>[^ab]</code>表示啥都行，只要不是a或b，相当于取反</p>
+<p>除了可以用<code>[]</code>表达或逻辑外，还可以用一种方式表达<code>(a|b)</code></p>
+<p>eg：写一个邮箱的正则表达式：</p>
+<blockquote>
+<p><code>bilibili@126.com</code>  </p>
+<p><code>protect@google.net</code> </p>
+<p><code>hahaha.ha@xupt.edu</code></p>
+<p><code>slibo921@gmail.com</code></p>
+</blockquote>
+<p>那么可以用正则表达式：<code>/[\w.]+@\w+\.(com|net|edu)/</code></p>
+<p><img src="https://s1.ax1x.com/2020/03/17/8ac1sI.png" alt="8ac1sI.png"></p>
+<h2 id="python中的正则"><a href="#python中的正则" class="headerlink" title="python中的正则"></a>python中的正则</h2><p>在python中正则主要使用re模块</p>
+<p>re模块中有以下主要函数：</p>
+<h3 id="re-match函数"><a href="#re-match函数" class="headerlink" title="re.match函数"></a>re.match函数</h3><p>re.match 尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none。</p>
+<p>函数语法：</p>
+<p><code>re.match(pattern, string, flags)</code></p>
+<h3 id="re-search方法"><a href="#re-search方法" class="headerlink" title="re.search方法"></a>re.search方法</h3><p>re.search 扫描整个字符串并返回第一个成功的匹配。</p>
+<p>函数语法：</p>
+<p><code>re.search(pattern, string, flags)</code></p>
+<h3 id="检索和替换"><a href="#检索和替换" class="headerlink" title="检索和替换"></a>检索和替换</h3><p>Python 的re模块提供了re.sub用于替换字符串中的匹配项。</p>
+<p>语法：</p>
+<p><code>re.sub(pattern, repl, string, count=0, flags)</code></p>
+<p>参数：</p>
+<ul>
+<li>pattern : 正则中的模式字符串。</li>
+<li>repl : 替换的字符串，也可为一个函数。</li>
+<li>string : 要被查找替换的原始字符串。</li>
+<li>count : 模式匹配后替换的最大次数，默认 0 表示替换所有的匹配。</li>
+<li>flags : 编译时用的匹配模式，数字形式。</li>
+</ul>
+<p>前三个为必选参数，后两个为可选参数。</p>
+<h3 id="compile-函数"><a href="#compile-函数" class="headerlink" title="compile 函数"></a>compile 函数</h3><p>compile 函数用于编译正则表达式，生成一个正则表达式（ Pattern ）对象，供 match() 和 search() 这两个函数使用。</p>
+<p>语法格式为：</p>
+<p><code>re.compile(pattern[, flags])</code></p>
+<h3 id="findall"><a href="#findall" class="headerlink" title="findall"></a>findall</h3><p>在字符串中找到正则表达式所匹配的所有子串，并返回一个列表，如果没有找到匹配的，则返回空列表。</p>
+<p><strong>注意：</strong> match 和 search 是匹配一次 findall 匹配所有。</p>
+<p>语法格式为：</p>
+<p><code>re.findall(pattern, string, flags)</code></p>
+<h3 id="re-finditer"><a href="#re-finditer" class="headerlink" title="re.finditer"></a>re.finditer</h3><p>和 findall 类似，在字符串中找到正则表达式所匹配的所有子串，并把它们作为一个迭代器返回。</p>
+<p><code>re.finditer(pattern, string, flags)</code></p>
+<h3 id="可选修饰符flags"><a href="#可选修饰符flags" class="headerlink" title="可选修饰符flags"></a>可选修饰符flags</h3><p><img src="https://s1.ax1x.com/2020/03/18/8dtpse.png" alt="8dtpse.png"></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://juejin.im/post/5b5db5b8e51d4519155720d2#heading-6" target="_blank" rel="noopener">https://juejin.im/post/5b5db5b8e51d4519155720d2#heading-6</a></p>
+<p><a href="https://www.runoob.com/regexp/regexp-tutorial.html" target="_blank" rel="noopener">https://www.runoob.com/regexp/regexp-tutorial.html</a></p>
+<p><a href="https://www.runoob.com/python3/python3-reg-expressions.html" target="_blank" rel="noopener">https://www.runoob.com/python3/python3-reg-expressions.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag"># 正则表达式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/10/git%E4%BD%BF%E7%94%A8/" rel="prev" title="git使用">
+      <i class="fa fa-chevron-left"></i> git使用
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#正则表达式"><span class="nav-number">1.</span> <span class="nav-text">正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则的普通用法"><span class="nav-number">1.2.</span> <span class="nav-text">正则的普通用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则分类符"><span class="nav-number">1.3.</span> <span class="nav-text">正则分类符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python中的正则"><span class="nav-number">1.4.</span> <span class="nav-text">python中的正则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#re-match函数"><span class="nav-number">1.4.1.</span> <span class="nav-text">re.match函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#re-search方法"><span class="nav-number">1.4.2.</span> <span class="nav-text">re.search方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检索和替换"><span class="nav-number">1.4.3.</span> <span class="nav-text">检索和替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#compile-函数"><span class="nav-number">1.4.4.</span> <span class="nav-text">compile 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#findall"><span class="nav-number">1.4.5.</span> <span class="nav-text">findall</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#re-finditer"><span class="nav-number">1.4.6.</span> <span class="nav-text">re.finditer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可选修饰符flags"><span class="nav-number">1.4.7.</span> <span class="nav-text">可选修饰符flags</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">1.5.</span> <span class="nav-text">参考文章</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="BMooS"
+      src="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
+  <p class="site-author-name" itemprop="name">BMooS</p>
+  <div class="site-description" itemprop="description">BMooS的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/BMooS" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BMooS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:slibo921@gmail.com" title="E-Mail → mailto:slibo921@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://gitee.com/BMooS" title="https:&#x2F;&#x2F;gitee.com&#x2F;BMooS" rel="noopener" target="_blank">My-gitee</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">BMooS</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">70k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:04</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.6' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
