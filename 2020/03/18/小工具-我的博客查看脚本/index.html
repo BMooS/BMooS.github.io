@@ -20,24 +20,23 @@
     var CONFIG = {"hostname":"bmoos.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="LeetCode题解第35题，搜索插入位置 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。 你可以假设数组中无重复元素。  示例 1: 输入: [1,3,5,6], 5输出: 2 示例 2: 输入: [1,3,5,6], 2输出: 1 示例 3: 输入: [1,3,5,6], 7输出: 4 示例 4: 输入: [1,3,5,">
+  <meta name="description" content="前言​        这段时间在学习正则，学完总想拿来实践一下，转头想了想，干起了老本行——爬虫，虽然之前写爬虫的时候也用到了正则，但是都是知其然不知其所以然，也好久没有过python写代码了，随便写了写脚本，之后也会写一些渗透用的脚本(poc或者exp)，这些都会放到杂项分类里面。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LeetCode题解35">
-<meta property="og:url" content="https://bmoos.github.io/2020/01/23/LeetCode%E9%A2%98%E8%A7%A335/index.html">
+<meta property="og:title" content="小工具-我的博客查看脚本">
+<meta property="og:url" content="https://bmoos.github.io/2020/03/18/%E5%B0%8F%E5%B7%A5%E5%85%B7-%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%9F%A5%E7%9C%8B%E8%84%9A%E6%9C%AC/index.html">
 <meta property="og:site_name" content="BMooS">
-<meta property="og:description" content="LeetCode题解第35题，搜索插入位置 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。 你可以假设数组中无重复元素。  示例 1: 输入: [1,3,5,6], 5输出: 2 示例 2: 输入: [1,3,5,6], 2输出: 1 示例 3: 输入: [1,3,5,6], 7输出: 4 示例 4: 输入: [1,3,5,">
+<meta property="og:description" content="前言​        这段时间在学习正则，学完总想拿来实践一下，转头想了想，干起了老本行——爬虫，虽然之前写爬虫的时候也用到了正则，但是都是知其然不知其所以然，也好久没有过python写代码了，随便写了写脚本，之后也会写一些渗透用的脚本(poc或者exp)，这些都会放到杂项分类里面。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s2.ax1x.com/2020/01/23/1V3BHs.png">
-<meta property="og:image" content="https://s2.ax1x.com/2020/01/23/1V8aPx.png">
-<meta property="article:published_time" content="2020-01-23T12:05:05.000Z">
-<meta property="article:modified_time" content="2020-02-13T16:47:03.880Z">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/18/8DKTat.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/18/8DlJUI.png">
+<meta property="article:published_time" content="2020-03-18T13:18:44.000Z">
+<meta property="article:modified_time" content="2020-03-18T13:43:33.271Z">
 <meta property="article:author" content="BMooS">
 <meta property="article:tag" content="python">
-<meta property="article:tag" content="c语言">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s2.ax1x.com/2020/01/23/1V3BHs.png">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/03/18/8DKTat.png">
 
-<link rel="canonical" href="https://bmoos.github.io/2020/01/23/LeetCode%E9%A2%98%E8%A7%A335/">
+<link rel="canonical" href="https://bmoos.github.io/2020/03/18/%E5%B0%8F%E5%B7%A5%E5%85%B7-%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%9F%A5%E7%9C%8B%E8%84%9A%E6%9C%AC/">
 
 
 <script id="page-configurations">
@@ -49,7 +48,7 @@
   };
 </script>
 
-  <title>LeetCode题解35 | BMooS</title>
+  <title>小工具-我的博客查看脚本 | BMooS</title>
   
 
 
@@ -199,7 +198,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/01/23/LeetCode%E9%A2%98%E8%A7%A335/">
+    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/03/18/%E5%B0%8F%E5%B7%A5%E5%85%B7-%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%9F%A5%E7%9C%8B%E8%84%9A%E6%9C%AC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
@@ -212,7 +211,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          LeetCode题解35
+          小工具-我的博客查看脚本
         </h1>
 
         <div class="post-meta">
@@ -221,24 +220,18 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-01-23 20:05:05" itemprop="dateCreated datePublished" datetime="2020-01-23T20:05:05+08:00">2020-01-23</time>
+              <time title="创建时间：2020-03-18 21:18:44 / 修改时间：21:43:33" itemprop="dateCreated datePublished" datetime="2020-03-18T21:18:44+08:00">2020-03-18</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-14 00:47:03" itemprop="dateModified" datetime="2020-02-14T00:47:03+08:00">2020-02-14</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/LeetCode%E9%A2%98%E8%A7%A3/" itemprop="url" rel="index">
-                    <span itemprop="name">LeetCode题解</span>
+                  <a href="/categories/%E6%9D%82%E9%A1%B9/" itemprop="url" rel="index">
+                    <span itemprop="name">杂项</span>
                   </a>
                 </span>
             </span>
@@ -256,14 +249,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
+              <span>2.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -275,63 +268,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="LeetCode题解"><a href="#LeetCode题解" class="headerlink" title="LeetCode题解"></a>LeetCode题解</h1><p><strong>第35题，搜索插入位置</strong></p>
-<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</p>
-<p>你可以假设数组中无重复元素。</p>
-<blockquote>
-<p>示例 1:</p>
-<p>输入: [1,3,5,6], 5<br>输出: 2</p>
-<p>示例 2:</p>
-<p>输入: [1,3,5,6], 2<br>输出: 1</p>
-<p>示例 3:</p>
-<p>输入: [1,3,5,6], 7<br>输出: 4</p>
-<p>示例 4:</p>
-<p>输入: [1,3,5,6], 0<br>输出: 0</p>
-</blockquote>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>​        这段时间在学习正则，学完总想拿来实践一下，转头想了想，干起了老本行——爬虫，虽然之前写爬虫的时候也用到了正则，但是都是知其然不知其所以然，也好久没有过python写代码了，随便写了写脚本，之后也会写一些渗透用的脚本(poc或者exp)，这些都会放到杂项分类里面。</p>
 <a id="more"></a>
 
-<p>原题如上，代码如下：</p>
-<p><strong>python版本</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">searchInsert</span><span class="params">(self, nums, target)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type target: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        start = <span class="number">0</span></span><br><span class="line">        end = len(nums) - <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> start + <span class="number">1</span> &lt; end :</span><br><span class="line">            mid = int((start + end)/<span class="number">2</span>)</span><br><span class="line">            <span class="keyword">if</span> nums[mid] &lt;= target : </span><br><span class="line">                start = mid</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                end = mid</span><br><span class="line">        <span class="keyword">if</span> nums[start] &gt;= target :</span><br><span class="line">            <span class="keyword">return</span> start</span><br><span class="line">        <span class="keyword">if</span> nums[end] &gt;= target :</span><br><span class="line">            <span class="keyword">return</span> end</span><br><span class="line">        <span class="keyword">return</span> end+<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h1 id="程序目标"><a href="#程序目标" class="headerlink" title="程序目标"></a>程序目标</h1><p>​        思来想去，也没啥想爬取的内容，想起每次用hexo把博客推到远端，得要打开客户端看一下推成功了没，就像爬取一下自己博客的信息，只要用来练练手，就是没事做，闲得慌。</p>
+<p>​        程序代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> optparse</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://bmoos.github.io"</span></span><br><span class="line">agent = &#123;<span class="string">'User-Agent'</span> : <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'</span>&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">init</span><span class="params">()</span>:</span></span><br><span class="line">    r = requests.get(url,headers = agent)</span><br><span class="line">    <span class="comment">#编写正则表达式</span></span><br><span class="line">    pattern_url_name = re.compile(<span class="string">r'&lt;a href="(.*?)" class="post-title-link" itemprop="url"&gt;(.*?)&lt;/a&gt;'</span>)</span><br><span class="line">    pattern_lasttime = re.compile(<span class="string">r'&lt;time title="创建时间：(.*?)"'</span>)</span><br><span class="line">    pattern_word = re.compile(<span class="string">r'&lt;span&gt;([\d.\w]*)&lt;/span&gt;'</span>)</span><br><span class="line">    pattern_page = re.compile(<span class="string">r'&lt;a class="page-number" href="(.*?)"&gt;'</span>)</span><br><span class="line">    <span class="comment">#读取首页的信息</span></span><br><span class="line">    passage = re.findall(pattern_url_name,r.text)</span><br><span class="line">    lasttime = re.findall(pattern_lasttime,r.text)</span><br><span class="line">    word = re.findall(pattern_word,r.text)</span><br><span class="line">    page = re.findall(pattern_page,r.text)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> page: <span class="comment">#读取其他页的信息</span></span><br><span class="line">        url_page = url + i</span><br><span class="line">        req = requests.get(url_page,headers = agent)</span><br><span class="line">        passage += re.findall(pattern_url_name,req.text)</span><br><span class="line">        lasttime += re.findall(pattern_lasttime,req.text)</span><br><span class="line">        word += re.findall(pattern_word,req.text)</span><br><span class="line">    all_information = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(passage)):</span><br><span class="line">        passage_information = []</span><br><span class="line">        passage_information.append(passage[i][<span class="number">0</span>])</span><br><span class="line">        passage_information.append(passage[i][<span class="number">1</span>])</span><br><span class="line">        passage_information.append(lasttime[i])</span><br><span class="line">        passage_information.append(word[i])</span><br><span class="line">        all_information.append(passage_information)</span><br><span class="line">    <span class="keyword">return</span> all_information</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_list</span><span class="params">()</span>:</span></span><br><span class="line">    table = init()</span><br><span class="line">    print(<span class="string">'--------------------------------------------------'</span>)</span><br><span class="line">    print(<span class="string">'passage_name/create_time/word_number'</span>)</span><br><span class="line">    print(<span class="string">'--------------------------------------------------'</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(table)):</span><br><span class="line">        print(table[i][<span class="number">1</span>]+<span class="string">'/'</span>+table[i][<span class="number">2</span>]+<span class="string">'/'</span>+table[i][<span class="number">3</span>])</span><br><span class="line">        print(<span class="string">'--------------------------------------------------'</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_passage</span><span class="params">(name)</span>:</span></span><br><span class="line">    table = init()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(table)):</span><br><span class="line">        <span class="keyword">if</span> name == table[i][<span class="number">1</span>]:</span><br><span class="line">            urls = url + urllib.parse.unquote(table[i][<span class="number">0</span>])<span class="comment">#对url编码解码</span></span><br><span class="line">            print(<span class="string">'文章地址：'</span>+urls)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">    print(<span class="string">'文章名出错'</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    parser = optparse.OptionParser(<span class="string">"%prog "</span> + <span class="string">"-l or -p &lt;passage&gt;"</span>)</span><br><span class="line">    parser.add_option(<span class="string">'-l'</span>, action = <span class="string">'store_true'</span>, dest = <span class="string">'list'</span>, help = <span class="string">'all passage information'</span>)</span><br><span class="line">    parser.add_option(<span class="string">'-p'</span>, dest = <span class="string">'passage_name'</span>, type = <span class="string">'string'</span>, help = <span class="string">'passage content'</span>)</span><br><span class="line">    (options, args) = parser.parse_args()</span><br><span class="line">    <span class="keyword">if</span> options.list <span class="keyword">and</span> options.passage_name == <span class="literal">None</span>:</span><br><span class="line">        print_list()</span><br><span class="line">    <span class="keyword">if</span> options.passage_name <span class="keyword">and</span> options.list == <span class="literal">None</span>:</span><br><span class="line">        print_passage(options.passage_name)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://s2.ax1x.com/2020/01/23/1V3BHs.png" alt="1V3BHs.png"></p>
-<p><strong>c语言版本</strong></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">searchInsert</span><span class="params">(<span class="keyword">int</span>* nums, <span class="keyword">int</span> numsSize, <span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> start = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">end</span> = numsSize - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(start + <span class="number">1</span> &lt; <span class="built_in">end</span>)&#123;</span><br><span class="line">        <span class="keyword">int</span> mid = (start + <span class="built_in">end</span>)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] &lt;= target)&#123;</span><br><span class="line">            start = mid;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="built_in">end</span> = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(nums[start] &gt;= target)&#123;</span><br><span class="line">        <span class="keyword">return</span> start;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(nums[<span class="built_in">end</span>] &gt;= target)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">end</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">end</span>+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s2.ax1x.com/2020/01/23/1V8aPx.png" alt="1V8aPx.png"></p>
-<p><strong>解析：</strong></p>
-<p>使用二分法查找：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(start + <span class="number">1</span> &lt; <span class="built_in">end</span>)&#123;</span><br><span class="line">    <span class="keyword">int</span> mid = (start + <span class="built_in">end</span>)/<span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span>(nums[mid] &lt;= target)&#123;</span><br><span class="line">        start = mid;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">       	<span class="built_in">end</span> = mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用mid将范围区间不断缩小，最后使其定位到[start，end]之间，其中end = start + 1。</p>
-<p>循环条件为start + 1 &lt; end ，等价于 start + 1 != end。</p>
-<p>已知有序数组nums和target。则存在多种情况：</p>
-<ol>
-<li><p>target &lt; nums[0]</p>
-<p>则此时start = 0 ，end = 1</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(nums[start] &gt;= target)&#123;</span><br><span class="line">    <span class="keyword">return</span> start;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>则返回 0。</p>
-</li>
-<li><p>target = nums[i]</p>
-<p>则此时start = i，end = i + 1</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(nums[start] &gt;= target)&#123;</span><br><span class="line">    <span class="keyword">return</span> start;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>则返回 i。</p>
-</li>
-<li><p>target &gt; nums[i]   target &lt; nums[i+1]</p>
-<p>则此时start = i，end = i + 1</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(nums[<span class="built_in">end</span>] &gt;= target)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">end</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>则返回 i + 1。</p>
-</li>
-<li><p>target &gt; nums[numsSize - 1]</p>
-<p>则此时start = numsSize - 2，end = numsSize - 1</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="built_in">end</span>+<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-
-<p>则返回numsSize。</p>
-</li>
-</ol>
+<p>用法：在命令行使用，有两个参数，一个是<code>-l</code>用来查看所有的博客文章：</p>
+<p><img src="https://s1.ax1x.com/2020/03/18/8DKTat.png" alt="8DKTat.png"></p>
+<p>一个是<code>-p</code>后跟博客文章名，可以返回博客文章链接(PS：本来是想返回博客内容的，但是看到博客内容不是连续的文本，有很多标签分割，正则不可能，而且博客也有图片，最后实现和自己想的差很多，就只能返回博客文章地址，之后更新的时候或许会加入其他功能，之后在想)</p>
+<p><img src="https://s1.ax1x.com/2020/03/18/8DlJUI.png" alt="8DlJUI.png"></p>
 
     </div>
 
@@ -342,7 +289,6 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/python/" rel="tag"># python</a>
-              <a href="/tags/c%E8%AF%AD%E8%A8%80/" rel="tag"># c语言</a>
           </div>
 
         
@@ -351,13 +297,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/01/22/%E5%9C%A8Linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%94%A8c%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93shell%E7%A8%8B%E5%BA%8F/" rel="prev" title="在Linux环境下用c实现简易shell程序">
-      <i class="fa fa-chevron-left"></i> 在Linux环境下用c实现简易shell程序
+    <a href="/2020/03/17/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="prev" title="正则表达式">
+      <i class="fa fa-chevron-left"></i> 正则表达式
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/01/24/%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81/" rel="next" title="古典密码">
-      古典密码 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -417,7 +360,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode题解"><span class="nav-number">1.</span> <span class="nav-text">LeetCode题解</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#程序目标"><span class="nav-number">2.</span> <span class="nav-text">程序目标</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
