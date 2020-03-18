@@ -92,12 +92,12 @@
     <link href="https://bmoos.github.io/2020/03/01/DNS%E6%9C%8D%E5%8A%A1%E4%BB%A5%E5%8F%8ADNS%E5%9F%9F%E4%BC%A0%E9%80%81%E6%BC%8F%E6%B4%9E/"/>
     <id>https://bmoos.github.io/2020/03/01/DNS%E6%9C%8D%E5%8A%A1%E4%BB%A5%E5%8F%8ADNS%E5%9F%9F%E4%BC%A0%E9%80%81%E6%BC%8F%E6%B4%9E/</id>
     <published>2020-02-29T16:04:10.000Z</published>
-    <updated>2020-03-01T07:04:35.200Z</updated>
+    <updated>2020-03-18T09:45:43.339Z</updated>
     
     <summary type="html">
     
       &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;​        疫情影响，宅在家里，开学推迟，要上网课，有课名叫，网络攻防，要上实验，网上靶机，可是靶机，实在不行，自己搭建，两眼蒙蔽，从头做起，选择放弃。(哭)&lt;/p&gt;
-&lt;p&gt;​        这次要做的实验内容和DNS域传送漏洞有关，其实也是用工具进行信息收集，之前忽略了信息收集这块，觉得不太重要，但是现在回头来看，这是最重要的一部分，自己也回头补补。&lt;/p&gt;
+&lt;p&gt;​        这次要做的实验内容和DNS域传送漏洞有关，其实也是用工具进行信息收集，之前忽略了信息收集这块，觉得不太重要，但是现在回头来看，这是最重要的一部分，自己也回头补补。DNS域名查询也很重要，要不渗透前都不知道目标是谁。&lt;/p&gt;
     
     </summary>
     
@@ -116,11 +116,11 @@
     <link href="https://bmoos.github.io/2020/02/28/kali-19-4%E6%B1%89%E5%8C%96%E4%BB%A5%E5%8F%8A%E4%BC%AA%E8%A3%85win10%E7%95%8C%E9%9D%A2/"/>
     <id>https://bmoos.github.io/2020/02/28/kali-19-4%E6%B1%89%E5%8C%96%E4%BB%A5%E5%8F%8A%E4%BC%AA%E8%A3%85win10%E7%95%8C%E9%9D%A2/</id>
     <published>2020-02-28T13:36:55.000Z</published>
-    <updated>2020-02-28T13:56:52.429Z</updated>
+    <updated>2020-03-18T09:46:13.242Z</updated>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;​        之前用虚拟机做实验的时候汉化过一次，后来文件被删了，现在又要因为实验要求重新下载一次，但是忘记kali的汉化过程，这次特意记录一下。我用的是kali-2019.4版本，这个版本新上线了一个可以伪装成Windows10的功能，也挺有意思的。&lt;/p&gt;
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;​        之前用虚拟机做实验的时候汉化过一次，后来文件被删了(都是自己手贱)，现在又要因为实验要求重新下载一次，但是忘记kali的汉化过程，这次特意记录一下。我用的是kali-2019.4版本，这个版本新上线了一个可以伪装成Windows10的功能，也挺有意思的。&lt;/p&gt;
     
     </summary>
     
