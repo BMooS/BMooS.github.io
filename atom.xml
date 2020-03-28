@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-03-18T13:43:33.271Z</updated>
+  <updated>2020-03-28T08:07:25.830Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SQL注入</title>
+    <link href="https://bmoos.github.io/2020/03/21/SQL%E6%B3%A8%E5%85%A5/"/>
+    <id>https://bmoos.github.io/2020/03/21/SQL%E6%B3%A8%E5%85%A5/</id>
+    <published>2020-03-21T06:36:20.000Z</published>
+    <updated>2020-03-28T08:07:25.830Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;​        SQL注入漏洞是目前web安全中最为高危漏洞之一，在OWASP常年排名第一(截至2020.3.21)，也是最为常见的漏洞之一，虽然随着开发人员安全意识的提高和开发工程的模板化，SQL注入不再像以前那么随处可见且没有任何防护，但是渗透技术也日趋复杂多样，而且提供web服务的企业太多了，并不是每一个企业的web服务都具有良好的安全防护措施，所以SQL注入目前还是渗透人员必须所具备的能力之一。&lt;/p&gt;
+&lt;p&gt;​        对大多数数据库而言，SQL注入的原理是类似的，因为每个SQL数据库都要一定的遵守SQL语法，但它们之间存在一些差异，本文章因为技术有限，使用市面上常用的SQL数据库——MySQL数据库进行举例说明，但疏通同归，攻击者对数据库的注入，其利用方式也是类似的：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;查询数据&lt;/li&gt;
+&lt;li&gt;读写文件&lt;/li&gt;
+&lt;li&gt;执行命令&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​        在权限允许的情况下，通常数据库都支持以上三种操作，而且攻击者的最终目的也是以上三种，只不过不同数据库注入的SQL语句不一样而已。&lt;/p&gt;
+&lt;p&gt;​        通常的SQL注入可以使用工具，比如SQLmap，其内置了很多功能，全面而强大，但是还是要掌握一些手动注入的方式，才能真正了解SQL注入。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="渗透测试" scheme="https://bmoos.github.io/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="SQL注入" scheme="https://bmoos.github.io/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+  </entry>
   
   <entry>
     <title>小工具-我的博客查看脚本</title>
@@ -502,31 +531,6 @@
       <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
     
       <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>在Linux环境下用c实现简易shell程序</title>
-    <link href="https://bmoos.github.io/2020/01/22/%E5%9C%A8Linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%94%A8c%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93shell%E7%A8%8B%E5%BA%8F/"/>
-    <id>https://bmoos.github.io/2020/01/22/%E5%9C%A8Linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%94%A8c%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93shell%E7%A8%8B%E5%BA%8F/</id>
-    <published>2020-01-22T15:27:12.000Z</published>
-    <updated>2020-02-13T16:46:00.033Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;​        这学期学校开设了操作系统的课程，但是内容比较浅显基础，我认为操作系统作为程序员的基本功之一，比较重要，也就想自己多学点，就想用&lt;strong&gt;c语言&lt;/strong&gt;写一个在&lt;strong&gt;linux操作系统&lt;/strong&gt;上的&lt;strong&gt;shell&lt;/strong&gt;，顺便复习一下大一学的c语言，也在用&lt;strong&gt;《c和指针》&lt;/strong&gt;去复习，不得不说，这本书确实写的不错，当然，对初学者不是那么友好，有一定基础的人可以去看，很不错。&lt;/p&gt;
-&lt;p&gt;最后，这篇文章里的代码可以在&lt;a href=&quot;https://gitee.com/BMooS/myshell&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;这里&lt;/a&gt; (gitee)或者&lt;a href=&quot;https://github.com/BMooS/master&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;这里&lt;/a&gt; (github)看到。&lt;/p&gt;
-&lt;p&gt;顺便说一下，作者再写这个程序时候只是一个在读学生，有些错误和粗浅之处，欢迎大家指正，谢谢大家。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="操作系统" scheme="https://bmoos.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    
-    
-      <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
-    
-      <category term="linux" scheme="https://bmoos.github.io/tags/linux/"/>
     
   </entry>
   
