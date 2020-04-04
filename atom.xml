@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-03-28T08:07:25.830Z</updated>
+  <updated>2020-04-04T14:30:25.353Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>文件上传漏洞</title>
+    <link href="https://bmoos.github.io/2020/04/01/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"/>
+    <id>https://bmoos.github.io/2020/04/01/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/</id>
+    <published>2020-04-01T04:23:14.000Z</published>
+    <updated>2020-04-04T14:30:25.353Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;什么是文件上传？&lt;/p&gt;
+&lt;p&gt;将客户端数据以文件形式封装，通过网络协议发送到服务端，保存在服务端中，在硬盘上作为真实文件形式进行保存。&lt;/p&gt;
+&lt;p&gt;文件上传功能本身没有问题，是正常的业务需求，但有问题的是文件上传后，服务器怎么处理，解释文件，这样就造就了文件上传漏洞(file up load vulnerability)&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="渗透测试" scheme="https://bmoos.github.io/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="文件上传漏洞" scheme="https://bmoos.github.io/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"/>
+    
+  </entry>
   
   <entry>
     <title>SQL注入</title>
@@ -496,41 +519,6 @@
       <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
     
       <category term="古典密码" scheme="https://bmoos.github.io/tags/%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>LeetCode题解35</title>
-    <link href="https://bmoos.github.io/2020/01/23/LeetCode%E9%A2%98%E8%A7%A335/"/>
-    <id>https://bmoos.github.io/2020/01/23/LeetCode%E9%A2%98%E8%A7%A335/</id>
-    <published>2020-01-23T12:05:05.000Z</published>
-    <updated>2020-02-13T16:47:03.880Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;LeetCode题解&quot;&gt;&lt;a href=&quot;#LeetCode题解&quot; class=&quot;headerlink&quot; title=&quot;LeetCode题解&quot;&gt;&lt;/a&gt;LeetCode题解&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;第35题，搜索插入位置&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。&lt;/p&gt;
-&lt;p&gt;你可以假设数组中无重复元素。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;示例 1:&lt;/p&gt;
-&lt;p&gt;输入: [1,3,5,6], 5&lt;br&gt;输出: 2&lt;/p&gt;
-&lt;p&gt;示例 2:&lt;/p&gt;
-&lt;p&gt;输入: [1,3,5,6], 2&lt;br&gt;输出: 1&lt;/p&gt;
-&lt;p&gt;示例 3:&lt;/p&gt;
-&lt;p&gt;输入: [1,3,5,6], 7&lt;br&gt;输出: 4&lt;/p&gt;
-&lt;p&gt;示例 4:&lt;/p&gt;
-&lt;p&gt;输入: [1,3,5,6], 0&lt;br&gt;输出: 0&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-    
-      <category term="LeetCode题解" scheme="https://bmoos.github.io/categories/LeetCode%E9%A2%98%E8%A7%A3/"/>
-    
-    
-      <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
-    
-      <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
     
   </entry>
   
