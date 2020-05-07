@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-04-20T07:10:45.686Z</updated>
+  <updated>2020-05-07T15:02:30.905Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SM3密码杂凑算法</title>
+    <link href="https://bmoos.github.io/2020/05/07/SM3%E5%AF%86%E7%A0%81%E6%9D%82%E5%87%91%E7%AE%97%E6%B3%95/"/>
+    <id>https://bmoos.github.io/2020/05/07/SM3%E5%AF%86%E7%A0%81%E6%9D%82%E5%87%91%E7%AE%97%E6%B3%95/</id>
+    <published>2020-05-07T13:11:45.000Z</published>
+    <updated>2020-05-07T15:02:30.905Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;SM3密码杂凑算法&quot;&gt;&lt;a href=&quot;#SM3密码杂凑算法&quot; class=&quot;headerlink&quot; title=&quot;SM3密码杂凑算法&quot;&gt;&lt;/a&gt;SM3密码杂凑算法&lt;/h1&gt;&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;国密即国家密码局认定的国产密码算法。主要有SM1，SM2，SM3，SM4。&lt;/p&gt;
+&lt;p&gt;SM1 为对称加密。其加密强度与AES相当。该算法不公开，调用该算法时，需要通过加密芯片的接口进行调用。密钥长度和分组长度均为128位。&lt;/p&gt;
+&lt;p&gt;SM2为非对称加密，基于ECC。该算法已公开。由于该算法基于ECC，故其签名速度与秘钥生成速度都快于RSA。ECC 256位（SM2采用的就是ECC 256位的一种）安全强度比RSA 2048位高，但运算速度快于RSA。&lt;/p&gt;
+&lt;p&gt;SM3 消息摘要。可以用MD5作为对比理解。该算法已公开。校验结果为256位。&lt;/p&gt;
+&lt;p&gt;SM4 无线局域网标准的分组数据算法。对称加密，密钥长度和分组长度均为128位。&lt;/p&gt;
+&lt;p&gt;最近学到国密算法，记录一下SM3的原理(用了一下老师课件的图，主要公式太难敲了，文中仅有的几个公式是按照LaTeX格式写的，我不会用hexo生成LaTeX公式，按照格式凑合看吧)。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="密码学" scheme="https://bmoos.github.io/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/"/>
+    
+    
+      <category term="SM3" scheme="https://bmoos.github.io/tags/SM3/"/>
+    
+      <category term="hash" scheme="https://bmoos.github.io/tags/hash/"/>
+    
+  </entry>
   
   <entry>
     <title>docker指令</title>
@@ -470,40 +498,6 @@
 &lt;p&gt;输入: “babad”&lt;br&gt;输出: “bab”&lt;br&gt;注意: “aba” 也是一个有效答案。&lt;/p&gt;
 &lt;p&gt;示例 2：&lt;/p&gt;
 &lt;p&gt;输入: “cbbd”&lt;br&gt;输出: “bb”&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-    
-      <category term="LeetCode题解" scheme="https://bmoos.github.io/categories/LeetCode%E9%A2%98%E8%A7%A3/"/>
-    
-    
-      <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
-    
-      <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>LeetCode题解4</title>
-    <link href="https://bmoos.github.io/2020/01/30/LeetCode%E9%A2%98%E8%A7%A34/"/>
-    <id>https://bmoos.github.io/2020/01/30/LeetCode%E9%A2%98%E8%A7%A34/</id>
-    <published>2020-01-29T16:06:26.000Z</published>
-    <updated>2020-02-13T16:46:49.826Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;LeetCode题解&quot;&gt;&lt;a href=&quot;#LeetCode题解&quot; class=&quot;headerlink&quot; title=&quot;LeetCode题解&quot;&gt;&lt;/a&gt;LeetCode题解&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;第4题，寻找两个有序数组的中位数&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。&lt;/p&gt;
-&lt;p&gt;请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 &lt;strong&gt;O(log(m + n))&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;你可以假设 nums1 和 nums2 不会同时为空。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;示例 1:&lt;/p&gt;
-&lt;p&gt;nums1 = [1, 3]&lt;br&gt;nums2 = [2]&lt;/p&gt;
-&lt;p&gt;则中位数是 2.0&lt;/p&gt;
-&lt;p&gt;示例 2:&lt;/p&gt;
-&lt;p&gt;nums1 = [1, 2]&lt;br&gt;nums2 = [3, 4]&lt;/p&gt;
-&lt;p&gt;则中位数是 (2 + 3)/2 = 2.5&lt;/p&gt;
 &lt;/blockquote&gt;
     
     </summary>

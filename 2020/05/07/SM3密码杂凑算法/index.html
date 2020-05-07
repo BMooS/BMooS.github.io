@@ -20,20 +20,30 @@
     var CONFIG = {"hostname":"bmoos.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Docker本文用于记录常用的docker指令，关于docker的介绍和学习可以看这篇博客">
+  <meta name="description" content="SM3密码杂凑算法前言国密即国家密码局认定的国产密码算法。主要有SM1，SM2，SM3，SM4。 SM1 为对称加密。其加密强度与AES相当。该算法不公开，调用该算法时，需要通过加密芯片的接口进行调用。密钥长度和分组长度均为128位。 SM2为非对称加密，基于ECC。该算法已公开。由于该算法基于ECC，故其签名速度与秘钥生成速度都快于RSA。ECC 256位（SM2采用的就是ECC 256位的一种">
 <meta property="og:type" content="article">
-<meta property="og:title" content="docker指令">
-<meta property="og:url" content="https://bmoos.github.io/2020/04/20/docker%E6%8C%87%E4%BB%A4/index.html">
+<meta property="og:title" content="SM3密码杂凑算法">
+<meta property="og:url" content="https://bmoos.github.io/2020/05/07/SM3%E5%AF%86%E7%A0%81%E6%9D%82%E5%87%91%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="BMooS">
-<meta property="og:description" content="Docker本文用于记录常用的docker指令，关于docker的介绍和学习可以看这篇博客">
+<meta property="og:description" content="SM3密码杂凑算法前言国密即国家密码局认定的国产密码算法。主要有SM1，SM2，SM3，SM4。 SM1 为对称加密。其加密强度与AES相当。该算法不公开，调用该算法时，需要通过加密芯片的接口进行调用。密钥长度和分组长度均为128位。 SM2为非对称加密，基于ECC。该算法已公开。由于该算法基于ECC，故其签名速度与秘钥生成速度都快于RSA。ECC 256位（SM2采用的就是ECC 256位的一种">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-04-20T04:51:28.000Z">
-<meta property="article:modified_time" content="2020-04-20T07:10:45.686Z">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/07/YmJYmq.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/07/YmJakT.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/07/YmtFsA.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/07/YmtGd0.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/07/YmNkpF.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/07/YmNzge.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/07/YmUCDA.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/07/YmdIgS.png">
+<meta property="article:published_time" content="2020-05-07T13:11:45.000Z">
+<meta property="article:modified_time" content="2020-05-07T15:02:30.905Z">
 <meta property="article:author" content="BMooS">
-<meta property="article:tag" content="docker">
+<meta property="article:tag" content="SM3">
+<meta property="article:tag" content="hash">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/05/07/YmJYmq.png">
 
-<link rel="canonical" href="https://bmoos.github.io/2020/04/20/docker%E6%8C%87%E4%BB%A4/">
+<link rel="canonical" href="https://bmoos.github.io/2020/05/07/SM3%E5%AF%86%E7%A0%81%E6%9D%82%E5%87%91%E7%AE%97%E6%B3%95/">
 
 
 <script id="page-configurations">
@@ -45,7 +55,7 @@
   };
 </script>
 
-  <title>docker指令 | BMooS</title>
+  <title>SM3密码杂凑算法 | BMooS</title>
   
 
 
@@ -195,7 +205,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/04/20/docker%E6%8C%87%E4%BB%A4/">
+    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/05/07/SM3%E5%AF%86%E7%A0%81%E6%9D%82%E5%87%91%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
@@ -208,7 +218,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          docker指令
+          SM3密码杂凑算法
         </h1>
 
         <div class="post-meta">
@@ -219,7 +229,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-04-20 12:51:28 / 修改时间：15:10:45" itemprop="dateCreated datePublished" datetime="2020-04-20T12:51:28+08:00">2020-04-20</time>
+              <time title="创建时间：2020-05-07 21:11:45 / 修改时间：23:02:30" itemprop="dateCreated datePublished" datetime="2020-05-07T21:11:45+08:00">2020-05-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -227,8 +237,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index">
-                    <span itemprop="name">工具使用</span>
+                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index">
+                    <span itemprop="name">密码学</span>
                   </a>
                 </span>
             </span>
@@ -246,7 +256,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.1k</span>
+              <span>908</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -265,95 +275,37 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><p>本文用于记录常用的docker指令，关于docker的介绍和学习可以看这篇<a href="https://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html" target="_blank" rel="noopener">博客</a></p>
+        <h1 id="SM3密码杂凑算法"><a href="#SM3密码杂凑算法" class="headerlink" title="SM3密码杂凑算法"></a>SM3密码杂凑算法</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>国密即国家密码局认定的国产密码算法。主要有SM1，SM2，SM3，SM4。</p>
+<p>SM1 为对称加密。其加密强度与AES相当。该算法不公开，调用该算法时，需要通过加密芯片的接口进行调用。密钥长度和分组长度均为128位。</p>
+<p>SM2为非对称加密，基于ECC。该算法已公开。由于该算法基于ECC，故其签名速度与秘钥生成速度都快于RSA。ECC 256位（SM2采用的就是ECC 256位的一种）安全强度比RSA 2048位高，但运算速度快于RSA。</p>
+<p>SM3 消息摘要。可以用MD5作为对比理解。该算法已公开。校验结果为256位。</p>
+<p>SM4 无线局域网标准的分组数据算法。对称加密，密钥长度和分组长度均为128位。</p>
+<p>最近学到国密算法，记录一下SM3的原理(用了一下老师课件的图，主要公式太难敲了，文中仅有的几个公式是按照LaTeX格式写的，我不会用hexo生成LaTeX公式，按照格式凑合看吧)。</p>
 <a id="more"></a>
 
-<h2 id="服务相关命令"><a href="#服务相关命令" class="headerlink" title="服务相关命令"></a>服务相关命令</h2><ul>
-<li><p>启动docker服务</p>
-<p><code>systemctl start docker</code></p>
-</li>
-<li><p>停止docker服务</p>
-<p><code>systemctl stop docker</code></p>
-</li>
-<li><p>重启docker服务</p>
-<p><code>systemctl restart docker</code></p>
-</li>
-<li><p>查看docker服务状态</p>
-<p><code>systemctl status docker</code></p>
-</li>
-<li><p>设置开机启动docker服务</p>
-<p><code>systemctl enable docker</code></p>
-</li>
-</ul>
-<h2 id="镜像相关命令"><a href="#镜像相关命令" class="headerlink" title="镜像相关命令"></a>镜像相关命令</h2><ul>
-<li><p>查看镜像：查看本地所有的镜像</p>
-<p><code>docker images</code></p>
-</li>
-<li><p>搜索镜像：从网络中查找需要的镜像</p>
-<p><code>docker search &lt;name&gt;</code></p>
-</li>
-<li><p>拉取镜像：从docker仓库中下载镜像(版本号可以看<a href="https://hub.docker.com/" target="_blank" rel="noopener">官网</a>)</p>
-<p><code>docker pull &lt;name&gt;</code></p>
-</li>
-<li><p>删除镜像：删除本地镜像</p>
-<p><code>docker rmi &lt;id&gt;</code></p>
-<p><code>docker rmi &#39;docker images -q&#39;</code> #删除所有镜像</p>
-</li>
-</ul>
-<h2 id="容器相关命令"><a href="#容器相关命令" class="headerlink" title="容器相关命令"></a>容器相关命令</h2><ul>
-<li><p>查看容器</p>
-<p><code>docker ps</code> #查看正在运行的容器</p>
-<p><code>docker ps -a</code> #查看所有容器</p>
-</li>
-<li><p>创建并启动容器</p>
-<p><code>docker run 参数</code></p>
-<blockquote>
-<p>参数说明</p>
-<p>-i ：保持容器运行。</p>
-<p>-t ：为容器重新分配一个伪输入终端</p>
-<p>-d ：以后台模式运行容器。需要<code>docker exec</code>进入容器内部</p>
-<p>-it创建的容器为交互式容器    -id创建的容器为守护式容器</p>
-<p>–name ：为创建的容器命名</p>
-</blockquote>
-</li>
-<li><p>进入容器</p>
-<p><code>docker exec 参数</code></p>
-</li>
-<li><p>停止容器</p>
-<p><code>docker stop 参数</code></p>
-</li>
-<li><p>启动容器</p>
-<p><code>docker start 参数</code></p>
-</li>
-<li><p>删除容器（在容器停止状态下才能删除）</p>
-<p><code>docker rm 参数</code></p>
-</li>
-<li><p>查看容器信息</p>
-<p><code>docker inspect 参数</code></p>
-</li>
-</ul>
-<h2 id="容器数据卷"><a href="#容器数据卷" class="headerlink" title="容器数据卷"></a>容器数据卷</h2><ul>
-<li><p>创建启动容器时，使用<code>-v</code>参数设置数据卷</p>
-<p><code>docker run ... -v 宿主机目录(文件):容器内目录(文件)</code></p>
-<blockquote>
-<p>目录为绝对路径</p>
-<p>如果目录不存在，会自动创建</p>
-<p>可以挂载多个数据卷</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作"></a>镜像制作</h2><ul>
-<li><p>容器转为镜像</p>
-<p><code>docker commit &lt;容器id&gt; &lt;镜像name:version&gt;</code></p>
-</li>
-<li><p>镜像转为压缩文件用于传输</p>
-<p><code>docker save -o &lt;压缩文件name&gt; &lt;镜像name:version&gt;</code></p>
-</li>
-<li><p>压缩文件还原镜像</p>
-<p><code>docker load -i &lt;压缩文件name&gt;</code></p>
-</li>
-</ul>
-<h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><p><code>Dockerfile</code>的编写，可以理解为编写一堆命令，这堆命令做的事，就是基于一个基础镜像（这个镜像通常是选择官方的镜像），跑一个临时的容器，然后将代码添加到临时容器中并安装运行代码所需要的环境，最后将这个临时的容器打包成新的镜像，删除这个临时的镜像。这种效率比较慢，还不如本地跑一个容器，将所有环境配置好，然后打包成镜像使用。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="符号和常量"><a href="#符号和常量" class="headerlink" title="符号和常量"></a>符号和常量</h3><p>ABCDEFGH 8个32位寄存器</p>
+<p>B^{(i)}​  第 i 个消息分组(512位)</p>
+<p>CF​  压缩函数</p>
+<p>FF_j​  布尔函数，随着 j 不同取不同的表达式，输出结果为32位</p>
+<p>GG_j​  布尔函数，随着 j 不同取不同的表达式，输出结果为32位</p>
+<p>IV​  初始值(256位 8个字)</p>
+<p>P_0​  压缩函数中的置换函数，输入输出为32位</p>
+<p>P_1​  消息扩展中的置换函数，输入输出为32位</p>
+<p>T_j​  算法常量，随 j 的变化取不同的值(32位)</p>
+<p><img src="https://s1.ax1x.com/2020/05/07/YmJYmq.png" alt="YmJYmq.png"></p>
+<p><img src="https://s1.ax1x.com/2020/05/07/YmJakT.png" alt="YmJakT.png"></p>
+<h3 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>对于长度为 l (l &lt; 2^{64}​)比特的消息，SM3杂凑算法经过填充，迭代压缩和输出选裁，生成杂凑值，为256比特</p>
+<h4 id="填充"><a href="#填充" class="headerlink" title="填充"></a>填充</h4><p>假设消息 m 的长度为 l 比特，则首先将比特“1”加入末尾，后加入 k 个“0”比特，k满足 l+1+k = 448(mod 512) 的最小非负整数，后添加64位比特串，该比特串为 l 的二进制表示。填充后的消息 m’ 为512比特的倍数</p>
+<h4 id="迭代压缩"><a href="#迭代压缩" class="headerlink" title="迭代压缩"></a>迭代压缩</h4><p><img src="https://s1.ax1x.com/2020/05/07/YmtFsA.png" alt="YmtFsA.png"></p>
+<h4 id="消息扩展"><a href="#消息扩展" class="headerlink" title="消息扩展"></a>消息扩展</h4><p><img src="https://s1.ax1x.com/2020/05/07/YmtGd0.png" alt="YmtGd0.png"></p>
+<h4 id="压缩函数"><a href="#压缩函数" class="headerlink" title="压缩函数"></a>压缩函数</h4><p><img src="https://s1.ax1x.com/2020/05/07/YmNkpF.png" alt="YmNkpF.png"></p>
+<p><img src="https://s1.ax1x.com/2020/05/07/YmNzge.png" alt="YmNzge.png"></p>
+<p><strong>注意：基本的压缩函数得到 ABCDEFGH 8个字寄存器的值，输出的 V^{(i+1)}​ = ABCDEFGH ⊕ ​V^{(i)}​</strong></p>
+<p>基本压缩函数图示为：</p>
+<p><img src="https://s1.ax1x.com/2020/05/07/YmUCDA.png" alt="YmUCDA.png"></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>最终迭代压缩生成的 V^{(n)}​ = ABCDEFGH 就是SM3算法输出的摘要值，为256位。</p>
+<p>SM3工作的全过程可以图示描述：</p>
+<p><img src="https://s1.ax1x.com/2020/05/07/YmdIgS.png" alt="YmdIgS.png"></p>
 
     </div>
 
@@ -363,7 +315,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/docker/" rel="tag"># docker</a>
+              <a href="/tags/SM3/" rel="tag"># SM3</a>
+              <a href="/tags/hash/" rel="tag"># hash</a>
           </div>
 
         
@@ -372,13 +325,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/04/19/LeetCode%E9%A2%98%E8%A7%A3289/" rel="prev" title="LeetCode题解289">
-      <i class="fa fa-chevron-left"></i> LeetCode题解289
+    <a href="/2020/04/20/docker%E6%8C%87%E4%BB%A4/" rel="prev" title="docker指令">
+      <i class="fa fa-chevron-left"></i> docker指令
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/05/07/SM3%E5%AF%86%E7%A0%81%E6%9D%82%E5%87%91%E7%AE%97%E6%B3%95/" rel="next" title="SM3密码杂凑算法">
-      SM3密码杂凑算法 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -438,7 +388,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker"><span class="nav-number">1.</span> <span class="nav-text">Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#服务相关命令"><span class="nav-number">1.1.</span> <span class="nav-text">服务相关命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#镜像相关命令"><span class="nav-number">1.2.</span> <span class="nav-text">镜像相关命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器相关命令"><span class="nav-number">1.3.</span> <span class="nav-text">容器相关命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器数据卷"><span class="nav-number">1.4.</span> <span class="nav-text">容器数据卷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#镜像制作"><span class="nav-number">1.5.</span> <span class="nav-text">镜像制作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dockerfile"><span class="nav-number">1.6.</span> <span class="nav-text">Dockerfile</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SM3密码杂凑算法"><span class="nav-number">1.</span> <span class="nav-text">SM3密码杂凑算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">1.2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#符号和常量"><span class="nav-number">1.2.1.</span> <span class="nav-text">符号和常量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法描述"><span class="nav-number">1.2.2.</span> <span class="nav-text">算法描述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概述"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#填充"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">填充</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#迭代压缩"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">迭代压缩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消息扩展"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">消息扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#压缩函数"><span class="nav-number">1.2.2.5.</span> <span class="nav-text">压缩函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">1.2.2.6.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
