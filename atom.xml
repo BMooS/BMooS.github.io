@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-05-07T15:02:30.905Z</updated>
+  <updated>2020-05-21T12:27:52.928Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>vbs窃密脚本</title>
+    <link href="https://bmoos.github.io/2020/05/21/vbs%E7%AA%83%E5%AF%86%E8%84%9A%E6%9C%AC/"/>
+    <id>https://bmoos.github.io/2020/05/21/vbs%E7%AA%83%E5%AF%86%E8%84%9A%E6%9C%AC/</id>
+    <published>2020-05-21T11:43:46.000Z</published>
+    <updated>2020-05-21T12:27:52.928Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;VBS窃密脚本&quot;&gt;&lt;a href=&quot;#VBS窃密脚本&quot; class=&quot;headerlink&quot; title=&quot;VBS窃密脚本&quot;&gt;&lt;/a&gt;VBS窃密脚本&lt;/h1&gt;&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;​        计算机病毒老师要让整一个大作业，形式不限，刚好对之前老师讲到的VBS脚本病毒感兴趣，所以自己也想整一个，设计了一个无害的窃密脚本，也算是巩固之前的学习。上个月找了家实习，所以博客最近更新比较慢，马上又要考试，估计后面更新随缘，等这段时间忙过去就好了，主要在公司实习做的主动防御，也就是流量分析和样本分析，这些内容不好写，后面碰到可以写的就发到博客上面来。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="杂项" scheme="https://bmoos.github.io/categories/%E6%9D%82%E9%A1%B9/"/>
+    
+    
+      <category term="vbs" scheme="https://bmoos.github.io/tags/vbs/"/>
+    
+  </entry>
   
   <entry>
     <title>SM3密码杂凑算法</title>
@@ -479,36 +500,6 @@
       <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
     
       <category term="二叉搜索树" scheme="https://bmoos.github.io/tags/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>LeetCode题解5</title>
-    <link href="https://bmoos.github.io/2020/01/31/LeetCode%E9%A2%98%E8%A7%A35/"/>
-    <id>https://bmoos.github.io/2020/01/31/LeetCode%E9%A2%98%E8%A7%A35/</id>
-    <published>2020-01-31T06:25:00.000Z</published>
-    <updated>2020-02-13T16:46:56.112Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;LeetCode题解&quot;&gt;&lt;a href=&quot;#LeetCode题解&quot; class=&quot;headerlink&quot; title=&quot;LeetCode题解&quot;&gt;&lt;/a&gt;LeetCode题解&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;第5题，最长回文子串&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;示例 1：&lt;/p&gt;
-&lt;p&gt;输入: “babad”&lt;br&gt;输出: “bab”&lt;br&gt;注意: “aba” 也是一个有效答案。&lt;/p&gt;
-&lt;p&gt;示例 2：&lt;/p&gt;
-&lt;p&gt;输入: “cbbd”&lt;br&gt;输出: “bb”&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-    
-      <category term="LeetCode题解" scheme="https://bmoos.github.io/categories/LeetCode%E9%A2%98%E8%A7%A3/"/>
-    
-    
-      <category term="python" scheme="https://bmoos.github.io/tags/python/"/>
-    
-      <category term="c语言" scheme="https://bmoos.github.io/tags/c%E8%AF%AD%E8%A8%80/"/>
     
   </entry>
   

