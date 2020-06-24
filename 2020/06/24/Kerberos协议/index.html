@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bmoos.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Kerberos协议前言这学期开设的安全协议课程由于疫情影响，期末考试改成论文形式的大报告，思来想去还是准备做一期Kerberos协议的，这个协议在内网域环境中必备，做这个也是为了以后学习内网渗透打打基础（自己太菜了，内网环境是真的复杂，还是自己以前Windows基础没打好）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kerberos协议">
+<meta property="og:url" content="https://bmoos.github.io/2020/06/24/Kerberos%E5%8D%8F%E8%AE%AE/index.html">
+<meta property="og:site_name" content="BMooS">
+<meta property="og:description" content="Kerberos协议前言这学期开设的安全协议课程由于疫情影响，期末考试改成论文形式的大报告，思来想去还是准备做一期Kerberos协议的，这个协议在内网域环境中必备，做这个也是为了以后学习内网渗透打打基础（自己太菜了，内网环境是真的复杂，还是自己以前Windows基础没打好）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/24/NaHxMR.png">
+<meta property="article:published_time" content="2020-06-24T03:55:18.000Z">
+<meta property="article:modified_time" content="2020-06-24T04:22:56.121Z">
+<meta property="article:author" content="BMooS">
+<meta property="article:tag" content="Kerberos">
+<meta property="article:tag" content="内网渗透">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/06/24/NaHxMR.png">
+
+<link rel="canonical" href="https://bmoos.github.io/2020/06/24/Kerberos%E5%8D%8F%E8%AE%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Kerberos协议 | BMooS</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5a6862eba0dd0e57faf5fff97dbcb849";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="BMooS" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">BMooS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/06/24/Kerberos%E5%8D%8F%E8%AE%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
+      <meta itemprop="name" content="BMooS">
+      <meta itemprop="description" content="BMooS的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BMooS">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kerberos协议
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-24 11:55:18 / 修改时间：12:22:56" itemprop="dateCreated datePublished" datetime="2020-06-24T11:55:18+08:00">2020-06-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">安全协议</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Kerberos协议"><a href="#Kerberos协议" class="headerlink" title="Kerberos协议"></a>Kerberos协议</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这学期开设的安全协议课程由于疫情影响，期末考试改成论文形式的大报告，思来想去还是准备做一期Kerberos协议的，这个协议在内网域环境中必备，做这个也是为了以后学习内网渗透打打基础（自己太菜了，内网环境是真的复杂，还是自己以前Windows基础没打好）</p>
+<a id="more"></a>
+
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="选题背景及意义"><a href="#选题背景及意义" class="headerlink" title="选题背景及意义"></a>选题背景及意义</h3><p>Kerberos是一种由MIT（麻省理工大学）提出的一种网络身份验证协议。它旨在通过使用密钥加密技术为客户端/服务器应用程序提供强身份验证。</p>
+<p>Kerberos协议保证了用户实体和服务器实体在一个非安全网络中实现身份验证和消息加密，来保证网络中信息的保密性，完整性。还可以用来防止重放攻击。</p>
+<p>具体来说，Kerberos协议要解决的问题是：在一个公开网络环境中，网络中的用户希望访问分布在网络中服务器上的服务。我们希望服务器能限制授权用户的访问，并能对服务请求进行鉴别。在这种环境下，服务器和用户的身份如何可信的进行证明。特别地，存在以下三种威胁：</p>
+<blockquote>
+<p>攻击者可能假装成一个合法授权的用户来访问服务器。</p>
+<p>攻击者可能伪装成合法服务器来和合法授权用户进行通信。</p>
+<p>攻击者可能窃听报文交换过程，并使用重放攻击来获得进入服务器或打断进行的操作。</p>
+</blockquote>
+<p>在上述任何一种情况下，一个未授权的用户能够访问他不被授权访问的服务和数据。而Kerberos协议的作用就是为了防止以上三种情况的产生，提供用户和服务器的双向认证，并通过对称加密体系对协议会话进行加密，会话中包含时间戳来防止重放攻击。</p>
+<p>目前，Kerberos协议普遍用于公司企业内网的资源管理，所以Kerberos协议的安全关系到公司内网安全。</p>
+<h3 id="原理介绍"><a href="#原理介绍" class="headerlink" title="原理介绍"></a>原理介绍</h3><p>在Kerberos协议中主要是有三个角色的存在：</p>
+<ul>
+<li><p>访问服务的Client</p>
+</li>
+<li><p>提供服务的Server</p>
+</li>
+<li><p>KDC（Key Distribution Center）密钥分发中心</p>
+</li>
+</ul>
+<p>而KDC又分为两个部分：</p>
+<ul>
+<li><p>Authentication Server(AS)：用来验证client的身份，验证通过则会给用户发送一张TGT（Ticket Granting Ticket）票给Client。</p>
+</li>
+<li><p>Ticket Granting Server(TGS)：TGS的作用是通过AS发送给Client的票（TGT）换取访问Server端的票ST（Service Ticket）</p>
+</li>
+</ul>
+<p>接下来介绍Kerberos协议的整体流程，Kerberos协议整体可以分为下面三个步骤：</p>
+<p><strong>鉴别服务-&gt;服务授权-&gt;获取服务</strong></p>
+<p><strong>鉴别服务：</strong></p>
+<p>在鉴别服务中，Client首先向认证服务器AS发送用户ID，同时Client本地运行一个单向hash函数把用户密码转换成密钥，这个就是Client的用户密钥(user’s secret key)。而AS通过接收到的用户ID在本地数据库中查询到该用户的密码，利用相同的单向hash函数将密码转化成用户密钥(user’s secret key)。</p>
+<p>如果AS确定在本地数据库中查询到了该用户ID，那么会返回用户两条消息：</p>
+<ul>
+<li><p>消息A：<strong>Client/TGS会话密钥(Client/TGS Session Key)</strong>（该Session Key用在将来Client与TGS的通信上），通过<strong>用户密钥(user’s secret key)</strong>进行对称加密</p>
+</li>
+<li><p>消息B：<strong>票据授权票据(TGT)</strong>（TGT包括：消息A中的“Client/TGS会话密钥”(Client/TGS Session Key)，用户ID，用户地址，TGT有效期），通过<strong>TGS密钥(TGS’s secret key)</strong>进行对称加密</p>
+</li>
+</ul>
+<p>一旦Client收到消息A和消息B，Client首先通过用户密钥(user’s secret key)解密消息A，从而得到消息A中的“Client/TGS会话密钥”(Client/TGS Session Key)，用来和TGS进行通信。</p>
+<p><strong>服务授权：</strong></p>
+<p>当Client需要申请服务时，则向TGS发送以下两条消息：</p>
+<ul>
+<li><p>消息C：即消息B的内容（TGS’s secret key加密后的TGT），和想获取的服务ID</p>
+</li>
+<li><p>消息D：<strong>认证符（Authenticator）</strong>，其包括用户ID，用户地址，时间戳，认证符用<strong>Client/TGS会话密钥(Client/TGS Session Key)</strong>进行对称加密</p>
+</li>
+</ul>
+<p>当TGS收到消息C和消息D后，TGS首先会检查KDC数据库中是否存在所需服务，查找到之后，TGS用自己的<strong>TGS密钥(TGS’s secret key)</strong>来解密消息C中的TGT从而得到<strong>Client/TGS会话密钥(Client/TGS Session Key)</strong>，然后TGS再使用这个会话密钥解密消息D得到包含用户ID和时间戳的Authenticator，并对TGT和Authenticator进行验证，验证通过之后会返回2条消息：</p>
+<ul>
+<li>消息E：<strong>client-server票据(client-to-server ticket)</strong>（该ticket包括：Client/Server会话密钥 (Client/Server Session Key），用户ID，用户地址，票据有效期），通过提供该服务的<strong>服务器密钥(service’s secret key)</strong>进行对称加密</li>
+<li>消息F：<strong>Client/Server会话密钥 (Client/Server Session Key）</strong>（该Session Key用在将来Client与Server的通信上）<strong>，</strong>通过<strong>Client/TGS会话密钥(Client/TGS Session Key)</strong>进行对称加密</li>
+</ul>
+<p>Client收到这些消息后，用<strong>Client/TGS会话密钥(Client/TGS Session Key)</strong>解密消息F，得到<strong>Client/Server会话密钥 (Client/Server Session Key）。</strong></p>
+<p><strong>获取服务：</strong></p>
+<p>当获取到Client/Server会话密钥(Client/Server Session Key)之后，Client就能够使用Server提供的服务了。Client向指定Server发出2条消息：</p>
+<ul>
+<li><p>消息G：即上一步中的消息E中client-server票据(client-to-server ticket)，通过<strong>服务器密钥(service’s secret key)</strong>进行对称加密</p>
+</li>
+<li><p>消息H：新的<strong>Authenticator</strong>（包括：用户ID，用户地址，时间戳），通过<strong>Client/Server会话密钥(Client/Server Session Key)</strong>进行对称加密</p>
+</li>
+</ul>
+<p>Server用自己的密钥（service’s secret key）解密消息G，从而得到TGS提供的Client/Server会话密钥(Client/Server Session Key)。再用这个密钥解密消息H得到Authenticator，对Ticket和Authenticator进行验证，验证通过则返回一条消息：</p>
+<ul>
+<li>消息I：<strong>时间戳</strong>，该时间戳（用Authenticator中时间戳）使用<strong>Client/Server会话密钥(Client/Server Session Key)</strong>进行对称加密</li>
+</ul>
+<p>Client通过Client/Server会话密钥(Client/Server Session Key)解密消息I，得到时间戳验证其是否正确。验证通过则确定Server正确，并向Server请求服务，Server向Client响应相关服务。</p>
+<p><img src="https://s1.ax1x.com/2020/06/24/NaHxMR.png" alt="NaHxMR.png"></p>
+<h3 id="发展历程"><a href="#发展历程" class="headerlink" title="发展历程"></a>发展历程</h3><p>麻省理工学院研发Kerberos协议来保护雅典娜工程（Project Athena）提供的网络服务器。目前该协议存在一些版本，版本1-3都只有麻省理工内部发行。Kerberos版本4的主要设计者Steve Miller和Clifford Neuman，在19世纪80年代后期发布这个版本。这个版本主要针对雅典娜工程。版本5由John Kohl和Clifford Neuman设计，在1993年作为 RFC 1510 颁布（在2005年由 RFC 4120 取代），目的在于克服版本4的局限性和安全问题。</p>
+<p>在2005年，互联网工程任务组（IETF）Kerberos工作小组更新了规范，更新包括：</p>
+<blockquote>
+<p>Kerberos 5加密和校验和规范”（RFC 3961）。</p>
+<p>Kerberos 5高级加密标准（AES）加密”（RFC 3962）。</p>
+<p>Kerberos网络认证服务（版本5）”（RFC 4120）—Kerberos版本5规范的新版本。这个版本废弃早先的 RFC 1510，用更细化和明确的解释说明协议的一些细节和使用方法。</p>
+<p>Kerberos 5通用安全服务应用程序接口（GSS-API）机制：版本2”（RFC 4121）—通用安全服务应用程序接口（GSS-API）规范的新版本。</p>
+</blockquote>
+<p>Windows 2000和后续的操作系统使用Kerberos为其默认认证方法。RFC 3244 “微软Windows 2000 Kerberos变更密码与设置密码协议” 记录整理一些微软对Kerberos协议软件包的添加。RFC 4757 记录整理微软对RC4密码的使用。虽然微软使用Kerberos协议，却并没有用麻省理工的软件。</p>
+<p>苹果的Mac OS X也使用Kerberos的客户和服务器版本。Red Hat Enterprise Linux 4和后续的操作系统使用Kerberos的客户和服务器版本。</p>
+<h3 id="相关应用"><a href="#相关应用" class="headerlink" title="相关应用"></a>相关应用</h3><p>麻省理工在版权许可的情况下，制作一个Kerberos的免费实现工具，这种情况类似于BSD。在2007年，麻省理工组成一个Kerberos协会，以此推动Kerberos的持续发展。</p>
+<p>因为使用数据加密标准（DES）加密算法（用56 bit的密钥），美国出口管制当局把Kerberos归类为军需品，并禁止其出口。</p>
+<p>一个非美国设计的Kerberos版本4的实现工具KTH-KRB由瑞典皇家工学院研制，它使得这套系统在美国更改密码出口管理条例前（大约是在2000年），在美国境外就可以使用。瑞典的实现工具基于一个叫做eBones的版本，而eBones基于麻省理工对外发行的基于Kerberos版本4的补丁9的Bones（跳过加密公式和对它们的函数调用）。这些在一定程度上决定Kerberos为什么没有被叫做eBones版。</p>
+<p>Kerberos版本5的实现工具，Heimdal，基本上也是由发布KTH-KRB的同一组人发布。</p>
+<h3 id="总结与展望"><a href="#总结与展望" class="headerlink" title="总结与展望"></a>总结与展望</h3><p>Kerberos协议解决了域环境下用户和服务器之间的双向认证，认证依赖于可信第三方KDC，KDC一般安装在域控服务器上，实现对域内资源和权限的管理。</p>
+<p>用户想要获取域内服务器提供的服务，则必须在KDC中的AS认证其身份，获取TGT，通过TGT来向TGS获取服务Ticket，最终通过服务Ticket向Server获取服务。</p>
+<p>可以发现，在整个流程中，协议会话内容通过临时的会话密钥加密（票据使用的TGS密钥和服务器密钥可以通过KDC周期的密钥分发来更改，且整个域环境中加密最多的还是使用Client/Server会话密钥加密的client和server的会话数据，而用户密钥的安全取决于用户个人的密钥管理），包括之后用户和服务器建立服务会话时也使用的是Client/Server会话密钥，这一举措大大提高了安全性，对一个加密系统而言，某个实体的Long-term Key加密的数据不应该在网络中传递，所有的加密算法都不能保证100%的安全，对加密的数据进行解密只是一个时间的过程，最大限度地提供安全保障的做法就是：使用一个Short-term key（Session Key）代替Long-term Key对数据进行加密，使得恶意用户对其解密获得加密的Key时，该Key早已失效。</p>
+<p>而且整个Kerberos协议认证用户和服务器的身份都建立在于用户与KDC之间，服务器与KDC之间，存在一个只有双方知晓的秘密（就是用户密钥，服务器密钥以及TGS密钥），通过这个秘密来确定对方的身份是可信的。Kerberos协议整个会话过程中，都加入了时间戳机制用来防止重放攻击，而且对票据的有效期做了限定，有效期具有合适的期限，主要取决于在可用性和安全性之间的平衡。</p>
+<p>目前Kerberos协议已经发展到了第五版，安全性和实用性得到了极大的提高，区别于第四版，在加密算法的选择上，第五版不局限于DES加密，可以有多种加密方式进行选择。且第五版不同于第四版票据有效期最大只有1280分钟，第五版可以自主设定票据的开始时间和结束时间，在票据的有效期上更加灵活。且第五版不再具有双重加密的问题，避免了计算上的浪费。整体来说第五版的Kerberos协议比第四版要更加安全实用。</p>
+<p>但是目前来说Kerberos协议还有很大的发展空间，比如来说，目前针对于Kerberos协议的攻击包括黄金票据TGT和白银票据TGS的伪造，这些伪造依赖于krbtgt NTLM hash和server NTLM hash的泄漏，攻击者通过对域环境的渗透，获取到域内账户（包括krbtgt账户）的hash，利用工具来伪造票据，达到对内网的攻击。针对于此，可以通过开启PAC (Privileged Attribute Certificate) 特权属性证书保护功能，开启PAC后，PAC会将client发送的票据ticket发送给KDC，由KDC来进行验证ticket是否有效，就可以使所伪造的票据无法进行利用，从而防止了白银票据的伪造。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Kerberos/" rel="tag"># Kerberos</a>
+              <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" rel="tag"># 内网渗透</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/20/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA%E6%94%BB%E5%87%BB%E5%92%8C%E5%AE%9E%E6%88%98war-ftp/" rel="prev" title="缓冲区溢出攻击和实战war-ftp">
+      <i class="fa fa-chevron-left"></i> 缓冲区溢出攻击和实战war-ftp
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kerberos协议"><span class="nav-number">1.</span> <span class="nav-text">Kerberos协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">1.2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选题背景及意义"><span class="nav-number">1.2.1.</span> <span class="nav-text">选题背景及意义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原理介绍"><span class="nav-number">1.2.2.</span> <span class="nav-text">原理介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发展历程"><span class="nav-number">1.2.3.</span> <span class="nav-text">发展历程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关应用"><span class="nav-number">1.2.4.</span> <span class="nav-text">相关应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结与展望"><span class="nav-number">1.2.5.</span> <span class="nav-text">总结与展望</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="BMooS"
+      src="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
+  <p class="site-author-name" itemprop="name">BMooS</p>
+  <div class="site-description" itemprop="description">BMooS的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/BMooS" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BMooS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:slibo921@gmail.com" title="E-Mail → mailto:slibo921@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://lyuan.co/" title="https:&#x2F;&#x2F;lyuan.co&#x2F;" rel="noopener" target="_blank">霹雳无敌我大哥</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ftosims.github.io/" title="https:&#x2F;&#x2F;ftosims.github.io&#x2F;" rel="noopener" target="_blank">宇宙洪荒我烺神</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">BMooS</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">115k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:45</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.6' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
