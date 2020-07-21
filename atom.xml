@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-06-24T04:22:56.121Z</updated>
+  <updated>2020-07-21T16:48:03.526Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>记一次以DLL程序作后门的样本分析</title>
+    <link href="https://bmoos.github.io/2020/07/19/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%BB%A5DLL%E7%A8%8B%E5%BA%8F%E4%BD%9C%E5%90%8E%E9%97%A8%E7%9A%84%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/"/>
+    <id>https://bmoos.github.io/2020/07/19/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%BB%A5DLL%E7%A8%8B%E5%BA%8F%E4%BD%9C%E5%90%8E%E9%97%A8%E7%9A%84%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/</id>
+    <published>2020-07-19T13:29:53.000Z</published>
+    <updated>2020-07-21T16:48:03.526Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;最近快被自己懒哭了，自从这学期结束后这段时间里感觉全都在玩，但实际也没玩的痛快，时间倒是过的挺快，不行，我最近得调整一下。&lt;/p&gt;
+&lt;p&gt;最近在看《恶意代码分析实战》这本书，把高级静态分析看完了，看到课后有一个样本不错，挺有意思，挺经典的，决定拿来完整分析一波。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="样本分析" scheme="https://bmoos.github.io/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/"/>
+    
+    
+      <category term="汇编语言" scheme="https://bmoos.github.io/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/"/>
+    
+      <category term="恶意代码" scheme="https://bmoos.github.io/tags/%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81/"/>
+    
+  </entry>
   
   <entry>
     <title>Kerberos协议</title>
@@ -476,27 +500,6 @@
       <category term="hexo" scheme="https://bmoos.github.io/tags/hexo/"/>
     
       <category term="next主题" scheme="https://bmoos.github.io/tags/next%E4%B8%BB%E9%A2%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hexo相关问题</title>
-    <link href="https://bmoos.github.io/2020/02/13/hexo%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/"/>
-    <id>https://bmoos.github.io/2020/02/13/hexo%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/</id>
-    <published>2020-02-13T06:03:02.000Z</published>
-    <updated>2020-02-13T16:45:11.420Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;hexo&quot;&gt;&lt;a href=&quot;#hexo&quot; class=&quot;headerlink&quot; title=&quot;hexo&quot;&gt;&lt;/a&gt;hexo&lt;/h1&gt;&lt;p&gt;hexo中文文档链接：&lt;a href=&quot;https://hexo.io/zh-cn/docs/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://hexo.io/zh-cn/docs/&lt;/a&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="相关配置" scheme="https://bmoos.github.io/categories/%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/"/>
-    
-    
-      <category term="hexo" scheme="https://bmoos.github.io/tags/hexo/"/>
     
   </entry>
   

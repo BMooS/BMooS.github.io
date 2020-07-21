@@ -1,6 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>记一次以DLL程序作后门的样本分析</title>
+    <url>/2020/07/19/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%BB%A5DLL%E7%A8%8B%E5%BA%8F%E4%BD%9C%E5%90%8E%E9%97%A8%E7%9A%84%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近快被自己懒哭了，自从这学期结束后这段时间里感觉全都在玩，但实际也没玩的痛快，时间倒是过的挺快，不行，我最近得调整一下。</p>
+<p>最近在看《恶意代码分析实战》这本书，把高级静态分析看完了，看到课后有一个样本不错，挺有意思，挺经典的，决定拿来完整分析一波。</p>
+<a id="more"></a>
+
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>这次的样本总共两个：</p>
+<blockquote>
+<p>Lab07-03.exe       MD5 : BD62DAB79881BC6EC0F6BE4EEF1075BC</p>
+<p>Lab07-03.dll         MD5 : 290934C61DE9176AD682FFDD65F0A669</p>
+</blockquote>
+<h2 id="基本静态分析"><a href="#基本静态分析" class="headerlink" title="基本静态分析"></a>基本静态分析</h2><p>首先查看一下两个样本中的strings：</p>
+<p>先看DLL程序的（部分）：</p>
+<p><img src="https://s1.ax1x.com/2020/07/20/UfQn76.png" alt="UfQn76.png"></p>
+<p>这里觉得有意思的字符串有：</p>
+<blockquote>
+<p>exec</p>
+<p>sleep</p>
+<p>hello</p>
+<p>127.26.152.13</p>
+</blockquote>
+<p>可以看到有一个IP地址，这个恶意代码有可能连接到这个地址。同时也有exec，sleep，hello这些字符串，这些等会在ida pro中查看具体信息。</p>
+<p>然后看一下exe程序的字符串（部分）：</p>
+<p><img src="https://s1.ax1x.com/2020/07/20/UfQw4S.png" alt="UfQw4S.png"></p>
+<p>这里有意思的字符串多了起来：</p>
+<blockquote>
+<p>kerne132.dll</p>
+<p>kernel32.dll</p>
+<p>.exe</p>
+<p>C:\*</p>
+<p>C:\windows\system32\kerne132.dll</p>
+<p>kernel32.</p>
+<p>Lab07-03.dll</p>
+<p>C:\windows\system32\kernel32.dll</p>
+<p>WARNING_THIS_WILL_DESTROY_YOUR_MACHINE</p>
+</blockquote>
+<p>字符串kerne132.dll和kernel32.dll很像，但是是用数字1替换了字母l，里面出现的目录信息告诉有可能用kerne132.dll代替掉了kernel32.dll，但是具体还是得到反汇编里面分析具体功能。而C:\*则告诉我们这个恶意代码有可能在c盘下找什么东西，最后字符串WARNING_THIS_WILL_DESTROY_YOUR_MACHINE，这个应该是《恶意代码分析实战》这本书作者加上的，用来标识这个程序代码为用来学习的人工制品。</p>
+<p>现在放到PEID里面看一下基本的静态信息：</p>
+<p>先看DLL程序的：<br><img src="https://s1.ax1x.com/2020/07/20/UflCDI.png" alt="UflCDI.png"></p>
+<p>其实可看到东西差不多，这个DLL没有加壳，奇怪的作为DLL程序，没有导出函数，它不能被被另一个程序所导入，尽管程序还是可以调用一个LoadLibrary来载入一个DLL程序，但是这一点还是比较值得注意的，然后可以看到DLL程序的导入函数，除了注意和网络相关的ws2_32.dll之外，还要注意其导入了kernel32.dll中的CreatProcess函数，这说明这个程序有可能创建另一个进程。</p>
+<p>再看看EXE程序的：</p>
+<p><img src="https://s1.ax1x.com/2020/07/20/UflY24.png" alt="UflY24.png"></p>
+<p>这里发现几个有意思的导入函数：</p>
+<blockquote>
+<p>CreateFileA</p>
+<p>CreateFileMappingA</p>
+<p>MapViewOfFile</p>
+<p>IsBadReadPtr</p>
+<p>UnmapViewOfFile</p>
+<p>CloseHandle</p>
+<p>FindFirstFileA</p>
+<p>FindClose</p>
+<p>FindNextFileA</p>
+<p>CopyFileA</p>
+</blockquote>
+<p>这些函数告诉的信息不少，这个程序有可能打开一个文件，并且映射到内存中去。同时FindFirstFileA和FindNextFileA函数又说明这个程序可能搜索目录，并使用CopyFileA来复制它找到的文件。而且可以看到这个EXE程序并没有导入Lab07-03.dll，LoadLibrary或者GetProAddress，这一点说明这个程序并没有加载那个DLL程序，这一点是比较可疑的。</p>
+<h2 id="高级静态分析"><a href="#高级静态分析" class="headerlink" title="高级静态分析"></a>高级静态分析</h2><p>接下来，尝试将两个文件导入到ida pro里面反汇编分析：</p>
+<p>首先看一下DLL程序，因为这个程序比较简单：</p>
+<p><img src="https://s1.ax1x.com/2020/07/20/UflWqI.png" alt="UflWqI.png"></p>
+<p>ida pro这里定位到DllMain的位置，可以看到DllMain这里有很多代码，按照逻辑顺序可以看一下：</p>
+<p><img src="https://s1.ax1x.com/2020/07/20/UfRi5V.png" alt="UfRi5V.png"></p>
+<p>这里首先用__alloca_probe函数申请了很大一片栈空间</p>
+<p><img src="https://s1.ax1x.com/2020/07/20/UfRYKH.png" alt="UfRYKH.png"></p>
+<p>之后又通过OpenMutexA函数检查有没有<strong>SADFHUHF</strong>这个互斥量，没有的话就通过CreateMutexA函数建立这个互斥量，这个的目的是让同一时刻只有一个该程序的实例在运行。</p>
+<p><img src="https://s1.ax1x.com/2020/07/20/UffFcF.png" alt="UffFcF.png"></p>
+<p>之后通过socket连接到一个远程主机127.26.152.13，可以看到0x50h就是十进制80，那么就是连接到远程主机的80端口。</p>
+<p><img src="https://s1.ax1x.com/2020/07/20/UffU4P.png" alt="UffU4P.png"></p>
+<p>之后可以看到send发送了buf缓冲区里面的数据，buf指向的是字符串hello，这是一个受害主机连上远程服务器的第一件做的事情，目的就是让远程服务器知道受害主机已经准备好接收命令。</p>
+<p><img src="https://s1.ax1x.com/2020/07/20/Uffd9f.png" alt="Uffd9f.png"></p>
+<p>之后又重新用buf来保存接收数据的，调用recv函数来等待服务器的命令。</p>
+<p><img src="https://s1.ax1x.com/2020/07/20/Ufh82T.png" alt="Ufh82T.png"></p>
+<p>之后来比较缓冲区内接收到的来自远程服务器的命令和在程序硬编码中的字符串sleep，如果相等，那么</p>
+<p><img src="https://s1.ax1x.com/2020/07/20/UfhNqJ.png" alt="UfhNqJ.png"></p>
+<p>程序就会调用sleep函数睡眠0x60000h秒，之后返回到受害主机发送hello之前，再次发送hello，等待新一轮的命令。</p>
+<p><img src="https://s1.ax1x.com/2020/07/20/UfhHsg.png" alt="UfhHsg.png"></p>
+<p>当和sleep对比不成功的时候，缓冲区数据就会和exec进行对比。</p>
+<p><img src="https://s1.ax1x.com/2020/07/22/UTwdFf.png" alt="UTwdFf.png"></p>
+<p>当对比exec成功后，则会调用CreateProcessA函数来调用一个新进程，这里最主要的是这个<strong>lpCommandLine</strong>参数，这个指明要创建的进程，而lpCommandLine参数保存在edx中，而edx则是从栈上的局部变量CommandLine传进来的</p>
+<p><img src="https://s1.ax1x.com/2020/07/22/UTwDSg.png" alt="UTwDSg.png"></p>
+<p>而局部变量CommandLine在之前的程序没有被调用过，但是可以从局部变量栈空间布局上找到线索，可以看到的是局部变量buf是从<strong>0x1000h</strong>上开始接收数据的，而CommandLine则是在栈上<strong>0x0FFBh</strong>开始的。这一下就知道CommandLine从哪里来的了，buf和CommandLine中间有<strong>五个字节</strong>大小的空间来保存接收的命令，后面部分则是给与CommandLine来指定要创建的进程，不难想象，受害主机从服务器接收到的命令格式大致为：<code>exec xxxxxxx</code></p>
+<p><img src="https://s1.ax1x.com/2020/07/20/UfTq5d.png" alt="UfTq5d.png"></p>
+<p>之后如果sleep和exec命令都没对比成功后，则会看是否为字符q退出命令，如果是则程序退出，不是则睡眠0x60000h时间，然后返回程序发送hello，等待接收新一轮的命令。</p>
+<p>这个DLL程序比较简单，目的也很明确，就是一个后门程序，实现后门功能，这允许攻击者通过发送回复给80端口上的一个数据包，来启动一个系统上的可执行文件。但是问题的关键在于，这个DLL程序如何启动运行，这一点就要查看exe程序是如何运行的了。</p>
+<p>接下来，分析exe程序：</p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UoxjRP.png" alt="UoxjRP.png"></p>
+<p>程序一开始先检测argc参数，检测程序启动时是否有两个参数，如果不是2个参数，程序就退出</p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UTmpUx.png" alt="UTmpUx.png"></p>
+<p>之后这个程序会把argv[1]放到EAX，并且和放到ESI寄存器的<strong>WARNING_THIS_WILL_DESTROY_YOUR_MACHINE</strong>字符串进行比较，只有相同时程序继续执行。</p>
+<p>那么此时程序正确的执行方式就是在命令行中输入：</p>
+<blockquote>
+<p>Lab07-03.exe WARNING_THIS_WILL_DESTROY_YOUR_MACHINE</p>
+</blockquote>
+<p>继续看下去：</p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UTuoVA.png" alt="UTuoVA.png"></p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UTuTUI.png" alt="UTuTUI.png"></p>
+<p>接下来连续调用<code>CreateFileA</code>，<code>CreateFileMappingA</code>以及<code>MapViewOfFile</code>，这里打开的是<code>kernel32.dll</code>以及<code>Lab07-03.dll</code>，把这两个文件调用内存进行操作，之后是一连续的复杂的对内存的读写操作，靠静态分析这里已经会很难而且没有必要，所以先绕过这段，看之后的程序运行。</p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UTKwJP.png" alt="UTKwJP.png"></p>
+<p>绕过一大段对内存的比较，计算偏移或者写入内存的操作代码，接下来可以看到使用CloseHandle函数完成了对那两个文件的操作，然后调用了CopyFileA函数，函数复制<code>Lab07-03.dll</code>并把它放到了<code>C:\\windows\\system32\\kerne132.dll</code>，注意这里是数字1，猜测放到这里是为了顶替kernel32.dll，但是如何顶替还得看下面一个值得关注的子函数<code>sub_4011E0</code>这个子函数有一个参数在调用之前压入栈中，就是字符串<code>C:\\*</code></p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UTJoVO.png" alt="UTJoVO.png"></p>
+<p>用ida pro的f5功能查看子函数<code>sub_4011E0</code>的伪代码，从上面可以看到是调用FindFirstFileA函数在C盘内查找文件，当是一个文件夹的时候，子函数迭代调用，继续查找子文件夹中，而当文件后缀为<code>.exe</code>(在上面代码中asc_403030指向的就是.exe字符串)，则此时会执行<code>sub_4010A0</code>子函数。那么子函数<code>sub_4011E0</code>的功能就明晰了，就是在C盘下找exe文件。现在来查看<code>sub_4010A0</code>子函数有什么功能：</p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UTYQJJ.png" alt="UTYQJJ.png"></p>
+<p>这个<code>sub_4010A0</code>子函数会把子函数<code>sub_4011E0</code>传进来的exe文件名当<code>CreateFileA</code>参数，然后调用<code>CreateFileMappingA</code>和<code>MapViewOfFile</code>函数，把文件在内存中映射好便于修改，而<code>sub_4010A0</code>子函数的核心代码功能就是上图所示，会在文件中找Str2字符串，这个字符串指向的则是<code>kernel32.dll</code></p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UTYWFg.png" alt="UTYWFg.png"></p>
+<p>找到之后调用<code>memcpy</code>函数把<code>dword_403010</code>覆盖到之前<code>kernel32.dll</code>字符串的位置上，而<code>dword_403010</code>这个全局变量保存的是：</p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UTt639.png" alt="UTt639.png"></p>
+<p>这里ida pro没有识别出来这个是个字符串，可以按A键转化为ASCII码</p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UTtfHK.png" alt="UTtfHK.png"></p>
+<p>那么就好理解了，就是把在C盘找到的exe文件中的<code>kernel32.dll</code>替换成<code>kerne132.dll</code>，这样在启动这些exe文件的时候，原本会载入kernel32.dll，但是此时就会载入kerne132.dll，就实现了后门程序的启动。但是还有一个问题就是这些改动难道不会影响原来文件的使用吗？毕竟载入的dll文件改了，那些原本调用的kernel32.dll导入函数还能调用吗？</p>
+<p>这里就想到刚才在Lab07-03.exe程序中绕过分析了把<code>kernel32.dll</code>以及<code>Lab07-03.dll</code>这两个文件调用内存进行操作的过程，现在准备动态运行分析一下：</p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UTNTaT.png" alt="UTNTaT.png"></p>
+<p>打开procmon，设置过滤条件</p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UTUPiD.png" alt="UTUPiD.png"></p>
+<p>然后再命令行敲入<code>Lab07-03.exe WARNING_THIS_WILL_DESTROY_YOUR_MACHINE</code></p>
+<p><img src="https://s1.ax1x.com/2020/07/21/UTUFRH.png" alt="UTUFRH.png"></p>
+<p>可以看到进程Lab07-03.exe启动后全是再C盘遍历查找exe文件</p>
+<p><img src="https://s1.ax1x.com/2020/07/22/UTUlWQ.png" alt="UTUlWQ.png"></p>
+<p>然后在C:\WINDOWS\system32文件夹下发现了kerne132.dll（这也太难区分了。。）</p>
+<p><img src="https://s1.ax1x.com/2020/07/22/UTwsyj.png" alt="UTwsyj.png"></p>
+<p>用PEID查看它的导出表，可以发现不再是没有导出函数了，而是导出了原本kernel32.dll的导出函数，是重定向的导出函数，所以实际的功能还是再kernel32.dll中。而检查kernel32.dll的MD5发现前后没有修改过。</p>
+<p><img src="https://s1.ax1x.com/2020/07/22/UTai7V.png" alt="UTai7V.png"></p>
+<p>在C盘找到一个原本导入kernel32.dll的exe文件，查看现在的导入表，可以发现变成了kerne132.dll，那么就说明后门程序已经植入成功了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次的两个样本Lab07-03.exe和Lab07-03.dll</p>
+<p>其中样本Lab07-03.dll，则是一个后门程序，允许攻击者通过在127.26.152.13:80的远程服务器和样本进行通讯，可以执行的命令有：sleep，exec xxxxxx，q，每次样本发送hello来表示自己准备好接收新一轮的命令。</p>
+<p>而另一个样本Lab07-03.exe是一个将后门程序Lab07-03.dll植入的样本，它的功能就是通过特殊的启动命令——在命令行输入<code>Lab07-03.exe WARNING_THIS_WILL_DESTROY_YOUR_MACHINE</code>启动程序。然后把Lab07-03.dll和kernel32.dll调入到内存中，对Lab07-03.dll进行修改，在Lab07-03.dll加入重定位的导出函数，导入函数重定位到kernel32.dll中，所以具体的功能还是在kernel32.dll中实现。再然后把Lab07-03.dll重命名为kerne132.dll进行混淆，放入到C:\WINDOWS\system32文件夹下。最后，在C盘搜索遍历exe文件，在exe文件中找到字符串kernel32.dll的位置，并用kerne132.dll替换它，这意味这个exe文件每一次启动都会试图加载后门程序，但因为kerne132.dll含有所有的kernel32.dll的导出函数，这样不至于原来的exe文件无法运行原有的功能。</p>
+<p>（好不容易做完了，本来想写博客的是一个实战的样本，但是拖着拖着就忘了当时分析那个样本的思路了，重新完整分析耗时耗力，所以就挑了一个最近在看的书上的实验样本，也算是对之前学习的一个记录总结）</p>
+]]></content>
+      <categories>
+        <category>样本分析</category>
+      </categories>
+      <tags>
+        <tag>汇编语言</tag>
+        <tag>恶意代码</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Kerberos协议</title>
     <url>/2020/06/24/Kerberos%E5%8D%8F%E8%AE%AE/</url>
     <content><![CDATA[<h1 id="Kerberos协议"><a href="#Kerberos协议" class="headerlink" title="Kerberos协议"></a>Kerberos协议</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这学期开设的安全协议课程由于疫情影响，期末考试改成论文形式的大报告，思来想去还是准备做一期Kerberos协议的，这个协议在内网域环境中必备，做这个也是为了以后学习内网渗透打打基础（自己太菜了，内网环境是真的复杂，还是自己以前Windows基础没打好）</p>
