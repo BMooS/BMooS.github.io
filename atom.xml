@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-07-21T16:48:03.526Z</updated>
+  <updated>2020-08-23T15:34:13.398Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>powershell后渗透阶段---工具篇</title>
+    <link href="https://bmoos.github.io/2020/08/18/powershell%E5%90%8E%E6%B8%97%E9%80%8F%E9%98%B6%E6%AE%B5-%E5%B7%A5%E5%85%B7%E7%AF%87/"/>
+    <id>https://bmoos.github.io/2020/08/18/powershell%E5%90%8E%E6%B8%97%E9%80%8F%E9%98%B6%E6%AE%B5-%E5%B7%A5%E5%85%B7%E7%AF%87/</id>
+    <published>2020-08-18T09:55:18.000Z</published>
+    <updated>2020-08-23T15:34:13.398Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;最近闭关修炼了一段时间，主要学习渗透测试，恶意代码分析先暂停下，学习这些东西我都有兴趣，多学些多见识见识，增加一下自己对安全的理解。&lt;/p&gt;
+&lt;p&gt;在学习渗透测试的时候，重新温习了metasploit，觉得这个漏洞利用框架真厉害，最近也买了很多书，等看完（感觉得花很长时间，flag先立起来）的时候，再更新一篇博客（估计得很长时间之后了）来写这些书的观后体验（已经看完两本了，还有五本），有些书确实有些老了（目前看的书一本是15年，一本是18年的），但是核心知识不会变。&lt;/p&gt;
+&lt;p&gt;最近学习到了后渗透阶段攻击，是对windows平台使用powershell来进行的，这份技术在17-18年挺火的（最近也不差），也有很多工具在那时候被开发出来，例如powersploit，empire，powerup，nishang等工具，之所以流行，关键因素还是powershell的强大，和powershell在主流windows操作系统上默认安装以及当时powershell免杀，目前随着技术的发展，powershell已经可以被主流杀软检测，但是powershell的混淆技术也十分高超，目前来说利用powershell也是非常不错的。&lt;/p&gt;
+&lt;p&gt;这篇博客主要用来记录学习本人在使用powershell技术过程中的三大工具powersploit，empire，nishang，这篇博客有可能比较长，因为我想做的详细点，尽量设置好章节，以便我之后进行查阅。（注意：阅读本文章需要一定的powershell基础）&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="渗透测试" scheme="https://bmoos.github.io/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="powershell" scheme="https://bmoos.github.io/tags/powershell/"/>
+    
+      <category term="nishang" scheme="https://bmoos.github.io/tags/nishang/"/>
+    
+      <category term="powersploit" scheme="https://bmoos.github.io/tags/powersploit/"/>
+    
+      <category term="empire" scheme="https://bmoos.github.io/tags/empire/"/>
+    
+  </entry>
   
   <entry>
     <title>记一次以DLL程序作后门的样本分析</title>
@@ -475,31 +505,6 @@
       <category term="VPN" scheme="https://bmoos.github.io/tags/VPN/"/>
     
       <category term="ShadowsocksR" scheme="https://bmoos.github.io/tags/ShadowsocksR/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hexo next主题更新</title>
-    <link href="https://bmoos.github.io/2020/02/13/hexo-next%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%96%B0/"/>
-    <id>https://bmoos.github.io/2020/02/13/hexo-next%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%96%B0/</id>
-    <published>2020-02-13T13:16:01.000Z</published>
-    <updated>2020-02-13T16:47:47.779Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;hexo-next主题更新&quot;&gt;&lt;a href=&quot;#hexo-next主题更新&quot; class=&quot;headerlink&quot; title=&quot;hexo next主题更新&quot;&gt;&lt;/a&gt;hexo next主题更新&lt;/h1&gt;&lt;p&gt;next主题设置文档链接：&lt;a href=&quot;http://theme-next.iissnan.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://theme-next.iissnan.com/&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;​        因为我之前用hexo搭建个人博客的时候一直使用的是next主题，不过在最近的一次next主题配置设置的时候，发现配置文件_config.YML中有很多我没有的选项，结果发现我的next版本是5.1.4，现在我要将它更新到7.4。&lt;/p&gt;
-&lt;p&gt;​        想着next主题更新的话，顺便也可以更新下hexo，但是发现我就是当前最新版4.2.0，那就只更新一下next就行。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="相关配置" scheme="https://bmoos.github.io/categories/%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/"/>
-    
-    
-      <category term="hexo" scheme="https://bmoos.github.io/tags/hexo/"/>
-    
-      <category term="next主题" scheme="https://bmoos.github.io/tags/next%E4%B8%BB%E9%A2%98/"/>
     
   </entry>
   

