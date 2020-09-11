@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://bmoos.github.io/"/>
-  <updated>2020-09-08T02:33:57.094Z</updated>
+  <updated>2020-09-11T01:02:09.120Z</updated>
   <id>https://bmoos.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>VulnHub靶机writeup--midnight</title>
+    <link href="https://bmoos.github.io/2020/09/10/VulnHub%E9%9D%B6%E6%9C%BAwriteup-midnight/"/>
+    <id>https://bmoos.github.io/2020/09/10/VulnHub%E9%9D%B6%E6%9C%BAwriteup-midnight/</id>
+    <published>2020-09-10T14:14:55.000Z</published>
+    <updated>2020-09-11T01:02:09.120Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;再来一个靶机，做完这个最近换点东西写，感觉这些靶机做多了也是套路，之后做的整点难度高点的，比如这个靶机难度比之前高点，学的东西也多一点。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="VulnHub" scheme="https://bmoos.github.io/categories/VulnHub/"/>
+    
+    
+      <category term="渗透实战" scheme="https://bmoos.github.io/tags/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98/"/>
+    
+  </entry>
   
   <entry>
     <title>VulnHub靶机writeup--FunBox</title>
@@ -477,27 +498,6 @@
       <category term="DNS" scheme="https://bmoos.github.io/tags/DNS/"/>
     
       <category term="DNS域传送漏洞" scheme="https://bmoos.github.io/tags/DNS%E5%9F%9F%E4%BC%A0%E9%80%81%E6%BC%8F%E6%B4%9E/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>kali-19.4汉化以及伪装win10界面</title>
-    <link href="https://bmoos.github.io/2020/02/28/kali-19-4%E6%B1%89%E5%8C%96%E4%BB%A5%E5%8F%8A%E4%BC%AA%E8%A3%85win10%E7%95%8C%E9%9D%A2/"/>
-    <id>https://bmoos.github.io/2020/02/28/kali-19-4%E6%B1%89%E5%8C%96%E4%BB%A5%E5%8F%8A%E4%BC%AA%E8%A3%85win10%E7%95%8C%E9%9D%A2/</id>
-    <published>2020-02-28T13:36:55.000Z</published>
-    <updated>2020-03-18T09:46:13.242Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;​        之前用虚拟机做实验的时候汉化过一次，后来文件被删了(都是自己手贱)，现在又要因为实验要求重新下载一次，但是忘记kali的汉化过程，这次特意记录一下。我用的是kali-2019.4版本，这个版本新上线了一个可以伪装成Windows10的功能，也挺有意思的。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="操作系统" scheme="https://bmoos.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    
-    
-      <category term="kali" scheme="https://bmoos.github.io/tags/kali/"/>
     
   </entry>
   
