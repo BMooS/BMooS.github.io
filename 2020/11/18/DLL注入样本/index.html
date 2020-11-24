@@ -20,21 +20,35 @@
     var CONFIG = {"hostname":"bmoos.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="前言​        之前一直用的my2one的服务器代理，pc和移动端也用的ShadowsocksR，也就是SSR，一些设置之前也是用的my2one给的教程，一直没手动设置过，现在想用用TOR游览器，不过开始之前先把VPN设置好，别暴露了自己的IP和位置。 （更新：使用tor游览器访问暗网）">
+  <meta name="description" content="前言最近在抓紧看《恶意代码分析实战》这本书，希望今年能够看完，基本上做毕设的一些基础知识打牢，毕竟自己在Windows编程这方面还是个婴儿。最近也没有更新博客，主要还是没能专心去学习，不知道在干嘛，时间就过去了，自己还是要专心，专心，专心！（这篇文章一拖再拖，隔了一个礼拜终于开始写）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="VPN相关设置-shadowsocksR">
-<meta property="og:url" content="https://bmoos.github.io/2020/02/14/VPN%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE-shadowsocksR/index.html">
+<meta property="og:title" content="DLL注入样本分析">
+<meta property="og:url" content="https://bmoos.github.io/2020/11/18/DLL%E6%B3%A8%E5%85%A5%E6%A0%B7%E6%9C%AC/index.html">
 <meta property="og:site_name" content="BMooS">
-<meta property="og:description" content="前言​        之前一直用的my2one的服务器代理，pc和移动端也用的ShadowsocksR，也就是SSR，一些设置之前也是用的my2one给的教程，一直没手动设置过，现在想用用TOR游览器，不过开始之前先把VPN设置好，别暴露了自己的IP和位置。 （更新：使用tor游览器访问暗网）">
+<meta property="og:description" content="前言最近在抓紧看《恶意代码分析实战》这本书，希望今年能够看完，基本上做毕设的一些基础知识打牢，毕竟自己在Windows编程这方面还是个婴儿。最近也没有更新博客，主要还是没能专心去学习，不知道在干嘛，时间就过去了，自己还是要专心，专心，专心！（这篇文章一拖再拖，隔了一个礼拜终于开始写）">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-14T04:53:16.000Z">
-<meta property="article:modified_time" content="2020-02-16T10:39:41.846Z">
+<meta property="og:image" content="https://s3.ax1x.com/2020/11/24/DNAE8O.png">
+<meta property="og:image" content="https://s3.ax1x.com/2020/11/24/Dt5yi8.png">
+<meta property="og:image" content="https://s3.ax1x.com/2020/11/24/Dt5HWF.png">
+<meta property="og:image" content="https://s3.ax1x.com/2020/11/24/DtIgk6.png">
+<meta property="og:image" content="https://s3.ax1x.com/2020/11/24/DtOyFA.png">
+<meta property="og:image" content="https://s3.ax1x.com/2020/11/24/DtX2N9.png">
+<meta property="og:image" content="https://s3.ax1x.com/2020/11/24/Dtj881.png">
+<meta property="og:image" content="https://s3.ax1x.com/2020/11/24/Dtvpxx.png">
+<meta property="og:image" content="https://s3.ax1x.com/2020/11/24/Dtv2S1.png">
+<meta property="og:image" content="https://s3.ax1x.com/2020/11/24/DNFdyj.png">
+<meta property="og:image" content="https://s3.ax1x.com/2020/11/24/DNk3jJ.png">
+<meta property="og:image" content="https://s3.ax1x.com/2020/11/24/DNkBge.png">
+<meta property="og:image" content="https://s3.ax1x.com/2020/11/24/DNAdZn.png">
+<meta property="article:published_time" content="2020-11-18T05:28:53.000Z">
+<meta property="article:modified_time" content="2020-11-24T08:41:04.953Z">
 <meta property="article:author" content="BMooS">
-<meta property="article:tag" content="VPN">
-<meta property="article:tag" content="ShadowsocksR">
+<meta property="article:tag" content="汇编语言">
+<meta property="article:tag" content="恶意代码">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s3.ax1x.com/2020/11/24/DNAE8O.png">
 
-<link rel="canonical" href="https://bmoos.github.io/2020/02/14/VPN%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE-shadowsocksR/">
+<link rel="canonical" href="https://bmoos.github.io/2020/11/18/DLL%E6%B3%A8%E5%85%A5%E6%A0%B7%E6%9C%AC/">
 
 
 <script id="page-configurations">
@@ -46,7 +60,7 @@
   };
 </script>
 
-  <title>VPN相关设置-shadowsocksR | BMooS</title>
+  <title>DLL注入样本分析 | BMooS</title>
   
 
 
@@ -196,7 +210,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/02/14/VPN%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE-shadowsocksR/">
+    <link itemprop="mainEntityOfPage" href="https://bmoos.github.io/2020/11/18/DLL%E6%B3%A8%E5%85%A5%E6%A0%B7%E6%9C%AC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://s2.ax1x.com/2020/01/15/lOIrB4.jpg">
@@ -209,7 +223,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          VPN相关设置-shadowsocksR
+          DLL注入样本分析
         </h1>
 
         <div class="post-meta">
@@ -219,14 +233,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-02-14 12:53:16" itemprop="dateCreated datePublished" datetime="2020-02-14T12:53:16+08:00">2020-02-14</time>
+              <time title="创建时间：2020-11-18 13:28:53" itemprop="dateCreated datePublished" datetime="2020-11-18T13:28:53+08:00">2020-11-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-16 18:39:41" itemprop="dateModified" datetime="2020-02-16T18:39:41+08:00">2020-02-16</time>
+                <time title="修改时间：2020-11-24 16:41:04" itemprop="dateModified" datetime="2020-11-24T16:41:04+08:00">2020-11-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -234,8 +248,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/" itemprop="url" rel="index">
-                    <span itemprop="name">相关配置</span>
+                  <a href="/categories/%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/" itemprop="url" rel="index">
+                    <span itemprop="name">样本分析</span>
                   </a>
                 </span>
             </span>
@@ -253,14 +267,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
+              <span>2.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -272,33 +286,59 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>​        之前一直用的my2one的服务器代理，pc和移动端也用的ShadowsocksR，也就是SSR，一些设置之前也是用的my2one给的教程，一直没手动设置过，现在想用用TOR游览器，不过开始之前先把VPN设置好，别暴露了自己的IP和位置。</p>
-<p>（更新：使用tor游览器访问暗网）</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在抓紧看《恶意代码分析实战》这本书，希望今年能够看完，基本上做毕设的一些基础知识打牢，毕竟自己在Windows编程这方面还是个婴儿。最近也没有更新博客，主要还是没能专心去学习，不知道在干嘛，时间就过去了，自己还是要专心，专心，专心！（这篇文章一拖再拖，隔了一个礼拜终于开始写）</p>
 <a id="more"></a>
 
-<h2 id="VPN三种系统代理模式"><a href="#VPN三种系统代理模式" class="headerlink" title="VPN三种系统代理模式"></a>VPN三种系统代理模式</h2><p>​        vpn的系统代理有三种模式，分别是直连模式，全局模式和PAC模式。</p>
-<p>​        直连模式，顾名思义就是主机在数据交互时候不使用vpn代理，和没开vpn是一样的，在不使用vpn的场合可以用到直连模式。</p>
-<p>​        全局模式，就是将主机所有的数据交互都要经过vpn服务器的代理，也就是主机在通信的时候经过了第三方代理，此时可以隐藏主机的IP地址，当然，也可以绕过GFW。</p>
-<p>​        PAC模式，就是主机在连接网站的时候读取PAC文件里面的规则，查看网站是否被墙，如果符合，那就开启VPN服务进行代理，而PAC列表一般从GFWList进行更新。</p>
-<h2 id="用SSR-Proxy-SwitchyOmega进行网站代理"><a href="#用SSR-Proxy-SwitchyOmega进行网站代理" class="headerlink" title="用SSR+Proxy SwitchyOmega进行网站代理"></a>用SSR+Proxy SwitchyOmega进行网站代理</h2><p>​        SSR这边我订阅了my2one的服务器，这边代理规则我设置为绕过局域网和大陆，不过我在SSR这边选项设置了端口6666为代理端口，把系统代理设置为直连，这样只会将主机走6666端口的数据进行代理。</p>
-<p>​        Proxy SwitchyOmega这边先设置了一个proxy的情景模式，让本地6666端口做代理。</p>
-<p>​        然后再设置一个 auto switch 的自动切换模式，导入AutoProxy的格式的规则列表，网址为<a href="https://github.com/gfwlist/gfwlist/raw/master/gfwlist.txt" target="_blank" rel="noopener">https://github.com/gfwlist/gfwlist/raw/master/gfwlist.txt</a></p>
-<p>​        按照规则列表匹配请求，让它们过proxy情景模式，剩下的都直接连接。</p>
-<h2 id="番外：如何访问暗网"><a href="#番外：如何访问暗网" class="headerlink" title="番外：如何访问暗网"></a>番外：如何访问暗网</h2><p>​         <strong>警告：</strong> 在继续之前，重要的是要了解Dark Web上的许多内容都是非法的。 无论你采取什么预防措施，都不可能保持匿名。 自担风险！</p>
-<h3 id="Tor工作原理"><a href="#Tor工作原理" class="headerlink" title="Tor工作原理"></a>Tor工作原理</h3><p>​        Tor由已经安装了Tor软件的电脑连接网络而成。它之所以被称为onion，是因为它的结构就跟洋葱相同，你只能看出它的外表，而想要看到核心，就必须把它层层的剥开。即每个路由器间的传输都经过点对点密钥来加密，形成有层次的结构。它中间所经过的各节点，都好像洋葱的一层皮，把客户端包在里面，算是保护信息来源的一种方式。</p>
-<p>​        用 Tor 创建一条私有网络路径时，用户的软件或客户端通过网络上的中继递增地建立一条由若干加密连接组成的环路。环路一次扩展一跳，环路上的中继仅仅知道它从哪一个中继接收数据以及向哪一个中继发送数据。没有一台单独的中继会知道数据包的完整路径。客户端与环路上的每一跳都协商一组独立的密钥，这样可以保证数据通过任何一跳时都无法跟踪。</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="DLL注入"><a href="#DLL注入" class="headerlink" title="DLL注入"></a>DLL注入</h2><p>​    DLL注入是进程注入的一种形式，它强迫一个远程进程加载恶意的DLL代码，使得恶意代码以远程进程的线程存在。DLL注入将代码注入到一个远程进程，让远程远程调用LoadLibrary，从而强制远程进程加载一个DLL程序到它的进程上下文中。一旦被感染的进程加载了恶意的DLL程序，OS会自动调用DllMain函数，DllMain函数由这个DLL程序的作者编写。同时这个DllMain函数中的恶意代码拥有被感染进程相同的权限。</p>
+<p>DLL注入的一般步骤：</p>
+<blockquote>
 <ol>
-<li><p>下载 tor游览器（如果是在国内，你需要一个梯子），下载地址 <a href="https://www.torproject.org/zh-CN/download/" target="_blank" rel="noopener">https://www.torproject.org/zh-CN/download/</a></p>
-</li>
-<li><p>安装并配置tor，tor安装有中文，所以很好安装，此处不再赘述。</p>
-<p>配置的时候我们知道国内是无法直连的，所以我们要选择configure来配置代理，然后在你的网络提供商是否对Tor网络进行了封锁或审查这里选yes。</p>
-<p>然后选择在中国可连的网桥meek-azure。</p>
-<p>在高级配置中使用代理访问网络，上面我用到SSR中对本机6666端口进行了代理，所以这里填写了socks 5，地址127.0.0.1和端口6666</p>
-</li>
+<li>使用WindowsAPI函数CreateToolhelp32Snapshot，Process32First和Process32Next来查找进程列表中的进程，一旦查找到进程，启动器就会提取该进程的PID，通过调用OpenProcess，来获取进程的句柄。</li>
+<li>使用函数VirtualAllocEx，为恶意DLL的名字字符串创建内存空间，然后调用WriteProcessMemory，将恶意DLL程序的名字写入到目标进程的内存空间中。</li>
+<li>使用CreateRemoteThread函数，这个函数可以让启动器在远程进程中创建一个新线程。其需要传入三个重要参数，OpenProcess函数获得的句柄hProcess，注入线程的入口点lpStartAddress以及线程参数hpParameter。这里线程入口点可以被设置为LoadLibrary函数的地址，并且恶意DLL名字作为它的参数，这样会让受害进程以恶意DLL名称调用LoadLibrary函数，因此恶意的DLL就被加载到目标进程中。</li>
 </ol>
-<ol start="3">
-<li>登陆DuckDuckGo，也就是暗网的Google，查看是否能登陆。（注意，暗网的访问速度一般都很慢。）地址为<a href="https://3g2upl4pq6kufc4m.onion/" target="_blank" rel="noopener">https://3g2upl4pq6kufc4m.onion/</a></li>
-</ol>
+</blockquote>
+<h2 id="样本分析"><a href="#样本分析" class="headerlink" title="样本分析"></a>样本分析</h2><p>这次样本为：</p>
+<blockquote>
+<p>Lab12-01.exe          DAFBEA2A91F86BF5E52EFA3BAC3F1B16</p>
+<p>Lab12-01.dll             A6FB0D8FDEA1C15AFBA7A5DDB3D2867B</p>
+</blockquote>
+<h3 id="Lab12-01-exe"><a href="#Lab12-01-exe" class="headerlink" title="Lab12-01.exe"></a>Lab12-01.exe</h3><p>通过基础的静态动态分析检查出Lab12-01.exe的导入函数就是上面说的DLL注入启动器需要的函数，还找到了字符串;</p>
+<blockquote>
+<p>explorer.exe</p>
+<p>Lab12-01.dll</p>
+<p>psapi.dll</p>
+</blockquote>
+<p>并且动态运行可以看到：</p>
+<p><img src="https://s3.ax1x.com/2020/11/24/DNAE8O.png" alt="DNAE8O.png"></p>
+<p>procmon和process Explorer也没有显示更多信息。</p>
+<p>接下来先将Lab12-01.exe导入到ida查看一下：</p>
+<p>main函数一进来首先导入EnumProcessModules，GetModuleBaseNameA和EnumProcesses三个API函数到dword_408714，dword_40870C和dword_408710中，为了分析方便按N键重命名数据</p>
+<p><img src="https://s3.ax1x.com/2020/11/24/Dt5yi8.png" alt="Dt5yi8.png"></p>
+<p>然后将同目录下的Lab12-01.dll绝对路径导入到堆栈上的buffer上：</p>
+<p><img src="https://s3.ax1x.com/2020/11/24/Dt5HWF.png" alt="Dt5HWF.png"></p>
+<p>然后调用EnumProcesses获取进程列表，将进程信息保存在堆栈中，如果返回值不为0，则跳到loc_4011D0上：</p>
+<p><img src="https://s3.ax1x.com/2020/11/24/DtIgk6.png" alt="DtIgk6.png"></p>
+<p>跳到loc_4011D0可以看到var_1120保存实际进程数量通过指令<code>shr eax, 2</code>转换字节序，结果保存在var_117C中，然后对var_112C传递0，这里是以进程数量迭代做了一个循环</p>
+<p><img src="https://s3.ax1x.com/2020/11/24/DtOyFA.png" alt="DtOyFA.png"></p>
+<p>可以看到这里将进程的PID以参数传入子函数sub_401000中</p>
+<p><img src="https://s3.ax1x.com/2020/11/24/DtX2N9.png" alt="DtX2N9.png"></p>
+<p>子函数功能很简单，就是通过PID和OpenProcess函数获取进程句柄，然后使用EnumProcessModules和GetModuleBaseNameA获取进程名称和explorer.exe进行比较</p>
+<p><img src="https://s3.ax1x.com/2020/11/24/Dtj881.png" alt="Dtj881.png"></p>
+<p>如果找到explorer.exe进程，则跳出循环，调用VirtualAllocEx和WriteProcessMemory将刚才buffer中的DLL绝对路径写入到explorer.exe进程中:</p>
+<p><img src="https://s3.ax1x.com/2020/11/24/Dtvpxx.png" alt="Dtvpxx.png"></p>
+<p>最后，调用GetModuleHandleA和GetProcAddress来获取LoadLibraryA的在本进程中地址，因为启动器和explorer.exe都加载了kernel32.dll，所以LoadLibraryA的地址是相同的</p>
+<p><img src="https://s3.ax1x.com/2020/11/24/Dtv2S1.png" alt="Dtv2S1.png"></p>
+<p>然后调用了CreateRemoteThread在目标进程中创建线程，注意这里那三个重要参数，可以用ida找到参数来源。</p>
+<h3 id="Lab12-01-dll"><a href="#Lab12-01-dll" class="headerlink" title="Lab12-01.dll"></a>Lab12-01.dll</h3><p>这个DLL程序比较简单，进入DllMain函数查看，其会调用CreateThread函数创建线程子函数sub_10001030：</p>
+<p><img src="https://s3.ax1x.com/2020/11/24/DNFdyj.png" alt="DNFdyj.png"></p>
+<p>进入sub_10001030查看，可以看到这里是一个死循环，同时格式化字符串传入StartAddress为参数lpStartAddress的CreateThread函数，然后调用sleep函数，睡眠0xEA60h（也就是60000，一分钟）</p>
+<p><img src="https://s3.ax1x.com/2020/11/24/DNk3jJ.png" alt="DNk3jJ.png"></p>
+<p>StartAddress所指的代码给MessageBoxA函数传参，弹出窗口</p>
+<p><img src="https://s3.ax1x.com/2020/11/24/DNkBge.png" alt="DNkBge.png"></p>
+<h2 id="by-the-way"><a href="#by-the-way" class="headerlink" title="by the way"></a>by the way</h2><p>使用OD附加到explorer.exe进程中，查看内存映射结构：</p>
+<p><img src="https://s3.ax1x.com/2020/11/24/DNAdZn.png" alt="DNAdZn.png"></p>
+<p>可以看出explorer.exe进程已经加载Lab12-01.dll，要想清除也很简单，正常重启explorer.exe进程，就不会加载Lab12-01.dll</p>
 
     </div>
 
@@ -308,8 +348,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/VPN/" rel="tag"># VPN</a>
-              <a href="/tags/ShadowsocksR/" rel="tag"># ShadowsocksR</a>
+              <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" rel="tag"># 汇编语言</a>
+              <a href="/tags/%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81/" rel="tag"># 恶意代码</a>
           </div>
 
         
@@ -318,13 +358,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/02/13/hexo-next%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%96%B0/" rel="prev" title="hexo next主题更新">
-      <i class="fa fa-chevron-left"></i> hexo next主题更新
+    <a href="/2020/10/26/%E5%8F%8D%E8%B0%83%E8%AF%95%E5%92%8C%E8%8A%B1%E6%8C%87%E4%BB%A4/" rel="prev" title="简单反调试和花指令">
+      <i class="fa fa-chevron-left"></i> 简单反调试和花指令
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/02/18/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%89%E5%85%A8/" rel="next" title="浏览器安全">
-      浏览器安全 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -384,7 +421,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#VPN三种系统代理模式"><span class="nav-number">1.1.</span> <span class="nav-text">VPN三种系统代理模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用SSR-Proxy-SwitchyOmega进行网站代理"><span class="nav-number">1.2.</span> <span class="nav-text">用SSR+Proxy SwitchyOmega进行网站代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#番外：如何访问暗网"><span class="nav-number">1.3.</span> <span class="nav-text">番外：如何访问暗网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tor工作原理"><span class="nav-number">1.3.1.</span> <span class="nav-text">Tor工作原理</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DLL注入"><span class="nav-number">2.1.</span> <span class="nav-text">DLL注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#样本分析"><span class="nav-number">2.2.</span> <span class="nav-text">样本分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lab12-01-exe"><span class="nav-number">2.2.1.</span> <span class="nav-text">Lab12-01.exe</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lab12-01-dll"><span class="nav-number">2.2.2.</span> <span class="nav-text">Lab12-01.dll</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#by-the-way"><span class="nav-number">2.3.</span> <span class="nav-text">by the way</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
